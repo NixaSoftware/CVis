@@ -1,0 +1,35 @@
+.divider {
+  position:absolute;
+  left:50%;
+  top:20%;
+  bottom:25%;
+  padding: 200px;
+  border-left:0.001em solid white;
+}
+
+.divider h1{
+  display: none;
+}
+
+@media (max-width: 48em) {
+  .divider {
+  display: none;
+  }
+}
+
+@media (min-width: 1650px){
+  .divider{
+    display: none;
+  }
+  .divider h1{
+    display: run-in;
+  }
+}
+
+#uploads{
+  height: 39em;
+}
+
+#results{
+  display:none;
+}
