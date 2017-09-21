@@ -1,29 +1,19 @@
-.divider {
-  position:absolute;
-  left:50%;
-  top:20%;
-  bottom:25%;
-  padding: 200px;
-  border-left:0.001em solid white;
+#left{
+  border-right: 1px solid white;
+  height: 20em;
 }
 
-.divider h1{
-  display: none;
-}
 
 @media (max-width: 48em) {
-  .divider {
-  display: none;
+  #left {
+    border-right: none;
+    margin-top: -3em;
   }
-}
+  #right {
+    border-left: none;
+    margin-top: 2em;
+  }
 
-@media (min-width: 1650px){
-  .divider{
-    display: none;
-  }
-  .divider h1{
-    display: run-in;
-  }
 }
 
 #uploads{
@@ -32,4 +22,30 @@
 
 #results{
   display:none;
+}
+
+.dropzone{
+  overflow-y: auto;
+  max-height: 15em;
+  margin-top: 2em;
+  color: grey;
+  font-size: 1em;
+  border: dashed;
+}
+
+/*mudanca do css do layout de cada arquivo dentro do dropzone*/
+.dropzone .dz-preview .dz-image {
+     border-radius: 20px;
+     overflow: hidden;
+     width: 25em;
+     height: 7em;
+     position: relative;
+     display: block;
+     z-index: 10;
+}
+
+.dropzone .dz-preview.dz-file-preview .dz-image {
+      border-radius: 10px;
+      background: #999;
+      background: linear-gradient(to bottom, #eee, #ddd);
 }
