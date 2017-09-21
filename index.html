@@ -15,6 +15,7 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
     <!-- Custom styles for this template -->
     <link href="css/scrolling-nav.css" rel="stylesheet">
@@ -56,6 +57,11 @@
           <div class="col-lg-5 col-md-5 col-sm-12 mx-auto">
             <h1>Data Set</h1>
             <p class="lead">Choose data to upload</p>
+            <form action="/file-upload" class="dropzone">
+              <div class="fallback">
+                <input name="file" type="file" multiple />
+              </div>
+            </form>
           </div>
           <div class="col-lg-2 col-md-2 col-sm-0 mx-auto divider">
             <h1>or</h1>
@@ -63,6 +69,11 @@
           <div class="col-lg-5 col-md-5 col-sm-12 mx-auto">
             <h1>Partitions</h1>
             <p class="lead">Choose partitions to visualize</p>
+            <form action="/file-upload" class="dropzone">
+              <div class="fallback">
+                <input name="file" type="file" multiple />
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -145,6 +156,7 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper/popper.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 
     <!-- Plugin JavaScript -->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
