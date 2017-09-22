@@ -54,14 +54,17 @@
 
     <section class="bg-primary text-white" id="uploads">
       <div class="container text-center">
-        <div class="row row-divided">
+        <div class="row row-divided" align="center">
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
-            <h1>Data Set</h1>
-            <form action="/file-upload" class="dropzone" id="drop1"></form>
+            <h1><b>Data Set</b></h1>
+            <form action="/file-upload" class="dropzone" id="drop1">
+              <div class="dz-message" data-dz-message><span>Drop files or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            </form>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
-            <h1>Partitions</h1>
+            <h1><b>Partitions</b></h1>
             <form action="/file-upload" class="dropzone" id="drop2">
+              <div class="dz-message" data-dz-message><span>Drop files or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
           </div>
         </div>
