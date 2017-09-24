@@ -9,6 +9,7 @@
     <meta name="author" content="">
 
     <title>Cluster Visualization</title>
+    {{ dropzone.load() }}
      <link rel="icon" href="images/icon.png">
 
     <!-- Bootstrap core CSS -->
@@ -57,14 +58,14 @@
         <div class="row row-divided" align="center">
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
             <h1><b>Data Set</b></h1>
-            <form action="/file-upload" class="dropzone" id="drop1">
-              <div class="dz-message" data-dz-message><span>Drop files or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            <form action="{{ url_for('upload_file') }}" class="dropzone" method="POST" enctype="multipart/form-data">
+              <div class="dz-message" data-dz-message><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
             <h1><b>Partitions</b></h1>
-            <form action="/file-upload" class="dropzone" id="drop2">
-              <div class="dz-message" data-dz-message><span>Drop files or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            <form action="{{ url_for('upload_file') }}" class="dropzone" method="POST" enctype="multipart/form-data">
+              <div class="dz-message" data-dz-message><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
           </div>
         </div>
@@ -79,7 +80,7 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>About</h2>
-            <p class="lead">The tool</p>
+            <p class="lead" style="text-decoration:underline;">The tool</p>
             <p style="text-align: justify;">Ensemble methods for clustering take a collection
                 of input partitions, produced for the same data set, and generate
                 an ensemble partition that tries to preserve the information
@@ -98,7 +99,7 @@
                 the tool facilitates the visual analysis of the level of support
                 identified for individual consensus clusters, which is helpful in
                 explaining final solutions to a decision maker.</p>
-            <p class="lead">Citing CVis</p>
+            <p class="lead" style="text-decoration:underline;">Citing CVis</p>
             <p>If you publish material using CVis, please cite the following
             reference:</p>
             <p>Faceli, K., Sakata, T., and Handl, J. (2016). CVis - towards a
@@ -110,7 +111,7 @@
       </div>
     </section>
 
-    <section id="services" class="bg-light">
+    <section id="services">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto">
