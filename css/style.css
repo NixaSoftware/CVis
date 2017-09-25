@@ -1,6 +1,6 @@
 #left{
   border-right: 1px solid #50A5FF;
-  height: 20em;
+  height: 30em;
 }
 
 
@@ -27,9 +27,13 @@
   display:none;
 }
 
+button:hover{
+  cursor: pointer;
+}
+
 .dropzone{
   overflow-y: auto;
-  max-height: 15em;
+  max-height: 10em;
   margin-top: 2em;
   font-size: 1em;
   border: dashed;
