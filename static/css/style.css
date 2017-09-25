@@ -1,28 +1,21 @@
-.divider {
-  position:absolute;
-  left:50%;
-  top:20%;
-  bottom:25%;
-  padding: 200px;
-  border-left:0.001em solid white;
+#left{
+  border-right: 1px solid #50A5FF;
+  height: 30em;
 }
 
-.divider h1{
-  display: none;
-}
 
 @media (max-width: 48em) {
-  .divider {
-  display: none;
+  #left {
+    border-right: none;
+    margin-top: -3.5em;
   }
-}
+  #right {
+    border-left: none;
+    margin-top: -2em;
+  }
 
-@media (min-width: 1650px){
-  .divider{
-    display: none;
-  }
-  .divider h1{
-    display: run-in;
+  .dropzone{
+    height: 5em;
   }
 }
 
@@ -32,4 +25,49 @@
 
 #results{
   display:none;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.dropzone{
+  overflow-y: auto;
+  max-height: 10em;
+  margin-top: 2em;
+  font-size: 1em;
+  border: dashed;
+  background-color: #50A5FF;
+  width: 90%;
+}
+
+/*mudanca do css do layout de cada arquivo dentro do dropzone*/
+.dropzone .dz-preview .dz-image {
+     border-radius: 20px;
+     overflow: hidden;
+     width: 25em;
+     height: 7em;
+     padding: 0.2em;
+     position: relative;
+     display: block;
+     z-index: 10;
+}
+
+.dropzone .dz-preview.dz-file-preview .dz-image {
+      border-radius: 10px;
+      background: #000;
+      background: linear-gradient(to bottom, #eee, #eee);
+}
+
+.dropzone .dz-preview .dz-details .dz-filename:hover span {
+   border: 1px solid transparent;
+   background-color: linear-gradient(to bottom, #eee, #eee);
+ }
+
+.dropzone .dz-preview {
+   position: relative;
+   display: inline-block;
+   vertical-align: top;
+   margin: 0.2em;
+   min-height: 100px;
 }
