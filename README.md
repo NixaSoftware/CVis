@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-#cVis
-=======
 # CVis
 ## Descrição
 A descrição completa de projeto e da metodologia podem ser encontradas na [Wiki](https://github.com/NixaSoftware/CVis/wiki).
@@ -18,4 +15,3 @@ A descrição completa de projeto e da metodologia podem ser encontradas na [Wik
 - Giovanna Blasco | [git](https://github.com/gioblasco)
 - Ingrid Santos | [git](https://github.com/ingridmsp)
 - Lucas Yoshimura | [git](https://github.com/lucasyoshimura)
->>>>>>> 5b3c4f19098c856d8c189b31741b643032a7084f
