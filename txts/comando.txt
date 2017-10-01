@@ -1,1 +1,0 @@
-clustering E 905 3 6 /home/lasid/experiments/datasets/artificial/ufscar/ds3c3sc6/ds3c3sc6.txt /home/janepiantoni/experimentos/ 1
