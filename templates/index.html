@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- {{ dropzone.load() }} -->
-
+    {{ dropzone.style('border: 2px dashed #0087F7;') }}
     <title>Cluster Visualization</title>
      <link rel="icon" href="../static/images/icon.png">
 
@@ -27,6 +27,26 @@
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/dropzone/dropzone.css')}}">
 
   </head>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
+
+  <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
+  <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
+
+  <!-- <script type="text/javascript">
+  $( document ).ready(function() {
+    $(".remove").hide();
+  });
+  </script> -->
 
   <body id="page-top">
 
@@ -63,6 +83,7 @@
             <h1><b>Data Set</b></h1>
             <!-- upload vai aqui -->
             <form action="#" class="dropzone"  id="dropdataset" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="dataset" value="1" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
             <div class="row" style="margin-top:1em;">
@@ -109,6 +130,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
             <h1><b>Partitions</b></h1>
             <form action="#" class="dropzone"  id="droppartition" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="partition" value="1" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
             <div class="container">
@@ -134,10 +156,6 @@
           </div>
         </div>
       </div>
-    </section>
-
-
-    <section id="results">
     </section>
 
     <section id="about">
@@ -209,41 +227,60 @@
       <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-
-    <!-- Plugin JavaScript -->
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-    <!-- Custom JavaScript for this theme -->
-    <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
-
-    <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
-    <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
-
     <script>
-      $(document).ready(function(){
-        $('#results').hide();
-      });
 
       Dropzone.autoDiscover = false;
 
-      $(function() {
-        var myDropzone = new Dropzone("#droppartition");
-        myDropzone.on("queuecomplete", function(file) {
-          // Called when all files in the queue finish uploading.
-          window.location = "{{ url_for('upload') }}";
-        });
+      $('#droppartition').on("queuecomplete", function(file) {
+        acceptedFiles: 'text/*',
+        url: "{{ url_for('upload') }}",
+        init: function() {
+          this.on("addedfile", function(file) {
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button>Remove file</button>");
+            // Capture the Dropzone instance as closure.
+            var _this = this;
+            // Listen to the click event
+            removeButton.addEventListener("click", function(e) {
+              // Make sure the button click doesn't submit the form:
+              e.preventDefault();
+              e.stopPropagation();
+              // Remove the file preview.
+              _this.removeFile(file);
+              // If you want to the delete the file on the server as well,
+              // you can do the AJAX request here.
+            });
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+          });
+        }
+      };
       });
 
-      $(function() {
-        var myDropzone = new Dropzone("#dropdataset");
-        myDropzone.on("queuecomplete", function(file) {
-          // Called when all files in the queue finish uploading.
-          window.location = "{{ url_for('upload') }}";
-        });
+      $('#dropdataset').on("queuecomplete", function(file) {
+        acceptedFiles: 'text/*',
+        url: "{{ url_for('upload') }}",
+        init: function() {
+          this.on("addedfile", function(file) {
+            // Create the remove button
+            var removeButton = Dropzone.createElement("<button>Remove file</button>");
+            // Capture the Dropzone instance as closure.
+            var _this = this;
+            // Listen to the click event
+            removeButton.addEventListener("click", function(e) {
+              // Make sure the button click doesn't submit the form:
+              e.preventDefault();
+              e.stopPropagation();
+              // Remove the file preview.
+              _this.removeFile(file);
+              // If you want to the delete the file on the server as well,
+              // you can do the AJAX request here.
+            });
+            // Add the button to the file preview element.
+            file.previewElement.appendChild(removeButton);
+          });
+        }
+      };
       });
     </script>
 
