@@ -18,6 +18,7 @@ app.config.update(
 @app.route('/')
 def hello_world():
    return render_template('index.html')
+
 @app.route('/', methods=['POST', 'GET'])
 def upload():
     if request.method == 'POST':
