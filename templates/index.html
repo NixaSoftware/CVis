@@ -82,8 +82,8 @@
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
             <h1><b>Data Set</b></h1>
             <!-- upload vai aqui -->
-            <form action="#" class="dropzone"  id="dropdataset" method="POST" enctype="multipart/form-data">
-              <input type="hidden" name="dataset" value="1" />
+            <form action="#" class="dropzone dz-clickable"  id="dropdataset" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="name" value="dataset" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
             <div class="row" style="margin-top:1em;">
@@ -129,8 +129,8 @@
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
             <h1><b>Partitions</b></h1>
-            <form action="#" class="dropzone"  id="droppartition" method="POST" enctype="multipart/form-data">
-              <input type="hidden" name="partition" value="1" />
+            <form action="#" class="dropzone dz-clickable"  id="droppartition" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="name" value="partition" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
             <div class="container">
@@ -233,54 +233,17 @@
 
       $('#droppartition').on("queuecomplete", function(file) {
         acceptedFiles: 'text/*',
-        url: "{{ url_for('upload') }}",
-        init: function() {
-          this.on("addedfile", function(file) {
-            // Create the remove button
-            var removeButton = Dropzone.createElement("<button>Remove file</button>");
-            // Capture the Dropzone instance as closure.
-            var _this = this;
-            // Listen to the click event
-            removeButton.addEventListener("click", function(e) {
-              // Make sure the button click doesn't submit the form:
-              e.preventDefault();
-              e.stopPropagation();
-              // Remove the file preview.
-              _this.removeFile(file);
-              // If you want to the delete the file on the server as well,
-              // you can do the AJAX request here.
-            });
-            // Add the button to the file preview element.
-            file.previewElement.appendChild(removeButton);
-          });
-        }
-      };
+        addRemoveLinks: true,
+        thumbnailWidth: 500,
+        url: "{{ url_for('upload') }}"
       });
+
 
       $('#dropdataset').on("queuecomplete", function(file) {
         acceptedFiles: 'text/*',
-        url: "{{ url_for('upload') }}",
-        init: function() {
-          this.on("addedfile", function(file) {
-            // Create the remove button
-            var removeButton = Dropzone.createElement("<button>Remove file</button>");
-            // Capture the Dropzone instance as closure.
-            var _this = this;
-            // Listen to the click event
-            removeButton.addEventListener("click", function(e) {
-              // Make sure the button click doesn't submit the form:
-              e.preventDefault();
-              e.stopPropagation();
-              // Remove the file preview.
-              _this.removeFile(file);
-              // If you want to the delete the file on the server as well,
-              // you can do the AJAX request here.
-            });
-            // Add the button to the file preview element.
-            file.previewElement.appendChild(removeButton);
-          });
-        }
-      };
+        addRemoveLinks: true,
+        thumbnailWidth: 500,
+        url: "{{ url_for('upload') }}"
       });
     </script>
 
