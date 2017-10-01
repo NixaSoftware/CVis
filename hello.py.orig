@@ -31,7 +31,12 @@ def upload():
             f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
             arqs.append(f)
         # chamar algoritmos aqui
+<<<<<<< HEAD
     return render_template('index.html')
+=======
+    return "arquivos {}.".format(arqs)
+    # return redirect(url_for('index'))
+>>>>>>> 1efb6d270e62cd9cbaf6a88f6ba8de6cae0afd83
 
 if __name__ == '__main__':
     app.run(debug=True)

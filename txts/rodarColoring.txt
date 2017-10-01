@@ -1,0 +1,4 @@
+Usage: coloring <experiment directory> <dataset> <true partition file> <minimum number to grouping (1 - without grouping)> <ordering mode (1 - number os clusters, 2 - CR, 3 - NMI, 4 - VI>
+
+./coloring golub-Final/particoes-golub/CoL golub-Final/golub.txt golub-Final/golubReal-2classes.txt 1 1
+
