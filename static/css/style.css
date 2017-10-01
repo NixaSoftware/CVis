@@ -1,6 +1,6 @@
 #left{
   border-right: 1px solid #50A5FF;
-  height: 30em;
+  height: 28em;
 }
 
 
@@ -70,4 +70,8 @@ button:hover{
    vertical-align: top;
    margin: 0.2em;
    min-height: 100px;
+}
+
+.dropzone .dz-message{
+  color:grey;
 }

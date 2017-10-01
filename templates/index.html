@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    {{ dropzone.load() }}
+    <!-- {{ dropzone.load() }} -->
 
     <title>Cluster Visualization</title>
      <link rel="icon" href="../static/images/icon.png">
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/scrolling-nav.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/dropzone/dropzone.css')}}">
 
   </head>
 
@@ -58,45 +58,79 @@
 
     <section class="bg-primary text-white" id="uploads">
       <div class="container text-center">
-        <div class="row row-divided" align="center" style="margin-top: -2em;">
+        <div class="row row-divided" align="center" style="margin-top: -6em;">
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
             <h1><b>Data Set</b></h1>
             <!-- upload vai aqui -->
-            <form action="" class="dropzone" method="POST" enctype="multipart/form-data">
-              <div class="dz-message" data-dz-message><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            <form action="#" class="dropzone"  id="dropdataset" method="POST" enctype="multipart/form-data">
+              <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
-              <div class="form-group" style="margin-top: 1em;">
-               <label for="selAlgorithm">Apply algorithm:</label>
-               <select class="form-control" id="selAlgorithm" style="width:50%;">
-                 <option>MOCLE</option>
-               </select>
-               <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            <div class="row" style="margin-top:1em;">
+              <div class="col-1"></div>
+               <div class="col-5">
+                 <label for="selAlgorithm">Apply algorithm:</label><br>
+                 <select class="form-control" id="selAlgorithm">
+                   <option value="1">All</option>
+                   <option value="2">Single Link</option>
+                   <option value="3">Average Link</option>
+                   <option value="4">Centroid Link</option>
+                   <option value="5">Complete Link</option>
+                   <option value="6">SNN</option>
+                   <option value="7">KMeans</option>
+                 </select>
+               </div>
+               <div class="col-5">
+                 <label for="selMetric">Choose Metrics:</label><br>
+                 <select class="form-control" id="selMetric">
+                   <option value="E">Euclidean Distance</option>
+                   <option value="P">Pearson Correlation</option>
+                 </select>
+               </div>
+            </div>
+            <div style="margin-top: 1em;">
+              <label class="radio"><input type="radio" name="optPartitions" id="allclu1"> All Clusters</label>
+              <label class="radio"><input type="radio" name="optPartitions" id="distclu1"> Distinct Clusters</label>
+            </div>
+            <p align="center">Clusters size interval:</p>
+            <div class="row" style="margin-top: 1em;" align="center">
+              <div class="col-1"></div>
+              <label for="minPartition" class="col-2 col-form-label">Minimum:</label>
+              <div class="col-3">
+                <input class="form-control" type="number" min="0" value="" id="minPartition">
               </div>
-              <button type="submit" class="btn btn-secondary">View Results</button>
+              <label for="maxPartition" class="col-2 col-form-label">Maximum:</label>
+              <div class="col-3">
+                <input class="form-control" type="number" min="0" value="" id="maxPartition">
+              </div>
+              <div class="col-1"></div>
+            </div>
+              <button type="submit" class="btn btn-secondary" style="margin-top: 1em;">View Results</button>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
             <h1><b>Partitions</b></h1>
-            <form action="" class="dropzone" method="POST" enctype="multipart/form-data">
-              <div class="dz-message" data-dz-message><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            <form action="#" class="dropzone"  id="droppartition" method="POST" enctype="multipart/form-data">
+              <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
-            <div style="margin-top: 1em;">
-              <label class="radio"><input type="radio" name="optPartitions"> All Clusters</label>
-              <label class="radio"><input type="radio" name="optPartitions"> Distinct Clusters</label>
-              <p align="left">Clusters size interval:</p>
-              <div class="form-group row">
+            <div class="container">
+              <div style="margin-top: 3em;">
+                <label class="radio"><input type="radio" name="optPartitions" id="allclu2"> All Clusters</label>
+                <label class="radio"><input type="radio" name="optPartitions" id="distclu2"> Distinct Clusters</label>
+              </div>
+              <p align="center">Clusters size interval:</p>
+              <div class="row" align="center">
+                <div class="col-1"></div>
                 <label for="minPartition" class="col-2 col-form-label">Minimum:</label>
-                <div class="col-5">
+                <div class="col-3">
                   <input class="form-control" type="number" min="0" value="" id="minPartition">
                 </div>
-              </div>
-              <div class="form-group row">
                 <label for="maxPartition" class="col-2 col-form-label">Maximum:</label>
-                <div class="col-5">
+                <div class="col-3">
                   <input class="form-control" type="number" min="0" value="" id="maxPartition">
                 </div>
+                <div class="col-1"></div>
               </div>
+                <button type="submit" class="btn btn-secondary" style="margin-top:1em;">View Results</button>
             </div>
-            <button type="submit" class="btn btn-secondary">View Results</button>
           </div>
         </div>
       </div>
@@ -108,8 +142,7 @@
 
     <section id="about">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto">
+        <div class="row">          <div class="col-lg-8 mx-auto">
             <h2>About</h2>
             <p class="lead">The tool</p>
             <p style="text-align: justify;">Ensemble methods for clustering take a collection
@@ -177,21 +210,40 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}">
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}">
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}">
+    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
-    // <!-- Plugin JavaScript -->
-    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}">
+    <!-- Plugin JavaScript -->
+    <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
-    // <!-- Custom JavaScript for this theme
-    <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}">
+    <!-- Custom JavaScript for this theme -->
+    <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
 
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
+    <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
 
     <script>
       $(document).ready(function(){
         $('#results').hide();
+      });
+
+      Dropzone.autoDiscover = false;
+
+      $(function() {
+        var myDropzone = new Dropzone("#droppartition");
+        myDropzone.on("queuecomplete", function(file) {
+          // Called when all files in the queue finish uploading.
+          window.location = "{{ url_for('upload') }}";
+        });
+      });
+
+      $(function() {
+        var myDropzone = new Dropzone("#dropdataset");
+        myDropzone.on("queuecomplete", function(file) {
+          // Called when all files in the queue finish uploading.
+          window.location = "{{ url_for('upload') }}";
+        });
       });
     </script>
 
