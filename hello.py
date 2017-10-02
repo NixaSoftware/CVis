@@ -5,10 +5,6 @@ import os
 app = Flask(__name__)
 dropzone = Dropzone(app)
 
-app.config['DROPZONE_UPLOAD_MULTIPLE'] = True
-app.config['DROPZONE_ALLOWED_FILE_TYPE'] = '.txt, .clu'
-app.config['DROPZONE_ALLOWED_FILE_CUSTOM'] = True
-
 # get the current folder
 app.config['UPLOADED_PATH'] = os.getcwd()
 
@@ -29,7 +25,11 @@ def upload():
         # se arquivos vem do dataset
         if(request.form['name'] == 'dataset'):
             print("Oi! Você fez upload do dataset!")
-
+            print(request.form['selAlgorithm'])
+            print(request.form['selMetric'])
+            print(request.form['allordist'])
+            print(request.form['minSize'])
+            print(request.form['maxSize'])
             #pega data e hora atual
             id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
@@ -47,7 +47,10 @@ def upload():
 
         # se arquivos vem do partition
         if(request.form['name'] == 'partition'):
-            print("Oi! Você fez upload do partitions!")
+            print("Oi! Você fez upload do partitions!");
+            print(request.form['allordist'])
+            print(request.form['minSize'])
+            print(request.form['maxSize'])
 
             #pega data e hora atual
             id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))

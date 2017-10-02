@@ -8,8 +8,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- {{ dropzone.load() }} -->
-    {{ dropzone.style('border: 2px dashed #0087F7;') }}
     <title>Cluster Visualization</title>
      <link rel="icon" href="../static/images/icon.png">
 
@@ -41,12 +39,6 @@
 
   <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
   <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
-
-  <!-- <script type="text/javascript">
-  $( document ).ready(function() {
-    $(".remove").hide();
-  });
-  </script> -->
 
   <body id="page-top">
 
@@ -82,11 +74,10 @@
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
             <h1><b>Data Set</b></h1>
             <!-- upload vai aqui -->
-            <form action="#" class="dropzone dz-clickable"  id="dropdataset" method="POST" enctype="multipart/form-data">
+            <form action="#" class="dropzone dz-clickable" id="dropdataset" method="POST" enctype="multipart/form-data">
               <input type="hidden" name="name" value="dataset" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
-            <form action="" method="POST">
               <div class="row" style="margin-top:1em;">
                 <div class="col-1"></div>
                  <div class="col-5">
@@ -109,26 +100,25 @@
                    </select>
                  </div>
               </div>
-              <div style="margin-top: 1em;">
-                <label class="radio"><input type="radio" name="optPartitions" id="allclu1"> All Clusters</label>
-                <label class="radio"><input type="radio" name="optPartitions" id="distclu1"> Distinct Clusters</label>
+              <div id="radiodataset" style="margin-top: 1em;">
+                <label class="radio"><input type="radio" name="optDataSet" value="allDataSet"> All Clusters</label>
+                <label class="radio"><input type="radio" name="optDataSet" value="distDataSet"> Distinct Clusters</label>
               </div>
               <p align="center">Clusters size interval:</p>
               <div class="row" style="margin-top: 1em;" align="center">
                 <div class="col-1"></div>
                 <label for="minPartition" class="col-2 col-form-label">Minimum:</label>
                 <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="minPartition">
+                  <input class="form-control" type="number" min="0" value="" id="minSize">
                 </div>
                 <label for="maxPartition" class="col-2 col-form-label">Maximum:</label>
                 <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="maxPartition">
+                  <input class="form-control" type="number" min="0" value="" id="maxSize">
                 </div>
                 <div class="col-1"></div>
               </div>
                 <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="senddataset">View Results</button>
             </div>
-          </form>
 
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
             <h1><b>Partitions</b></h1>
@@ -137,9 +127,9 @@
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
             <div class="container">
-              <div style="margin-top: 3em;">
-                <label class="radio"><input type="radio" name="optPartitions" id="allclu2"> All Clusters</label>
-                <label class="radio"><input type="radio" name="optPartitions" id="distclu2"> Distinct Clusters</label>
+              <div id="radiopartition" style="margin-top: 3em;">
+                <label class="radio"><input type="radio" name="optPartitions" value="allPartitions"> All Clusters</label>
+                <label class="radio"><input type="radio" name="optPartitions" value="distPartitions"> Distinct Clusters</label>
               </div>
               <p align="center">Clusters size interval:</p>
               <div class="row" align="center">
@@ -154,7 +144,7 @@
                 </div>
                 <div class="col-1"></div>
               </div>
-                <button type="submit" class="btn btn-secondary" style="margin-top:4.5em;">View Results</button>
+                <button type="submit" class="btn btn-secondary" style="margin-top:4.5em;" id="sendpartition">View Results</button>
             </div>
           </div>
         </div>
@@ -232,22 +222,53 @@
 
     <script>
 
+      $(document).ready(function(){
+        $(input).val("");
+      });
+
       Dropzone.autoDiscover = false;
 
-      $('#droppartition').on("queuecomplete", function(file) {
-        acceptedFiles: 'text/*',
-        addRemoveLinks: true,
-        thumbnailWidth: 500,
-        url: "{{ url_for('upload') }}"
-      });
+        var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
+          acceptedFiles: 'text/*',
+          addRemoveLinks: true,
+          thumbnailWidth: 500,
+          autoProcessQueue: false,
+
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+                formData.append("selAlgorithm", $("#selAlgorithm").val());
+                formData.append("selMetric", $("#selMetric").val());
+                formData.append("allordist", $("#radiodataset input:checked").val());
+                formData.append("minSize", $("#minSize").val());
+                formData.append("maxSize", $("#maxSize").val());
+            });
+          }
+        });
+
+        $('#senddataset').click(function(){
+            myDropzone1.processQueue();
+        });
+
+        var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
+          acceptedFiles: 'text/*',
+          addRemoveLinks: true,
+          thumbnailWidth: 500,
+          autoProcessQueue: false,
+
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+                formData.append("allordist", $("#radiopartition input:checked").val());
+                formData.append("minSize", $("#minPartition").val());
+                formData.append("maxSize", $("#maxPartition").val());
+            });
+          }
+        });
+
+        $('#sendpartition').click(function(){
+            myDropzone2.processQueue();
+        });
 
 
-      $('#dropdataset').on("queuecomplete", function(file) {
-        acceptedFiles: 'text/*',
-        addRemoveLinks: true,
-        thumbnailWidth: 500,
-        url: "{{ url_for('upload') }}"
-      });
 
     </script>
 
