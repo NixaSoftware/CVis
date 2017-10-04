@@ -281,7 +281,7 @@
       Dropzone.autoDiscover = false;
 
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
-          acceptedFiles: 'text/*',
+          acceptedFiles: 'text/*, .clu',
           addRemoveLinks: true,
           thumbnailWidth: 500,
           autoProcessQueue: false,
@@ -296,6 +296,7 @@
             });
           }
         });
+
 
         $('#senddataset').click(function(){
           // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
@@ -314,7 +315,7 @@
         });
 
         var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
-          acceptedFiles: 'text/*',
+          acceptedFiles: 'text/*, .clu, .tsv',
           addRemoveLinks: true,
           thumbnailWidth: 500,
           autoProcessQueue: false,
@@ -343,6 +344,10 @@
             myDropzone2.processQueue();
           }
         });
+
+        // isso faz com que carreguem mais de 2 arquivos por vez
+        myDropzone1.on('success', myDropzone1.processQueue.bind(myDropzone1));
+        myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
 
         $("#cleanErrors").click(function(){
           $("#aviso_modal #erro1").html("");
