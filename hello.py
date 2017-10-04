@@ -30,6 +30,7 @@ def upload():
             print(request.form['allordist'])
             print(request.form['minSize'])
             print(request.form['maxSize'])
+            
             #pega data e hora atual
             id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 

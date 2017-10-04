@@ -40,6 +40,39 @@
   <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
   <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
 
+  <style>
+  /*mudanca do css do layout de cada arquivo dentro do dropzone*/
+  .dropzone .dz-preview .dz-image {
+       border-radius: 20px;
+       overflow: hidden;
+       width: 25em;
+       height: 5.5em;
+       padding: 0.2em;
+       position: relative;
+       display: block;
+       z-index: 10;
+  }
+
+  .dropzone .dz-preview.dz-file-preview .dz-image {
+        border-radius: 10px;
+        background: #000;
+        background: linear-gradient(to bottom, #eee, #eee);
+  }
+
+  .dropzone .dz-preview .dz-details .dz-filename:hover span {
+     border: 1px solid transparent;
+     background-color: linear-gradient(to bottom, #eee, #eee);
+   }
+
+  .dropzone .dz-preview {
+     position: relative;
+     display: inline-block;
+     vertical-align: top;
+     margin: 0.2em;
+     min-height: 100px;
+  }
+  </style>
+
   <body id="page-top">
 
     <!-- Navigation -->
@@ -179,7 +212,7 @@
             reference:</p>
             <p>Faceli, K., Sakata, T., and Handl, J. (2016). CVis - towards a
             novel visualization tool to explore the relationship between input
-            and output partitions in multi-objective clustering ensembles. In:
+            and output partitions in multi-objective clustering ensembles.
             </p>
           </div>
         </div>
@@ -220,6 +253,25 @@
       <!-- /.container -->
     </footer>
 
+    <!-- Modal de aviso -->
+    <div id="aviso_modal" class="modal fade" role="dialog" tabindex="-1">
+      <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Required</h4>
+          </div>
+          <div class="modal-body" style="background-color:tomato;">
+            <p id="erro1"></p>
+            <p id="erro2"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="cleanErrors" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
 
       $(document).ready(function(){
@@ -246,7 +298,19 @@
         });
 
         $('#senddataset').click(function(){
-            myDropzone1.processQueue();
+          // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
+            if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val() || $("#radiodataset input:checked").length == 0){
+              if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val()){
+                $("#aviso_modal #erro1").html("Maximum size must be higher than minimum size!");
+              }
+              if($("#radiodataset input:checked").length == 0){
+                $("#aviso_modal #erro2").html("Choose the visualization between all clusters or distinct clusters, please.");
+              }
+              $("#aviso_modal").modal("show");
+            }
+            else{
+              myDropzone1.processQueue();
+            }
         });
 
         var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
@@ -265,10 +329,25 @@
         });
 
         $('#sendpartition').click(function(){
+          // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
+          if($("#maxPartition").val() != "" && $("#maxPartition").val() < $("#minPartition").val() || $("#radiopartition input:checked").length == 0){
+            if($("#maxPartition").val() != "" && $("#maxPartition").val() < $("#minPartition").val()){
+              $("#aviso_modal #erro1").html("Maximum size must be higher than minimum size!");
+            }
+            if($("#radiopartition input:checked").length == 0){
+              $("#aviso_modal #erro2").html("Choose the visualization between all clusters or distinct clusters, please.");
+            }
+            $("#aviso_modal").modal("show");
+          }
+          else{
             myDropzone2.processQueue();
+          }
         });
 
-
+        $("#cleanErrors").click(function(){
+          $("#aviso_modal #erro1").html("");
+          $("#aviso_modal #erro2").html("");
+        });
 
     </script>
 
