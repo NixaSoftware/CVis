@@ -1,0 +1,1 @@
+./mocle 1 teste/iris.txt teste/initialPopulation/ teste/res teste/irisReal.txt

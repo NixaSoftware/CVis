@@ -1,0 +1,8 @@
+Partition	Objectives values
+teste/res/solutionPopulation/partitionk6s1.clu	19.2333	75.6727	
+teste/res/solutionPopulation/partitionk3s2.clu	2.71786	126.926	
+teste/res/solutionPopulation/partitionk3s3.clu	3.52143	97.6576	
+teste/res/solutionPopulation/partitionk6s4.clu	34.8357	70.6264	
+teste/res/solutionPopulation/partitionk3s5.clu	5.49762	97.4615	
+teste/res/solutionPopulation/partitionk6s6.clu	13.8524	81.8635	
+teste/res/solutionPopulation/partitionk4s7.clu	8.76905	84.3757	
