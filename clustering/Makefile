@@ -1,16 +1,16 @@
 # Clustering
-# 
+#
 # Makefile
-# 
+#
 
 
 PROGRAM_NAME=clustering
 CC=g++
 CFLAGS=
-INCLUDE=-I /home/lasid/programs/auxiliares/boost_1_55_0
-LIBS2 = -L /home/lasid/programs/auxiliares/boost_1_55_0/stage/lib/
+# INCLUDE=-I /home/lasid/programs/auxiliares/boost_1_55_0
+# LIBS2 = -L /home/lasid/programs/auxiliares/boost_1_55_0/stage/lib/
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 CPP_SRCS += \
 ./averagelink.cpp \
 ./bootstrap.cpp \
@@ -27,7 +27,7 @@ CPP_SRCS += \
 ./snn.cpp \
 ./sota.cpp \
 ./validationIndex.cpp \
-./variability.cpp 
+./variability.cpp
 
 
 
