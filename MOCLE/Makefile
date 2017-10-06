@@ -1,17 +1,17 @@
 # Projeto Final da disciplina de Computacao Paralela
-# 
+#
 # Makefile
-# 
+#
 # Arquivo responsavel pela compilacao, execucao e
 # limpeza dos arquivos gerados ao compilar/executar os benchmarks.
 #
 PROGRAM_NAME=mocle
 CC=g++
 CFLAGS=
-INCLUDE=-I /home/lasid/programs/auxiliares/boost_1_55_0
-LIBS2 = -L /home/lasid/programs/auxiliares/boost_1_55_0/stage/lib/
+# INCLUDE=-I /home/lasid/programs/auxiliares/boost_1_55_0
+# LIBS2 = -L /home/lasid/programs/auxiliares/boost_1_55_0/stage/lib/
 
-# Add inputs and outputs from these tool invocations to the build variables 
+# Add inputs and outputs from these tool invocations to the build variables
 CPP_SRCS += \
 ./TPartitionSolution.cpp \
 ./cluster.cpp \
@@ -37,7 +37,7 @@ CPP_SRCS += \
 ./MO/tquadnode.cpp \
 ./MO/tquadtree.cpp \
 ./MO/trandomgenerator.cpp \
-./MO/weights.cpp 
+./MO/weights.cpp
 
 OBJS = \
 ./TPartitionSolution.o \

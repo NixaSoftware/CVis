@@ -123,6 +123,7 @@
                      <option value="5">Complete Link</option>
                      <option value="6">SNN</option>
                      <option value="7">KMeans</option>
+                     <option value="8">MOCLE</option>
                    </select>
                  </div>
                  <div class="col-5">
@@ -281,7 +282,7 @@
       Dropzone.autoDiscover = false;
 
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
-          acceptedFiles: 'text/*, .clu',
+          acceptedFiles: 'text/*, .clu', '.txt',
           addRemoveLinks: true,
           thumbnailWidth: 500,
           autoProcessQueue: false,
