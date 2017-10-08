@@ -15,11 +15,10 @@ clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(co
 # partições geradas pelo upload vão estar em "partitions-upload"
 # portanto
 # dirPartitions = os.getcwd() + "/partitions-uploaded"
-dirPartitions = os.getcwd() + '/Partitions (para testes)'
 
-# separa apenas a última parte do caminho até a pasta de partições.
+dirPartitions = os.getcwd() + '/ds3c3sc6-E'
+
 (head, tail) = os.path.split(dirPartitions);
-
 expDirName = tail + '-files';
 
 resDir = head + '/' + expDirName # os.path.join(head, expDirName);
@@ -29,14 +28,21 @@ if not os.path.exists(resDir):
 
 allClustersLabels = []
 
-# esses laços funcionam para pastas com a seguinte estrutura:
-# diretorio_principal/diretorio_particao/arquivos.clu
-# se mudar o padrão das pastas, fodeu
 for diretorios in os.listdir(dirPartitions):
     clusterDir = dirPartitions + '/' + diretorios
     for filename in os.listdir(clusterDir):
-        file = clusterDir + '/' + filename
-        p = pd.read_csv(file, sep="\t", header=None, encoding='utf-8')
+        # check if there is any subdirs
+        path = os.path.join(clusterDir, filename)
+        if os.path.isdir(path):
+           # change filenames to new path and ignore .err files
+           for filename in os.listdir(path):
+               if filename.endswith('.clu'):
+                   file = path + '/' + filename
+        else:
+            file = clusterDir + '/' + filename
+
+        p = pd.read_csv(file, sep="\t", header=None, encoding='utf-8',
+                        engine="python")
         p.columns = ["ID", "clusterLabel"]
         allClusters = set(p["clusterLabel"])
 
@@ -56,7 +62,6 @@ for diretorios in os.listdir(dirPartitions):
 # identify groups of objects identically grouped and remove them from the dataset
 distinct = {}
 dist2 = merged.groupby(allClustersLabels, sort=False)
-"""
 file = resDir + '/listsIdenticalObjs.tsv'
 
 with open(file, 'w') as f:
@@ -68,7 +73,6 @@ with open(file, 'w') as f:
         out.writerow(values)
 repeatedObjs = merged.loc[~merged["ID"].isin(distinct.keys())]["ID"].index
 # save the lists of identically grouped objects
-
 merged.drop(repeatedObjs,inplace=True)
 
 objectsIDs = merged["ID"]
@@ -76,10 +80,8 @@ clustersData = clustersData.set_index(["ID"])
 merged = merged.set_index(["ID"])
 
 mergedT = merged.transpose()
-
 # identifies the distinct clusters
 distinctClusters = mergedT.drop_duplicates().index
-print(distinctClusters)
 
 file = resDir + '/listDistinctClusters.tsv'
 with open(file, 'w') as f:
@@ -96,7 +98,6 @@ for o1 in objectsIDs:
     eacM[o1] = complete.loc[complete[o1]==1]["cSize"].sum()
 
 x = sorted(eacM.items(), key=itemgetter(1), reverse=True)
-print(x)
 
 file = os.path.join(resDir, 'objOrderEAC.tsv')
 file = resDir + '/objOrderEAC.tsv'
@@ -109,4 +110,3 @@ with open(file, 'w') as f:
 #https://gist.github.com/bsweger/e5817488d161f37dcbd2
 
 #https://pymotw.com/2/ospath/
-"""
