@@ -1,8 +1,7 @@
 #left{
-  border-right: 1px solid #50A5FF;
-  height: 28em;
+  border-right: 1px solid black;
+  height: 20em;
 }
-
 
 @media (max-width: 48em) {
   #left {
@@ -19,13 +18,6 @@
   }
 }
 
-#uploads{
-  height: 39em;
-}
-
-#results{
-  display:none;
-}
 
 button:hover{
   cursor: pointer;

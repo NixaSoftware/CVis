@@ -26,51 +26,38 @@
 
   </head>
 
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-
-  <!-- Plugin JavaScript -->
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-  <!-- Custom JavaScript for this theme -->
-  <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
-
-  <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
-  <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
-
   <style>
-  /*mudanca do css do layout de cada arquivo dentro do dropzone*/
-  .dropzone .dz-preview .dz-image {
-       border-radius: 20px;
-       overflow: hidden;
-       width: 25em;
-       height: 5.5em;
-       padding: 0.2em;
-       position: relative;
-       display: block;
-       z-index: 10;
-  }
+      /*mudanca do css do layout de cada arquivo dentro do dropzone*/
+      .dropzone .dz-preview .dz-image {
+           border-radius: 20px;
+           overflow: hidden;
+           width: 25em;
+           height: 5.5em;
+           padding: 0.2em;
+           position: relative;
+           display: block;
+           z-index: 10;
+      }
 
-  .dropzone .dz-preview.dz-file-preview .dz-image {
-        border-radius: 10px;
-        background: #000;
-        background: linear-gradient(to bottom, #eee, #eee);
-  }
+      .dropzone .dz-preview.dz-file-preview .dz-image {
+            border-radius: 10px;
+            background: #000;
+            background: linear-gradient(to bottom, #eee, #eee);
+      }
 
-  .dropzone .dz-preview .dz-details .dz-filename:hover span {
-     border: 1px solid transparent;
-     background-color: linear-gradient(to bottom, #eee, #eee);
-   }
+      .dropzone .dz-preview .dz-details .dz-filename:hover span {
+         border: 1px solid transparent;
+         background-color: linear-gradient(to bottom, #eee, #eee);
+       }
 
-  .dropzone .dz-preview {
-     position: relative;
-     display: inline-block;
-     vertical-align: top;
-     margin: 0.2em;
-     min-height: 100px;
-  }
+      .dropzone .dz-preview {
+         position: relative;
+         display: inline-block;
+         vertical-align: top;
+         margin: 0.2em;
+         min-height: 100px;
+      }
+
   </style>
 
   <body id="page-top">
@@ -88,7 +75,7 @@
               <a class="nav-link js-scroll-trigger" href="#about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services">How to Use</a>
+              <a class="nav-link js-scroll-trigger" href="#usage">Usage</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
@@ -101,88 +88,168 @@
       </div>
     </nav>
 
-    <section class="bg-primary text-white" id="uploads">
+    <section class="bg-primary text-white" id="uploaddataset">
       <div class="container text-center">
-        <div class="row row-divided" align="center" style="margin-top: -7em;">
-          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="left">
-            <h1><b>Data Set</b></h1>
+        <div class="row" align="center">
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+            <h1><b>Data Set Upload</b></h1>
             <!-- upload vai aqui -->
             <form action="#" class="dropzone dz-clickable" id="dropdataset" method="POST" enctype="multipart/form-data">
               <input type="hidden" name="name" value="dataset" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
-              <div class="row" style="margin-top:1em;">
-                <div class="col-1"></div>
-                 <div class="col-5">
-                   <label for="selAlgorithm">Apply algorithm:</label><br>
-                   <select class="form-control" id="selAlgorithm">
-                     <option value="1">All</option>
-                     <option value="2">Single Link</option>
-                     <option value="3">Average Link</option>
-                     <option value="4">Centroid Link</option>
-                     <option value="5">Complete Link</option>
-                     <option value="6">SNN</option>
-                     <option value="7">KMeans</option>
-                     <option value="8">MOCLE</option>
-                   </select>
-                 </div>
-                 <div class="col-5">
-                   <label for="selMetric">Choose Metrics:</label><br>
-                   <select class="form-control" id="selMetric">
-                     <option value="E">Euclidean Distance</option>
-                     <option value="P">Pearson Correlation</option>
-                   </select>
-                 </div>
-              </div>
-              <div id="radiodataset" style="margin-top: 1em;">
-                <label class="radio"><input type="radio" name="optDataSet" value="allDataSet"> All Clusters</label>
-                <label class="radio"><input type="radio" name="optDataSet" value="distDataSet"> Distinct Clusters</label>
-              </div>
-              <p align="center">Clusters size interval:</p>
-              <div class="row" style="margin-top: 1em;" align="center">
-                <div class="col-1"></div>
-                <label for="minPartition" class="col-2 col-form-label">Minimum:</label>
-                <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="minSize">
-                </div>
-                <label for="maxPartition" class="col-2 col-form-label">Maximum:</label>
-                <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="maxSize">
-                </div>
-                <div class="col-1"></div>
-              </div>
-                <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="senddataset">View Results</button>
-            </div>
-
-          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
-            <h1><b>Partitions</b></h1>
-            <form action="#" class="dropzone dz-clickable"  id="droppartition" method="POST" enctype="multipart/form-data">
-              <input type="hidden" name="name" value="partition" />
-              <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
-            </form>
-            <div class="container">
-              <div id="radiopartition" style="margin-top: 3em;">
-                <label class="radio"><input type="radio" name="optPartitions" value="allPartitions"> All Clusters</label>
-                <label class="radio"><input type="radio" name="optPartitions" value="distPartitions"> Distinct Clusters</label>
-              </div>
-              <p align="center">Clusters size interval:</p>
-              <div class="row" align="center">
-                <div class="col-1"></div>
-                <label for="minPartition" class="col-2 col-form-label">Minimum:</label>
-                <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="minPartition">
-                </div>
-                <label for="maxPartition" class="col-2 col-form-label">Maximum:</label>
-                <div class="col-3">
-                  <input class="form-control" type="number" min="0" value="" id="maxPartition">
-                </div>
-                <div class="col-1"></div>
-              </div>
-                <button type="submit" class="btn btn-secondary" style="margin-top:4.5em;" id="sendpartition">View Results</button>
+                <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="partitionchoicebutton" data-toggle="modal" data-target="#partitionchoice">Continue</button>
             </div>
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="bg-primary text-white hidden" id="uploadpartition">
+      <div class="container text-center">
+        <div class="row" align="center">
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
+          <h1><b>Partitions</b></h1>
+          <form action="#" class="dropzone dz-clickable"  id="droppartition" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="name" value="partition" />
+            <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+          </form>
+              <button type="submit" class="btn btn-secondary" style="margin-top:1em;" id="continuepartition1">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section id="clusteringDataSet" class="container hidden">
+        <h2>Clustering</h2>
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+               <div class="card-header">
+                 <input type="checkbox" id="datawithbasic" data-toggle="collapse" data-target="#filter-data-basic">
+                 <span>Basic Algorithms</span>
+               </div>
+               <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-data-basic">
+                 <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" onclick="checkAll(this)"> Select All</label>
+                 <div id="checkboxDataSet">
+                   <label for="singleLink"><input type="checkbox" id="singleLink"> Single Link</label>
+                   <label for="averageLink"><input type="checkbox" id="averageLink"> Average Link</label>
+                   <label for="centroidLink"><input type="checkbox" id="centroidLink"> Centroid Link</label>
+                   <label for="completeLink"><input type="checkbox" id="completeLink"> Complete Link</label>
+                   <label for="SNN"><input type="checkbox" id="SNN"> SNN</label>
+                   <label for="kMeans"><input type="checkbox" id="kMeans"> KMeans</label>
+                </div>
+               </div>
+             </div>
+           </div>
+        </div>
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+                 <div class="card-header">
+                   <input type="checkbox" id="datawithMocle" data-toggle="collapse" data-target="#filter-part-mocle">
+                   <span>Mocle</span>
+                 </div>
+                 <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
+                   <div class="col-6">
+                     <label for="selMetricDataSet">Choose Metrics:</label><br>
+                     <select class="form-control" id="selMetricMocle">
+                       <option value="E">Euclidean Distance</option>
+                       <option value="P"></option>
+                     </select>
+                   </div>
+                 </div>
+              </div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12" align="center">
+            <button type="button" class="btn btn-primary" id="algdataset">Continue</button>
+          </div>
+        </div>
+    </section>
+
+    <section id="clusteringPartition" class="container hidden">
+        <h2>Visualize</h2>
+
+          <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+                 <div class="card-header">
+                   <input type="checkbox" id="partitionwithMocle" data-toggle="collapse" data-target="#filter-panel-mocle">
+                   <span>Mocle</span>
+                 </div>
+                 <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-panel-mocle">
+                   <div class="col-6">
+                     <label for="selMetricPartition">Choose Metrics:</label><br>
+                     <select class="form-control" id="selMetricMocle">
+                       <option value="M">MCLA</option>
+                       <option value="B">HBGF</option>
+                     </select>
+                   </div>
+                   <div id="radiodataset" style="margin-top: 1em;">
+                     <label class="radio"><input type="radio" name="opt" value="all"> All Clusters</label>
+                     <label class="radio"><input type="radio" name="opt" value="dist"> Distinct Clusters</label>
+                   </div>
+                   <p style="margin-top: 1em;">Clusters size interval:</p>
+                   <div class="row" style="margin-top: 1em;">
+                     <!-- <div class="col-3"></div> -->
+                     <label for="minSize" class="col-1 col-form-label">Minimum:</label>
+                     <div class="col-2">
+                       <input class="form-control" type="number" min="0" value="" id="minSize">
+                     </div>
+                     <label for="maxSize" class="col-1 col-form-label">Maximum:</label>
+                     <div class="col-2">
+                       <input class="form-control" type="number" min="0" value="" id="maxSize">
+                     </div>
+                     <div class="col-1"></div>
+                   </div>
+                 </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12" align="center">
+            <button type="button" class="btn btn-primary" id="finishpartition">View Results</button>
+          </div>
+        </div>
+    </section>
+
+    <section id="visualizedataset" class="container hidden">
+        <h2>Visualize</h2>
+        <div class="row">
+          <div class="col-6">
+            <label for="selMetric">Choose Metrics:</label><br>
+            <select class="form-control" id="selMetricBasic">
+              <option value="E">Euclidean Distance</option>
+              <option value="P">Pearson Correlation</option>
+            </select>
+          </div>
+        </div>
+          <div id="radiodataset" style="margin-top: 1em;">
+            <label class="radio"><input type="radio" name="opt" value="all"> All Clusters</label>
+            <label class="radio"><input type="radio" name="opt" value="dist"> Distinct Clusters</label>
+          </div>
+          <p style="margin-top: 1em;">Clusters size interval:</p>
+          <div class="row" style="margin-top: 1em;">
+            <!-- <div class="col-3"></div> -->
+            <label for="minSize" class="col-1 col-form-label">Minimum:</label>
+            <div class="col-2">
+              <input class="form-control" type="number" min="0" value="" id="minSize">
+            </div>
+            <label for="maxSize" class="col-1 col-form-label">Maximum:</label>
+            <div class="col-2">
+              <input class="form-control" type="number" min="0" value="" id="maxSize">
+            </div>
+            <div class="col-1"></div>
+          </div>
+          <div class="row" style="margin-top:2em;">
+            <div class="col-12" align="center">
+              <button type="button" class="btn btn-primary" id="finishdataset">View Results</button>
+            </div>
+          </div>
     </section>
 
     <section id="about">
@@ -220,15 +287,47 @@
       </div>
     </section>
 
-    <section id="services" class="bg-light">
+    <section id="usage" class="bg-light">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto">
-            <h2>How To Use It</h2>
-            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut optio velit inventore, expedita quo laboriosam possimus ea consequatur vitae, doloribus consequuntur ex. Nemo assumenda laborum vel, labore ut velit dignissimos.</p>
+            <h2>Usage</h2>
           </div>
         </div>
-      </div>
+        <div class="row row-divided" style="margin-top:1em;">
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+            <h4 style="text-decoration:underline; margin-bottom:2em;" align="center" id="left">Basic Algorithms</h2>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+            <h4 style="text-decoration:underline; margin-bottom:2em;" align="center">Mocle</h2>
+            <h5 id="crossoverUsage"> Crossover </h5>
+		          <ul>
+		          	<li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm as described in (1) </div></li>
+		          	<li><div class="mdl-card__subtitle-text mdl-color-text--black"> HBGF - Hybrid Bipartite Graph Formulation as described in (3) </div></li>
+		          </ul>
+			       <h5 id="kConsensusUsage"> k of the consensus partition</h5>
+		          	<ul>
+		           		<li>Interval of k for choosing the number of clusters for the consensus partition when applying the crossover. The maximum number of clusters in each consensus partition is randomly  choosen  within this interval.</li>
+		            </ul>
+           	 <h5 id="datasetUsage"> Data set </h5>
+		            <ul>
+		            	<li>Data set in a text file format, where the first row contains columns labels and first column indicates the objects IDs.</li>
+		            </ul>
+            	<h5 id="initialPartitionsUsage"> Initial Partitions </h5>
+              	<ul>
+		              <li>Initial partitions represented as text files. Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
+		            </ul>
+              <h5 id="nGenerationsUsage"> Number of Generations </h5>
+		            <ul>
+		            	<li>Maximum number of generations for running the genetic algorithm.</li>
+		            </ul>
+              <h5 id="nNearestNeighborsUsage"> Nearest Neighbors (%) </h5>
+		             <ul>
+		               <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
+		             </ul>
+	          </div>
+          </div>
+        </div>
     </section>
 
     <section id="contact">
@@ -254,17 +353,15 @@
       <!-- /.container -->
     </footer>
 
-    <!-- Modal de aviso -->
+    <!-- Modal warning -->
     <div id="aviso_modal" class="modal fade" role="dialog" tabindex="-1">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Required</h4>
           </div>
           <div class="modal-body" style="background-color:tomato;">
-            <p id="erro1"></p>
-            <p id="erro2"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" id="cleanErrors" data-dismiss="modal">OK</button>
@@ -273,16 +370,51 @@
       </div>
     </div>
 
-    <script>
+    <!-- Modal choose partition -->
+    <div id="partitionchoice" class="modal fade" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Partitions</h4>
+          </div>
+          <div class="modal-body">
+            <p>Do you want to include partitions to the visualization?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="refusepartition" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-default" id="includepartition" data-dismiss="modal">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <!-- Bootstrap core JavaScript -->
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+      <!-- Plugin JavaScript -->
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+      <!-- Custom JavaScript for this theme -->
+      <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
+
+      <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
+      <!-- <script src="{{url_for('static', filename='vendor/dropzone/dropzone.min.js')}}"></script> -->
+
+    <script type="text/javascript">
 
       $(document).ready(function(){
-        $(input).val("");
+        $("input").val("");
+        $(".hidden").hide();
       });
 
       Dropzone.autoDiscover = false;
 
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
-          acceptedFiles: 'text/*, .clu', '.txt',
+          acceptedFiles: 'text/*, .clu, .txt',
           addRemoveLinks: true,
           thumbnailWidth: 500,
           autoProcessQueue: false,
@@ -299,20 +431,49 @@
         });
 
 
-        $('#senddataset').click(function(){
-          // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
-            if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val() || $("#radiodataset input:checked").length == 0){
-              if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val()){
-                $("#aviso_modal #erro1").html("Maximum size must be higher than minimum size!");
-              }
-              if($("#radiodataset input:checked").length == 0){
-                $("#aviso_modal #erro2").html("Choose the visualization between all clusters or distinct clusters, please.");
-              }
-              $("#aviso_modal").modal("show");
+        function checkAll(bx){
+          var cbs = $('#checkboxDataSet input');
+          for(var i=0; i < cbs.length; i++) {
+            if(cbs[i].type == 'checkbox') {
+              cbs[i].checked = bx.checked;
             }
-            else{
-              myDropzone1.processQueue();
+          }
+        }
+
+        $('').click(function(){
+          var error = false;
+          if($('#datawithbasic:checked')){
+            if($('#checkboxDataSet input:checked').length == 0){
+              $('#aviso_modal .modal-body').append('<p>You selected Basic Algorithms, you should choose at least one.</p>');
+              error = true;
             }
+            if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val()){
+              $("#aviso_modal .modal-body").append("<p>Maximum size must be higher than minimum size!</p>");
+              error = true;
+            }
+            if($("#radiodataset input:checked").length == 0){
+              $("#aviso_modal .modal-body").append("<p>Choose the visualization between all clusters or distinct clusters, please.</p>");
+            }
+          }
+          if($('#datawithMocle:checked')){
+            
+          }
+        });
+
+        $('#partitionchoice #refusepartition').click(function(){
+          $('#clusteringDataSet').show();
+          $('html,body').animate({
+            scrollTop: $("#clusteringDataSet").offset().top},
+            'slow');
+          $("#partitionchoicebutton").prop("disabled",true);
+        });
+
+        $('#partitionchoice #includepartition').click(function(){
+          $('#uploadpartition').show();
+          $('html,body').animate({
+            scrollTop: $('#uploadpartition').offset().top},
+            'slow');
+            $("#partitionchoicebutton").prop("disabled",true);
         });
 
         var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
@@ -330,20 +491,20 @@
           }
         });
 
-        $('#sendpartition').click(function(){
-          // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
-          if($("#maxPartition").val() != "" && $("#maxPartition").val() < $("#minPartition").val() || $("#radiopartition input:checked").length == 0){
-            if($("#maxPartition").val() != "" && $("#maxPartition").val() < $("#minPartition").val()){
-              $("#aviso_modal #erro1").html("Maximum size must be higher than minimum size!");
-            }
-            if($("#radiopartition input:checked").length == 0){
-              $("#aviso_modal #erro2").html("Choose the visualization between all clusters or distinct clusters, please.");
-            }
-            $("#aviso_modal").modal("show");
-          }
-          else{
-            myDropzone2.processQueue();
-          }
+        $('#continuepartition2').click(function(){
+          // // verifica se o valor maximo é maior que valor minimo e se os radio buttons estão pressionados
+            // if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val() || $("#radiodataset input:checked").length == 0){
+            //   if($("#maxSize").val() != "" && $("#maxSize").val() < $("#minSize").val()){
+            //     $("#aviso_modal #erro1").html("Maximum size must be higher than minimum size!");
+            //   }
+            //   if($("#radiodataset input:checked").length == 0){
+            //     $("#aviso_modal #erro2").html("Choose the visualization between all clusters or distinct clusters, please.");
+            //   }
+          //     $("#aviso_modal").modal("show");
+          //   }
+          // else{
+          //   myDropzone1.processQueue();
+          // }
         });
 
         // isso faz com que carreguem mais de 2 arquivos por vez
