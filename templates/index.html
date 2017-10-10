@@ -409,13 +409,15 @@
       $(document).ready(function(){
         $("input").val("");
         $(".hidden").hide();
+        $("#partitionchoicebutton").prop("disabled",true);
       });
 
       Dropzone.autoDiscover = false;
 
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
-          acceptedFiles: 'text/*, .clu, .txt',
+          acceptedFiles: '.txt',
           addRemoveLinks: true,
+          maxFiles: 1,
           thumbnailWidth: 500,
           autoProcessQueue: false,
 
@@ -426,8 +428,15 @@
                 formData.append("allordist", $("#radiodataset input:checked").val());
                 formData.append("minSize", $("#minSize").val());
                 formData.append("maxSize", $("#maxSize").val());
+            }),
+            this.on("addedfile", function(event) {
+                $("#partitionchoicebutton").prop("disabled",false);           
+            }),
+            this.on("removedfile", function(event) {
+                $("#partitionchoicebutton").prop("disabled",true);           
             });
-          }
+          } 
+            
         });
 
 
@@ -477,7 +486,7 @@
         });
 
         var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
-          acceptedFiles: 'text/*, .clu, .tsv',
+          acceptedFiles: '.clu',
           addRemoveLinks: true,
           thumbnailWidth: 500,
           autoProcessQueue: false,
