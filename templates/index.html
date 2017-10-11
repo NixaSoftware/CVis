@@ -223,6 +223,7 @@
                        <option value="B">HBGF</option>
                      </select>
                    </div>
+   
                    <div class="row" style="margin-top: 1em;">
                      <label for="numGenPartition" class="col-2 col-form-label">Number of Generations:</label>
                      <div class="col-2">
@@ -429,6 +430,7 @@
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
           acceptedFiles: '.txt',
           addRemoveLinks: true,
+ 
           thumbnailWidth: 500,
           maxFiles: 1,
           autoProcessQueue: false,
@@ -503,6 +505,7 @@
               $('#aviso_modal .modal-body').append('<p>You selected Basic Algorithms, you should choose at least one.</p>');
               error = true;
             }
+     
           }
           if($("#maxKDataSet").val() == "" || $("#minKDataSet").val() == ""){
             $("#aviso_modal .modal-body").append("<p>Minimum and maximum cluster sizes are required values.</p>");
@@ -550,6 +553,7 @@
             });
           }
         });
+
 
 
           $('#partitionchoice #includepartition').click(function(){
