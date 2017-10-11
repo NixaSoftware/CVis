@@ -13,8 +13,8 @@ def loadCluster(dirPart):
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
     # dirPartitions = os.getcwd() + "/partitions-uploaded"
-    dirPartitions = os.getcwd() + "/" + dirPart;
-    (head, tail) = os.path.split(dirPartitions);
+    clusterDir = os.getcwd() + "/" + dirPart;
+    (head, tail) = os.path.split(clusterDir);
     expDirName = tail + '-files';
 
     resDir = head + '/' + expDirName # os.path.join(head, expDirName);
@@ -24,36 +24,24 @@ def loadCluster(dirPart):
 
     allClustersLabels = []
 
-    for diretorios in os.listdir(dirPartitions):
-        clusterDir = dirPartitions + '/' + diretorios
-        for filename in os.listdir(clusterDir):
-            # check if there is any subdirs
-            path = os.path.join(clusterDir, filename)
-            if os.path.isdir(path):
-               # change filenames to new path and ignore .err files
-               for filename in os.listdir(path):
-                   if filename.endswith('.clu'):
-                       file = path + '/' + filename
-            else:
-                file = clusterDir + '/' + filename
+    for filename in os.listdir(clusterDir):
+        file = clusterDir + '/' + filename
+        p = pd.read_csv(file, sep="\t", header=None, encoding='utf-8', engine="python")
+        p.columns = ["ID", "clusterLabel"]
+        allClusters = set(p["clusterLabel"])
 
-            p = pd.read_csv(file, sep="\t", header=None, encoding='utf-8',
-                            engine="python")
-            p.columns = ["ID", "clusterLabel"]
-            allClusters = set(p["clusterLabel"])
+        for cluster in allClusters:
+            cLabel = "c"+str(cluster)
+            newCluster = cLabel+filename
+            allClustersLabels.insert(len(allClustersLabels), newCluster)
+            p[newCluster] = (p["clusterLabel"] == cluster).astype(int) # column with cluster membership (1/0)
+            clustersData = clustersData.append({"ID": newCluster, "cLabel": cLabel, "pLabel": filename, "cSize": p[newCluster].sum()}, ignore_index=True)
+        del p["clusterLabel"]
 
-            for cluster in allClusters:
-                cLabel = "c"+str(cluster)
-                newCluster = cLabel+filename
-                allClustersLabels.insert(len(allClustersLabels), newCluster)
-                p[newCluster] = (p["clusterLabel"] == cluster).astype(int) # column with cluster membership (1/0)
-                clustersData = clustersData.append({"ID": newCluster, "cLabel": cLabel, "pLabel": filename, "cSize": p[newCluster].sum()}, ignore_index=True)
-            del p["clusterLabel"]
-
-            if merged.empty:
-                merged = pd.DataFrame(p)
-            else:
-                merged = merged.merge(p, how="outer", on="ID")
+        if merged.empty:
+            merged = pd.DataFrame(p)
+        else:
+            merged = merged.merge(p, how="outer", on="ID")
 
     # identify groups of objects identically grouped and remove them from the dataset
     distinct = {}
