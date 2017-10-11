@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_dropzone import Dropzone
 from datetime import datetime
 import os
+from loadClusters import *
+from script_fcs import *
+
 app = Flask(__name__)
 dropzone = Dropzone(app)
 
