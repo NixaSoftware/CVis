@@ -1,6 +1,6 @@
 #left{
   border-right: 1px solid black;
-  height: 20em;
+  height: 30em;
 }
 
 @media (max-width: 48em) {
