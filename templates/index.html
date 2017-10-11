@@ -223,7 +223,7 @@
                        <option value="B">HBGF</option>
                      </select>
                    </div>
-   
+
                    <div class="row" style="margin-top: 1em;">
                      <label for="numGenPartition" class="col-2 col-form-label">Number of Generations:</label>
                      <div class="col-2">
@@ -291,6 +291,11 @@
             <p>Faceli, K., Sakata, T., and Handl, J. (2016). CVis - towards a
             novel visualization tool to explore the relationship between input
             and output partitions in multi-objective clustering ensembles.
+            <p class="lead">Citing MOCLE</p>
+            <p>If you publish material using MOCLE, please cite the following reference:</p>
+            <p>Katti Faceli, Marcílio C. P. de Souto, D. S. A. de Araujo, André C. P. L. F. de Carvalho.
+              Multi-objective clustering ensemble for gene expression data analysis. Neurocomputing 72 (13-15): 2763-2774 (2009).
+              <a href="http://www.sciencedirect.com/science/article/pii/S0925231209001167">DOI: 10.1016</a></p>
             </p>
           </div>
         </div>
@@ -386,14 +391,14 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Partitions</h4>
+            <h2 class="modal-title">Partitions</h2>
           </div>
           <div class="modal-body">
-            <p>Do you want to include initial partitions to the visualization?</p>
+            <p style="font-size:20px;">Do you want to include initial partitions to the visualization?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" id="refusepartition" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-default" id="includepartition" data-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-danger" id="refusepartition" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-success" id="includepartition" data-dismiss="modal">Yes</button>
           </div>
         </div>
       </div>
@@ -430,7 +435,7 @@
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
           acceptedFiles: '.txt',
           addRemoveLinks: true,
- 
+
           thumbnailWidth: 500,
           maxFiles: 1,
           autoProcessQueue: false,
@@ -505,7 +510,7 @@
               $('#aviso_modal .modal-body').append('<p>You selected Basic Algorithms, you should choose at least one.</p>');
               error = true;
             }
-     
+
           }
           if($("#maxKDataSet").val() == "" || $("#minKDataSet").val() == ""){
             $("#aviso_modal .modal-body").append("<p>Minimum and maximum cluster sizes are required values.</p>");

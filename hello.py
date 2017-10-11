@@ -106,7 +106,8 @@ def upload():
                     # nearest neighbours
                     print(request.form['nearNeigh'])
 
-                    # chama o loadClusters.py aqui
+                    # chama o mocle aqui
+                # chama loadClusters.py aqui
 
     return render_template('index.html')
 
