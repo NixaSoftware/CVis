@@ -30,9 +30,6 @@ def upload():
             if(request.form['partition'] == 'yes'):
                 pass
             else:
-                print(request.form['minK'])
-                print(request.form['maxK'])
-
                 #pega data e hora atual
                 id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
@@ -49,25 +46,35 @@ def upload():
 
                 # lê o numero de objetos do dataset
                 with open(app.config['UPLOADED_PATH'] + dir + '/' + f.filename) as f:
-                    print(sum(1 for _ in f)-1)
+                    numObj = sum(1 for _ in f)-1
+
+                minK = int(request.form['minK'])
+                maxK = int(request.form['maxK'])
 
                 # chamar algoritmos
-                if(request.form['mocleSelected'] == 'yes'):
-                    # crossover
-                    # tratar: se M = 1 ou se B = 2
-                    print(request.form['tipoDistMocle'])
-                    # number of generations
-                    print(request.form['numGen'])
-                    # nearest neighbours
-                    print(request.form['nearNeigh'])
-
                 if(request.form['basicSelected'] == 'yes'):
                     # crossover E ou P
-                    print(request.form['tipoDistBasic'])
+                    tipoDistBasic = request.form['tipoDistBasic']
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     print(request.form['alg'])
+                    alg = request.form['alg'].split(',')
+                    if len(alg)>1:
+                        for algnumber in alg:
+                            # chamar clustering com int(algnumber)
+                            pass
 
+                if(request.form['mocleSelected'] == 'yes'):
+                    # crossover
+                    # tratar: se M = 1 ou se B = 2
+                    if(request.form['tipoDistMocle'] == 'M'):
+                        tipoDistMocle = 1
+                    else:
+                        tipoDistMocle = 2
+                    # number of generations
+                    numGen = request.form['numGen']
+                    # nearest neighbours
+                    nearNeigh = request.form['nearNeigh']
 
         # se arquivos vem do partition
         if(request.form['name'] == 'partition'):
@@ -98,13 +105,17 @@ def upload():
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
                 print("Oi! Você fez upload do partitions!");
+
+                minK = int(request.form['minK'])
+                maxK = int(request.form['maxK'])
+
                 if(request.form['mocleSelected'] == 'yes'):
                     # tratar: se M = 1 ou se B = 2
-                    print(request.form['tipoDistMocle'])
+                    tipoDistMocle = request.form['tipoDistMocle']
                     # number of generations
-                    print(request.form['numGen'])
+                    numGen = request.form['numGen']
                     # nearest neighbours
-                    print(request.form['nearNeigh'])
+                    nearNeigh = request.form['nearNeigh']
 
                     # chama o mocle aqui
                 # chama loadClusters.py aqui
