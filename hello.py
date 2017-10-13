@@ -82,7 +82,7 @@ def upload():
                     if len(alg)>1:
                         for algnumber in alg:
                             # passando parametros para função de clustering
-                            script_fcs.clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg))
+                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg))
                             # não executando ainda
                             pass
 
@@ -99,7 +99,7 @@ def upload():
                     nearNeigh = int(request.form['nearNeigh'])
 
                     # passando parametros para função de mocle
-                    script_fcs.mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
+                    mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
 
         # se arquivos vem do partition
@@ -167,7 +167,7 @@ def upload():
                     nearNeigh = request.form['nearNeigh']
 
                     # chama o mocle aqui
-                    script_fcs.mocle(crossover, datasetlocation, partitionlocation, resultfolder, datasetlocation)
+                    mocle(crossover, datasetlocation, partitionlocation, resultfolder, datasetlocation)
                 # chama loadClusters.py aqui
 
     return render_template('index.html')
