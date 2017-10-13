@@ -261,6 +261,40 @@
         </div>
      </section>
 
+     <section id="resultFilterDetails" class="bg-light hidden">
+       <div class="container">
+         <div class="row row-divided">
+           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultFilter" align="center">
+             <h3 style="margin-bottom:1em;">Visualize</h3>
+             <div class="row" align="center">
+               <div class="col-2"></div>
+               <div class="col-4"><label for="allClu"><input type="radio" name="chooseClu" id="allClu" checked> All Clusters</label></div>
+               <div class="col-4"><label for="distClu"><input type="radio" name="chooseClu" id="distClu"> Distinct Cluster</label></div>
+             </div>
+             <p style="margin-top:1em;">Clusters size interval:</p>
+             <div class="row">
+               <div class="col-1"></div>
+               <label for="minKResult" class="col-2 col-form-label">Minimum:</label>
+               <div class="col-3">
+                 <input class="form-control" type="number" min="1" id="minKResult">
+               </div>
+               <label for="maxKResult" class="col-2 col-form-label">Maximum:</label>
+               <div class="col-3">
+                 <input class="form-control" type="number" min="1" id="maxKResult">
+               </div>
+             </div>
+             <button type="button" class="btn btn-primary" id="applyFilter" style="margin-top:1em;">Apply</button>
+           </div>
+           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultDetails">
+             <h3 style="margin-bottom:1em;">Details</h3>
+             <p>Partitions: <span id="partitionName"></span></p>
+             <p>Number of Partitions: <span id="partitionQt"></span></p>
+             <p>Number of Clusters Selected: <span id="clusterQt"></span></p>
+           </div>
+          </div>
+        </div>
+     </section>
+
     <section id="about">
       <div class="container">
         <div class="row">
