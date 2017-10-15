@@ -458,7 +458,7 @@
 
 
       <!-- <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/reset.css" /> -->
-      
+
       <!-- esse css deixa a página feia -->
       <!-- <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/akottr.css" /> -->
       <link rel="stylesheet" href="{{url_for('static', filename='css/dragtable.css')}}">
@@ -542,6 +542,10 @@
               $('#minKResult').val($('#minKDataSet').val());
               $('#maxKResult').val($('#maxKDataSet').val());
               $('#resultFilterDetails').show();
+              $('#resultFilterDetails')[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
               $('#cViz').show();
               cViz.onDataChange();
             });
@@ -627,6 +631,10 @@
               $('#minKResult').val($('#minKPartition').val());
               $('#maxKResult').val($('#maxKPartition').val());
               $('#resultFilterDetails').show();
+              $('#resultFilterDetails')[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
               $('#cViz').show();
               cViz.onDataChange();
             });
