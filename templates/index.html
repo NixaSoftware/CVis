@@ -579,7 +579,10 @@
               $('#aviso_modal .modal-body').append('<p>You selected Basic Algorithms, you should choose at least one.</p>');
               error = true;
             }
-
+          }
+          if($('#datawithbasic:checked').length == 0 && $('#datawithMocle:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should choose an algorithm to process the dataset.</p>');
+            error = true;
           }
           if($("#maxKDataSet").val() == "" || $("#minKDataSet").val() == ""){
             $("#aviso_modal .modal-body").append("<p>Minimum and maximum cluster sizes are required values.</p>");
