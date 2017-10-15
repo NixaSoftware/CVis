@@ -463,13 +463,13 @@
       <!-- <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/akottr.css" /> -->
       <link rel="stylesheet" href="{{url_for('static', filename='css/dragtable.css')}}">
 
-      <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script>
+      <!-- <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script> -->
       <script src="{{url_for('static', filename='js/queue.js')}}"></script>
+      <script src="{{url_for('static', filename='js/d3-queue.v3.js')}}"></script>
       <script src="{{url_for('static', filename='js/colorbrewer.v1.js')}}"></script>
       <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script> -->
       <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
       <script src="{{url_for('static', filename='js/jquery.dragtable.js')}}"></script>
-
       <!-- cViz table -->
       <script type="text/javascript" src="{{url_for('static', filename='js/cViz_core.js')}}"></script>
       <script type="text/javascript" src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
@@ -538,7 +538,7 @@
             }),
             this.on("success", function(file, response){
               cViz.directory = response;
-              console.log(cViz.directory);
+
               $('#minKResult').val($('#minKDataSet').val());
               $('#maxKResult').val($('#maxKDataSet').val());
               $('#resultFilterDetails').show();
@@ -547,7 +547,7 @@
                   block: "start" // or "end"
                 });
               $('#cViz').show();
-              cViz.onDataChange();
+              // cViz.onDataChange();
             });
           }
         });
@@ -636,7 +636,7 @@
                   block: "start" // or "end"
                 });
               $('#cViz').show();
-              cViz.onDataChange();
+              // cViz.onDataChange();
             });
           }
         });

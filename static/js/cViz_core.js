@@ -2,16 +2,13 @@
     //'use strict';
     cViz.data = {}; // the main data object
 
-
     cViz.getData = function(file, callback){
         d3.tsv(file,
               function(error, data) {
-                  //console.log(data);
-
+                  console.log(data);
                   if(error){
                     return callback(error);
                   }
-
 
                   callback(data);
               }).row(function(d) {
@@ -304,7 +301,6 @@ cViz.clustersData = cViz.data.allData.columns.map(function(key){
    }
 
    cViz.onDataChange = function(){
-        //var data = cViz.getData();
 
         //$('input[name="maxSize"]').value = cViz.nObjects;
         //console.log(d3.select("input[name=maxSize]").value);
