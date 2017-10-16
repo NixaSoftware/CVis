@@ -17,7 +17,7 @@ def loadCluster(dirPart):
     (head, tail) = os.path.split(clusterDir);
     expDirName = tail + '-files';
 
-    resDir = head + '/' + expDirName # os.path.join(head, expDirName);
+    resDir = head + '/static/' + expDirName # os.path.join(head, expDirName);
 
     if not os.path.exists(resDir):
         os.makedirs(resDir)
@@ -89,3 +89,5 @@ def loadCluster(dirPart):
     with open(file, 'w') as f:
         out = csv.writer(f, delimiter='\t', lineterminator='\n')
         out.writerow([k for (k,v) in x])
+
+    return resDir

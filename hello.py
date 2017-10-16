@@ -101,7 +101,6 @@ def upload():
                     # passando parametros para função de mocle
                     mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
-
         # se arquivos vem do partition
         if(request.form['name'] == 'partition'):
 
@@ -166,9 +165,14 @@ def upload():
                     # nearest neighbours
                     nearNeigh = request.form['nearNeigh']
 
-                    # chama o mocle aqui
                     mocle(crossover, datasetlocation, partitionlocation, resultfolder, datasetlocation)
+                    # TODO: ajusar o resultfolder pra pasta de resultados do
+                    # mocle
+                    # verificar aqui
+
                 # chama loadClusters.py aqui
+                loadCluster(resultfolder)
+
 
     return render_template('index.html')
 

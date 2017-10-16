@@ -33,7 +33,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-    subprocess.check_output(['./clustering', tipoDist, numObj, minK, maxK, dataset, expDir])
+    subprocess.check_output(['./home/lasid/programs/clustering', tipoDist, numObj, minK, maxK, dataset, expDir])
 
 def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
     """
@@ -51,5 +51,5 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
         truePartition : fake
             é inútil
     """
-    subprocess.check_output(['./mocle', crossover, dataset, popIniDir, resultDir, truePartition])
+    subprocess.check_output(['./home/lasid/programs/MOCLE-v3/mocle', crossover, dataset, popIniDir, resultDir, truePartition])
 
