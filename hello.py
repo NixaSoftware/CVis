@@ -32,7 +32,7 @@ def upload():
                 pass
             else:
                 #pega data e hora atual
-                id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+                id = str(datetime.now().strftime('%H:%M:%S'))
 
                 dir = '/uploaded-data/' + id
                 # cria diretorio uploaded na pasta atual, se já não existir
@@ -80,10 +80,17 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
+                    print(tipoDistBasic)
+                    print(numObj)
+                    print(minK)
+                    print(maxK)
+                    print(datasetlocation)
+                    print(resultfolder)
+                    print(alg)
                     if len(alg)>1:
                         for algnumber in alg:
                             # passando parametros para função de clustering
-                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
+                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, algnumber)
 
                 # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
                 if(request.form['mocleSelected'] == 'yes'):
@@ -107,7 +114,7 @@ def upload():
         if(request.form['name'] == 'partition'):
 
             #pega data e hora atual
-            id = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            id = str(datetime.now().strftime('%H:%M:%S'))
 
             dir = '/uploaded-part/' + id
 
