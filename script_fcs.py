@@ -75,5 +75,5 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
 
 
 ## teste:: remover depoi ##
-print("teste::\n")
-clustering("E", 905, 3, 6, "./ds3c3sc6.txt", "./ds3c3sc6-E", 1)
+#print("teste::\n")
+#clustering("E", 905, 3, 6, "./ds3c3sc6.txt", "./ds3c3sc6-E", 1)
