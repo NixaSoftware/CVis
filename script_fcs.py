@@ -65,14 +65,15 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
 
     args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, dataset, popIniDir, resultDir, truePartition]
     processo = ""
+
     for item in args:
-	processo += str(item)
-	processo += " "
+        processo += str(item)
+        processo += " "
 #    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', int(crossover), dataset, popIniDir, resultDir, truePartition])
 #    print("processo = ", processo)
     return suprocess.call(processo, shell=True)
 
 
 ## teste:: remover depoi ##
-#print("teste::\n")
-#clustering("E", 905, 3, 6, "./ds3c3sc6.txt", "./ds3c3sc6-E", 1)
+print("teste::\n")
+clustering("E", 905, 3, 6, "./ds3c3sc6.txt", "./ds3c3sc6-E", 1)

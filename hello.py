@@ -100,12 +100,12 @@ def upload():
                         crossover = 1
                     else:
                         crossover = 2
-                    # number of generations
-                    numGen = int(request.form['numGen'])
-                    # nearest neighbours
-                    nearNeigh = int(request.form['nearNeigh'])
-                    # passando parametros para função de mocle
-                    mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
+                        # number of generations
+                        numGen = int(request.form['numGen'])
+                        # nearest neighbours
+                        nearNeigh = int(request.form['nearNeigh'])
+                        # passando parametros para função de mocle
+                        mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
         #path serve para passar a localização do resultado do loadClusters
         path = '/ds3c3sc6-E-files/'
