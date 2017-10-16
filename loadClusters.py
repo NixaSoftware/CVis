@@ -9,12 +9,31 @@ import pandas as pd
 
 # O parâmetro dirPart NECESSARIAMENTE tem que ser uma string
 def loadCluster(dirPart):
+    """
+    Função responsável pelo carregamento dos arquivos .clu gerados previamente
+    em algoritmos de clusterização e pela geração de tabelas .tsv que serão
+    carregadas pelo JavaScript para a visualização.
+    Parâmetros
+    ----------
+        dirPart  :  string
+            caminho do diretório com os arquivos .clu
+    Retorno
+    --------
+        resDir  :   string
+            string com o caminho do diretório com os arquivos
+            - listIdenticalObjs.tsv
+            - listDistinctClusters.tsv
+            - result.tsv
+            - objOrderEAC.tsv
+    """
     merged = pd.DataFrame()
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
     # dirPartitions = os.getcwd() + "/partitions-uploaded"
     clusterDir = os.getcwd() + "/" + dirPart;
     (head, tail) = os.path.split(clusterDir);
+
+    print("head {}\ntail {}".format(head, tail))
     expDirName = tail + '-files';
 
     resDir = head + '/static/' + expDirName # os.path.join(head, expDirName);
