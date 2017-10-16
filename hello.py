@@ -84,8 +84,7 @@ def upload():
                         for algnumber in alg:
                             # passando parametros para função de clustering
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
-                            # não executando ainda
-                            pass
+
                 # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
                 if(request.form['mocleSelected'] == 'yes'):
                     # crossover
