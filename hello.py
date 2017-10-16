@@ -32,7 +32,7 @@ def upload():
                 pass
             else:
                 #pega data e hora atual
-                id = str(datetime.now().strftime('%H:%M:%S'))
+                id = str(datetime.now().strftime('%D/%M/%Y-%H:%M:%S'))
 
                 dir = '/uploaded-data/' + id
                 # cria diretorio uploaded na pasta atual, se já não existir
@@ -57,17 +57,17 @@ def upload():
                     newdirectory = True
 
                 if(newdirectory):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results 1/')
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results 1/'
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
                 else:
                     # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir))
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir)
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
 
                 minK = int(request.form['minK'])
                 maxK = int(request.form['maxK'])
@@ -118,7 +118,7 @@ def upload():
         if(request.form['name'] == 'partition'):
 
             #pega data e hora atual
-            id = str(datetime.now().strftime('%H:%M:%S'))
+            id = str(datetime.now().strftime('%D/%M/%Y-%H:%M:%S'))
 
             dir = '/uploaded-part/' + id
 
@@ -149,16 +149,16 @@ def upload():
                 newdirectory = True
 
             if(newdirectory):
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results 1/')
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results 1/'
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                 newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir))
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir)
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
 
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
