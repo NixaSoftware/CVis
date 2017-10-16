@@ -1,8 +1,7 @@
-# 
+#
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização etc
 #
-
 import subprocess
 
 def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
@@ -54,4 +53,3 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
             é inútil
     """
     subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', crossover, dataset, popIniDir, resultDir, truePartition])
-
