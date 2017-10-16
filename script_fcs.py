@@ -34,10 +34,10 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
+<<<<<<< HEAD
     print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
 
-    return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj),
-                     int(minK), int(maxK), dataset, expDir, int(alg)])
+    return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj), int(minK), int(maxK), dataset, expDir, int(alg)])
 
 def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
     """
@@ -57,5 +57,4 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
     """
     print("tipos:\ncrossover: {}\ndataset: {}\npopIniDir: {}\nresultDir: {}\n truePartition: {}".format(type(crossover), type(dataset), type(popIniDir), type(resultDir), type(truePartition)))
 
-    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle',
-                            int(crossover), dataset, popIniDir, resultDir, truePartition])
+    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', int(crossover), dataset, popIniDir, resultDir, truePartition])
