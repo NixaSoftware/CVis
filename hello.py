@@ -102,7 +102,7 @@ def upload():
                     mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
         #path serve para passar a localização do resultado do loadClusters
-        #path = '/ds3c3sc6-E-files/'
+        path = '/ds3c3sc6-E-files/'
 
         # se arquivos vem do partition
         if(request.form['name'] == 'partition'):
@@ -174,11 +174,11 @@ def upload():
                     # verificar aqui
 
                 # chama loadClusters.py aqui
-                path = loadCluster(resultfolder)
+                # path = loadCluster(resultfolder)
 
 
         #path serve para passar a localização do resultado do loadClusters
-        #path = '/ds3c3sc6-E-files/'
+        path = '/ds3c3sc6-E-files/'
 
     return jsonify(path)
 
