@@ -41,7 +41,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
 
     for item in args:
         processo += str(item)
-	processo += " "
+        processo += " "
 
     #return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj), int(minK), int(maxK), dataset, expDir, int(alg)])
     return subprocess.call(processo, shell=True)
@@ -68,7 +68,7 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
 
     for item in args:
         processo += str(item)
-	processo += " "
+        processo += " "
 #    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', int(crossover), dataset, popIniDir, resultDir, truePartition])
 #    print("processo = ", processo)
     return suprocess.call(processo, shell=True)
