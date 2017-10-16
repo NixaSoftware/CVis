@@ -1,4 +1,5 @@
-#
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização etc
 #
@@ -34,12 +35,16 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-    print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
-    args = ['./home/lasid/programs/clustering', tipoDist, numObj, minK, maxK, dataset, expDir, alg]
-    processo = [str(x) for item in args]
+    #print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
+    args = ['/home/lasid/programs/clustering/./clustering', tipoDist, numObj, minK, maxK, dataset, expDir, alg]
+    processo = ""
+
+    for item in args:
+        processo += str(item)
+	processo += " "
 
     #return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj), int(minK), int(maxK), dataset, expDir, int(alg)])
-    return subprocess.call(processo)
+    return subprocess.call(processo, shell=True)
 
 def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
     """
@@ -58,8 +63,16 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
             é inútil
     """
 
-    args = ['./home/lasid/programs/MOCLE-v3/mocle', crossover, dataset, popIniDir, resultDir, truePartition]
-    processo = [str(item) for item in args]
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, dataset, popIniDir, resultDir, truePartition]
+    processo = ""
+    for item in args:
+	processo += str(item)
+	processo += " "
 #    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', int(crossover), dataset, popIniDir, resultDir, truePartition])
-    print("processo = ", processo)
-    return suprocess.call(processo)
+#    print("processo = ", processo)
+    return suprocess.call(processo, shell=True)
+
+
+## teste:: remover depoi ##
+#print("teste::\n")
+#clustering("E", 905, 3, 6, "./ds3c3sc6.txt", "./ds3c3sc6-E", 1)
