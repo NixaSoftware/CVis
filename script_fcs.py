@@ -34,7 +34,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-<<<<<<< HEAD
+# <<<<<<< HEAD
     print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
 
     return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj), int(minK), int(maxK), dataset, expDir, int(alg)])
