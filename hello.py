@@ -1,12 +1,13 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_dropzone import Dropzone
 from datetime import datetime
 import json
+from natsort import  natsorted, ns
 import os
 from loadClusters import *
 from script_fcs import *
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static")
 dropzone = Dropzone(app)
 
 # get the current folder
@@ -62,7 +63,8 @@ def upload():
                 else:
                     # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
-                    newdir = int((sorted(dirs)[-1]).split(" ")[1]) + 1
+                    # natsorted serve para ordenar 10+
+                    newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
                     os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir))
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir)
@@ -78,28 +80,29 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
-                    print(alg)
                     if len(alg)>1:
                         for algnumber in alg:
                             # passando parametros para função de clustering
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg))
                             # não executando ainda
                             pass
+# comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
+                # if(request.form['mocleSelected'] == 'yes'):
+                #     # crossover
+                #     # tratar: se M = 1 ou se B = 2
+                #     if(request.form['tipoDistMocle'] == 'M'):
+                #         crossover = 1
+                #     else:
+                #         crossover = 2
+                #     # number of generations
+                #     numGen = int(request.form['numGen'])
+                #     # nearest neighbours
+                #     nearNeigh = int(request.form['nearNeigh'])
+                #     # passando parametros para função de mocle
+                #     mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
-                if(request.form['mocleSelected'] == 'yes'):
-                    # crossover
-                    # tratar: se M = 1 ou se B = 2
-                    if(request.form['tipoDistMocle'] == 'M'):
-                        crossover = 1
-                    else:
-                        crossover = 2
-                    # number of generations
-                    numGen = int(request.form['numGen'])
-                    # nearest neighbours
-                    nearNeigh = int(request.form['nearNeigh'])
-
-                    # passando parametros para função de mocle
-                    mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
+        #path serve para passar a localização do resultado do loadClusters
+        #path = '/ds3c3sc6-E-files/'
 
         # se arquivos vem do partition
         if(request.form['name'] == 'partition'):
@@ -142,7 +145,7 @@ def upload():
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
-                newdir = int((sorted(dirs)[-1]).split(" ")[1]) + 1
+                newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
                 os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir))
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
                 resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results ' + str(newdir)
@@ -174,8 +177,10 @@ def upload():
                 loadCluster(resultfolder)
 
 
-    return render_template('index.html')
+        #path serve para passar a localização do resultado do loadClusters
+        path = '/ds3c3sc6-E-files/'
 
+    return jsonify(path)
 
 if __name__ == '__main__':
     app.run(debug=True)
