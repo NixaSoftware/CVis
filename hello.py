@@ -80,14 +80,6 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
-                    print(tipoDistBasic)
-                    print(numObj)
-                    print(minK)
-                    print(maxK)
-                    print(datasetlocation)
-                    print(resultfolder)
-                    print("alg = " , alg)
-                    print("len(alg) = ", len(alg))
                     if len(alg)>1:
                         for algnumber in alg:
                             # passando parametros para função de clustering
@@ -237,7 +229,6 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += str(item)
         processo += " "
 
-    #return subprocess.call(['./home/lasid/programs/clustering', tipoDist, int(numObj), int(minK), int(maxK), dataset, expDir, int(alg)])
     return subprocess.call(processo, shell=True)
 
 def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
@@ -263,8 +254,6 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
     for item in args:
         processo += str(item)
         processo += " "
-#    return subprocess.call(['./home/lasid/programs/MOCLE-v3/mocle', int(crossover), dataset, popIniDir, resultDir, truePartition])
-#    print("processo = ", processo)
     return suprocess.call(processo, shell=True)
 
 
