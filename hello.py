@@ -88,7 +88,7 @@ def upload():
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
                     else:
                         print("else")
-                        clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg))
+                        clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
                         # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
 
                     if(request.form['mocleSelected'] == 'yes'):
