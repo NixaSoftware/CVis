@@ -32,7 +32,7 @@ def upload():
                 pass
             else:
                 #pega data e hora atual
-                id = str(datetime.now().strftime('%D/%M/%Y-%H:%M:%S'))
+                id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
 
                 dir = '/uploaded-data/' + id
                 # cria diretorio uploaded na pasta atual, se já não existir
@@ -64,7 +64,7 @@ def upload():
                     # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
-                    newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
+                    newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                     os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
@@ -118,7 +118,7 @@ def upload():
         if(request.form['name'] == 'partition'):
 
             #pega data e hora atual
-            id = str(datetime.now().strftime('%D/%M/%Y-%H:%M:%S'))
+            id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
 
             dir = '/uploaded-part/' + id
 
@@ -155,7 +155,7 @@ def upload():
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
-                newdir = int((natsorted(dirs)[-1]).split(" ")[1]) + 1
+                newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                 os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
                 resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)

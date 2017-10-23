@@ -629,15 +629,27 @@
               $("#continuepartition").prop("disabled",true);
             }),
             this.on("success", function(file, response){
-              cViz.directory = response;
-              console.log(cViz.directory);
               $('#minKResult').val($('#minKPartition').val());
               $('#maxKResult').val($('#maxKPartition').val());
               $('#resultFilterDetails').show();
               $('#resultFilterDetails')[0].scrollIntoView({
-                  behavior: "smooth", // or "auto" or "instant"
-                  block: "start" // or "end"
-                });
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+              cViz.directory = response;
+              d3.tsv("static/TSV/result.tsv", function(data){
+                var table = data;
+              });
+              cViz.getColumnOrder("static/TSV/objOrderEAC.tsv", function(data){
+                var columnorder = data;
+              });
+              cViz.getIdenticalObjs("static/TSV/listsIdenticalObjs.tsv", function(data){
+                var identical = data;
+              });
+              cViz.getDistinctClusters("static/TSV/listDistinctClusters.tsv", function(data){
+                var distinct = data;
+              });
+              cViz.ready(null, table, columnorder, identical, distinct);
               $('#cViz').show();
               // cViz.onDataChange();
             });

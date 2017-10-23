@@ -7,14 +7,14 @@
 //    console.log(cViz.directory);
     // Load the initial data
 //    console.log(cViz.directory);
-
-    queue()
-        //.defer(cViz.getData, "data/result.tsv")
-        .defer(d3.tsv, "static/ds3c3sc6-E-files/result.tsv")
-        .defer(cViz.getColumnOrder, "static/ds3c3sc6-E-files/objOrderEAC.tsv")
-        .defer(cViz.getIdenticalObjs, "static/ds3c3sc6-E-files/listsIdenticalObjs.tsv")
-        .defer(cViz.getDistinctClusters, "static/ds3c3sc6-E-files/listDistinctClusters.tsv")
-        .await(ready);
+    //
+    // queue()
+    //     //.defer(cViz.getData, "data/result.tsv")
+    //     .defer(d3.tsv, "static/TSV/result.tsv")
+    //     .defer(cViz.getColumnOrder, "static/TSV/objOrderEAC.tsv")
+    //     .defer(cViz.getIdenticalObjs, "static/TSV/listsIdenticalObjs.tsv")
+    //     .defer(cViz.getDistinctClusters, "static/TSV/listDistinctClusters.tsv")
+    //     .await(ready);
     //cViz.getData("data/result.tsv");
 
     //cViz.getData("data/result.tsv", cViz.drawTable);
