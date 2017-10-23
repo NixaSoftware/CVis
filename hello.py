@@ -89,19 +89,21 @@ def upload():
                         print("else")
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, 1)
                         # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
-                        if(request.form['mocleSelected'] == 'yes'):
-                            # crossover
-                            # tratar: se M = 1 ou se B = 2
-                    if(request.form['tipoDistMocle'] == 'M'):
-                        crossover = 1
-                    else:
-                        crossover = 2
-                        # number of generations
-                        numGen = int(request.form['numGen'])
-                        # nearest neighbours
-                        nearNeigh = int(request.form['nearNeigh'])
-                        # passando parametros para função de mocle
-                        mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
+
+                    if(request.form['mocleSelected'] == 'yes'):
+                        # crossover
+                        # tratar: se M = 1 ou se B = 2
+
+                        if(request.form['tipoDistMocle'] == 'M'):
+                            crossover = 1
+                        else:
+                            crossover = 2
+                            # number of generations
+                            numGen = int(request.form['numGen'])
+                            # nearest neighbours
+                            nearNeigh = int(request.form['nearNeigh'])
+                            # passando parametros para função de mocle
+                            mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
 
         #path serve para passar a localização do resultado do loadClusters
         path = '/ds3c3sc6-E-files/'
