@@ -96,10 +96,10 @@ def upload():
                     else:
                         print("else")
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, 1)
-                # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
-                if(request.form['mocleSelected'] == 'yes'):
-                    # crossover
-                    # tratar: se M = 1 ou se B = 2
+                        # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
+                        if(request.form['mocleSelected'] == 'yes'):
+                            # crossover
+                            # tratar: se M = 1 ou se B = 2
                     if(request.form['tipoDistMocle'] == 'M'):
                         crossover = 1
                     else:
