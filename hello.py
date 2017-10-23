@@ -74,20 +74,21 @@ def upload():
 
                 # chamar algoritmos
                 if(request.form['basicSelected'] == 'yes'):
-
                     # crossover E ou P
                     tipoDistBasic = request.form['tipoDistBasic']
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
+                    print("alg", alg)
                     if len(alg)>1:
                         for algnumber in alg:
                             # passando parametros para função de clustering
                             print("clustering")
+                            print("algnumber: ", algnumber)
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
                     else:
                         print("else")
-                        clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, 1)
+                        clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg))
                         # comentei esse trecho porque tem algum erro de indentação que impede de processar o dropzone
 
                     if(request.form['mocleSelected'] == 'yes'):
