@@ -7,8 +7,7 @@ A descrição completa de projeto e da metodologia podem ser encontradas na [Wik
  - O sistema deve ser capaz de realizar upload de dados e visualização de
    resultados a partir de algoritmos selecionados pelo usuário.
 ### MVP 2 (04/12)
- - O sistema deve gerenciar contas de usuários de modo que consiga guardar seu
-   histórico de dados no servidor local
+ - Correção do caminho de dados, visualização, download de resultados e ligar servidor.
 
 ## Membros
 - Giovana Morais | [git](https://github.com/giovana-morais)
