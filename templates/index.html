@@ -331,9 +331,9 @@
             <p class="lead">Citing CVis</p>
             <p>If you publish material using CVis, please cite the following
             reference:</p>
-            <p>Faceli, K., Sakata, T., and Handl, J. (2016). CVis - towards a
+            <p>Faceli, K., Sakata, T., and Handl, J. CVis - towards a
             novel visualization tool to explore the relationship between input
-            and output partitions in multi-objective clustering ensembles.
+            and output partitions in multi-objective clustering ensembles. (2016).
             <p class="lead">Citing MOCLE</p>
             <p>If you publish material using MOCLE, please cite the following reference:</p>
             <p>Katti Faceli, Marcílio C. P. de Souto, D. S. A. de Araujo, André C. P. L. F. de Carvalho.
@@ -350,14 +350,64 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>Usage</h2>
+            <h5>You can read below the definition of the algorithms' parameters:</h5>
           </div>
         </div>
-        <div class="row row-divided" style="margin-top:1em;">
-          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
-            <h4 style="text-decoration:underline; margin-bottom:2em;" align="center" id="left">Basic Algorithms</h4>
-            <h5> Distance </h5>
-            <h5> MinK and MaxK </h5>
-            <h5> Algorithms </h5>
+        <div class="col-lg-8 mx-auto">
+          <h3 style="margin-top:1em;"><b>Basic Algorithms</b></h4>
+          <h5 id="distanceUsageBasic">Distance</h5>
+          <ul>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Euclidean Distance </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Pearson Correlation </div></li>
+          </ul>
+          <h5 id="datasetUsageBasic"> Data set </h5>
+             <ul>
+               <li>Data set in a text file format, where the first row contains columns labels and first column indicates the objects IDs.</li>
+             </ul>
+          <h5 id="algorithmsUsageBasic">Algorithms</h5>
+          <ul>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Single Link - Based on grouping clusters in bottom-up fashion (agglomerative clustering), at each step combining two clusters that contain the closest pair of elements not yet belonging to the same cluster as each other.</div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Average Link- </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Centroid Link - </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Complete Link - </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Shared Near Neighbors - </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> K-Means - Aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster.</div></li>
+          </ul>
+
+          <h3 style="margin-top:1em;"><b>Mocle</b></h3>
+          <h5 id="crossoverUsage"> Crossover </h5>
+            <ul>
+              <li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm as described in (1) </div></li>
+              <li><div class="mdl-card__subtitle-text mdl-color-text--black"> HBGF - Hybrid Bipartite Graph Formulation as described in (3) </div></li>
+            </ul>
+           <h5 id="kConsensusUsage"> k of the consensus partition</h5>
+              <ul>
+                <li>Interval of k for choosing the number of clusters for the consensus partition when applying the crossover. The maximum number of clusters in each consensus partition is randomly  choosen  within this interval.</li>
+              </ul>
+           <h5 id="datasetUsageMocle"> Data set </h5>
+              <ul>
+                <li>Data set in a text file format, where the first row contains columns labels and first column indicates the objects IDs.</li>
+              </ul>
+            <h5 id="initialPartitionsUsage"> Initial Partitions </h5>
+              <ul>
+                <li>Initial partitions represented as text files. Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
+              </ul>
+            <h5 id="nGenerationsUsage"> Number of Generations </h5>
+              <ul>
+                <li>Maximum number of generations for running the genetic algorithm.</li>
+              </ul>
+            <h5 id="nNearestNeighborsUsage"> Nearest Neighbors (%) </h5>
+               <ul>
+                 <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
+               </ul>
+        </div>
+
+        </div>
+        <!-- <div class="row" style="margin-top:1em;">
+            <h4>Basic Algorithms</h4><br>
+            <h5>Distance</h5><br>
+            <h5>MinK and MaxK</h5><br>
+            <h5>Algorithms</h5><br>
               <ul>
                 <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Single Link - </div></li>
                 <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Average Link- </div></li>
@@ -366,9 +416,8 @@
                 <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Shared Near Neighbors - </div></li>
                 <li><div class="mdl-card__subtitle-text mdl-color-text--black"> K-Means - </div></li>
               </ul>
-            </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
-            <h4 style="text-decoration:underline; margin-bottom:2em;" align="center">Mocle</h4>
+            <br>
+            <h4>Mocle</h4>
             <h5 id="crossoverUsage"> Crossover </h5>
 		          <ul>
 		          	<li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm as described in (1) </div></li>
@@ -394,9 +443,7 @@
 		             <ul>
 		               <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
 		             </ul>
-	          </div>
-          </div>
-        </div>
+	          </div> -->
     </section>
 
     <section id="contact">
