@@ -129,10 +129,9 @@
           <div class="col-12">
                <div class="card">
                <div class="card-header">
-                 <input type="checkbox" id="datawithbasic" data-toggle="collapse" data-target="#filter-data-basic">
                  <span>Basic Algorithms</span>
                </div>
-               <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-data-basic">
+               <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-data-basic">
                  <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" value="1" onclick="checkAll(this)"> Select All</label>
                  <div id="checkboxDataSet">
                    <label for="singleLink"><input type="checkbox" id="2"> Single Link</label>
@@ -187,7 +186,6 @@
           </div>
         <p style="margin-top: 1em;">Clusters size interval:</p>
         <div class="row" style="margin-top: 1em;">
-          <!-- <div class="col-3"></div> -->
           <label for="minSize" class="col-1 col-form-label">Minimum:</label>
           <div class="col-2">
             <input class="form-control" type="number" min="0" value="" id="minKDataSet">
@@ -204,6 +202,7 @@
           </div>
         </div>
     </section>
+
 
     <section id="clusteringPartition" class="container hidden">
         <h2>Clustering</h2>
@@ -259,6 +258,12 @@
             <button type="button" class="btn btn-primary" id="finishpartition">View Results</button>
           </div>
         </div>
+     </section>
+
+     <section class="container hidden" id="loading">
+       <div align="center">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"></img>
+       </div>
      </section>
 
      <section id="resultFilterDetails" class="bg-light hidden">
@@ -514,19 +519,17 @@
                 }
                 else{
                   formData.append("partition", "no");
-                  if($('#datawithbasic:checked').length == 1){
-                    //dados que são utilizados para rodar o clustering
-                    formData.append("basicSelected", "yes");
-                    formData.append("tipoDistBasic", $("#selMetricBasicDataSet").val());
-                    if($('#chooseAll:checked').length == 1 && $('#checkboxDataSet input:checked').length == 6){
-                      formData.append("alg", "1");
-                    }
-                    else{
-                      var alg = $('#checkboxDataSet input:checked').map(function() {
-                        return this.id;
-                      }).get();
-                      formData.append("alg", alg);
-                    }
+                  //dados que são utilizados para rodar o clustering
+                  formData.append("basicSelected", "yes");
+                  formData.append("tipoDistBasic", $("#selMetricBasicDataSet").val());
+                  if($('#chooseAll:checked').length == 1 && $('#checkboxDataSet input:checked').length == 6){
+                    formData.append("alg", "1");
+                  }
+                  else{
+                    var alg = $('#checkboxDataSet input:checked').map(function() {
+                      return this.id;
+                    }).get();
+                    formData.append("alg", alg);
                   }
                   //dados que são utilizados para rodar o mocle
                   if($('#datawithMocle:checked').length == 1){
@@ -547,16 +550,36 @@
             this.on("removedfile", function(event) {
               $("#partitionchoicebutton").prop("disabled",true);
             }),
+            this.on("processing", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
+            }),
             this.on("success", function(file, response){
-              cViz.directory = response;
-
               $('#minKResult').val($('#minKDataSet').val());
               $('#maxKResult').val($('#maxKDataSet').val());
+              $('#loading').hide();
               $('#resultFilterDetails').show();
               $('#resultFilterDetails')[0].scrollIntoView({
                   behavior: "smooth", // or "auto" or "instant"
                   block: "start" // or "end"
                 });
+                cViz.directory = response;
+                d3.tsv("static/TSV/result.tsv", function(data){
+                  var table = data;
+                });
+                cViz.getColumnOrder("static/TSV/objOrderEAC.tsv", function(data){
+                  var columnorder = data;
+                });
+                cViz.getIdenticalObjs("static/TSV/listsIdenticalObjs.tsv", function(data){
+                  var identical = data;
+                });
+                cViz.getDistinctClusters("static/TSV/listDistinctClusters.tsv", function(data){
+                  var distinct = data;
+                });
+                cViz.ready(null, table, columnorder, identical, distinct);
               $('#cViz').show();
               // cViz.onDataChange();
             });
@@ -585,14 +608,8 @@
 
         $('#algdataset').click(function(){
           var error = false;
-          if($('#datawithbasic:checked').length == 1){
-            if($('#checkboxDataSet input:checked').length == 0){
-              $('#aviso_modal .modal-body').append('<p>You selected Basic Algorithms, you should choose at least one.</p>');
-              error = true;
-            }
-          }
-          if($('#datawithbasic:checked').length == 0 && $('#datawithMocle:checked').length == 0){
-            $('#aviso_modal .modal-body').append('<p>You should choose an algorithm to process the dataset.</p>');
+          if($('#checkboxDataSet input:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should select at least one Basic Algorithm.</p>');
             error = true;
           }
           if($("#maxKDataSet").val() == "" || $("#minKDataSet").val() == ""){
@@ -639,9 +656,17 @@
             this.on("removedfile", function(event) {
               $("#continuepartition").prop("disabled",true);
             }),
+            this.on("processing", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
+            }),
             this.on("success", function(file, response){
               $('#minKResult').val($('#minKPartition').val());
               $('#maxKResult').val($('#maxKPartition').val());
+              $('#loading').hide();
               $('#resultFilterDetails').show();
               $('#resultFilterDetails')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
