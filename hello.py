@@ -67,7 +67,8 @@ def upload():
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                 os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
+                tail = '/algResult' + 'results-' + str(newdir)
+                resultfolder = app.config['UPLOADED_PATH'] + tail
 
             minK = int(request.form['minK'])
             maxK = int(request.form['maxK'])
@@ -104,7 +105,8 @@ def upload():
 
             # depois de todo o processamento, monta a pasta de visualização e
             # xablau
-            return loadCluster(resultfolder)
+            loadCluster(tail)
+            return 0
         # segundo caso: dataset + partição
         # nesse caso, vai direto pra visualização dos parâmetros
         if(request.form['partition'] == 'yes'):
@@ -308,7 +310,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-    print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
+    #print("tipos clustering:\ntipoDist: {}\nnumObj: {}\nminK: {}\nmaxK: {}\ndataset: {}\nexpDir:{}\nalg: {}".format(type(tipoDist), type(numObj), type(minK), type(maxK), type(dataset), type(expDir), type(alg)))
     args = ['/home/lasid/programs/clustering/./clustering', tipoDist, numObj, minK, maxK, dataset, expDir, alg]
     processo = ""
 
