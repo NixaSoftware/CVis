@@ -565,14 +565,14 @@
 
           init: function() {
             this.on("sending", function(file, xhr, formData){
-                if($('#minKPartition').val() != ""){
+                if($('#chooseUpload:checked').length == 1 || $('#chooseMocle:checked').length == 1 && $('#chooseBasic:checked').length == 0){
                   formData.append("partition", "yes");
                 }
                 else{
                   formData.append("partition", "no");
                   //dados que são utilizados para rodar o clustering
                   formData.append("basicSelected", "yes");
-                  formData.append("tipoDistBasic", $("#selMetricBasicDataSet").val());
+                  formData.append("tipoDistBasic", $("#selMetricBasic").val());
                   if($('#chooseAll:checked').length == 1 && $('#checkboxDataSet input:checked').length == 6){
                     formData.append("alg", "1");
                   }
@@ -582,17 +582,20 @@
                     }).get();
                     formData.append("alg", alg);
                   }
+                  formData.append("minKBasic", $("#minKBasic").val());
+                  formData.append("maxKBasic", $("#maxKBasic").val());
+
                   //dados que são utilizados para rodar o mocle
-                  if($('#datawithMocle:checked').length == 1){
+                  if($('#chooseMocle:checked').length == 1){
                     formData.append("mocleSelected", "yes");
-                    formData.append("tipoDistMocle", $("#selMetricMocleDataSet").val());
-                    formData.append("numGen", $("#numGenDataSet").val());
-                    formData.append("nearNeigh", $("#nearNeighDataSet").val());
+                    formData.append("tipoDistMocle", $("#selMetricMocle").val());
+                    formData.append("numGen", $("#numGenMocle").val());
+                    formData.append("nearNeigh", $("#nearNeighMocle").val());
+                    formData.append("minKMocle", $("#minKMocle").val());
+                    formData.append("maxKMocle", $("#maxKMocle").val());
                   }
 
                   formData.append("name", "dataset");
-                  formData.append("minK", $("#minKDataSet").val());
-                  formData.append("maxK", $("#maxKDataSet").val());
                 }
             }),
             this.on("addedfile", function(event) {
@@ -654,11 +657,11 @@
               formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
               formData.append("name", "partition");
               formData.append("mocleSelected", "yes");
-              formData.append("tipoDistMocle", $("#selMetricMoclePartition").val());
-              formData.append("numGen", $("#numGenPartition").val());
-              formData.append("nearNeigh", $("#nearNeighPartition").val());
-              formData.append("minK", $("#minKPartition").val());
-              formData.append("maxK", $("#maxKPartition").val());
+              formData.append("tipoDistMocle", $("#selMetricMocle").val());
+              formData.append("numGen", $("#numGenMocle").val());
+              formData.append("nearNeigh", $("#nearNeighMocle").val());
+              formData.append("minKMocle", $("#minKMocle").val());
+              formData.append("maxKMocle", $("#maxKMocle").val());
               myDropzone1.processQueue();
             }),
             this.on("addedfile", function(event) {
@@ -737,7 +740,9 @@
           if(error){
             $('#aviso_modal').modal("show");
           }
-          $("#continueChoosePath").prop("disabled",true);
+          else{
+            $("#continueChoosePath").prop("disabled",true);
+          }
         });
 
         function checkAll(bx){
@@ -749,7 +754,99 @@
           }
         }
 
-        // myDropzone1.processQueue();
+        $("#visWithAlg").click(function(){
+          error = false;
+          $('#chooseBasic').prop('checked', true);
+          $('#chooseMocle').prop('checked', true);
+          if($('#checkboxDataSet input:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should choose at least a Basic Algorithm to generate partitions.</p>');
+            error = true;
+          }
+          if($('#minKBasic').val() == "" || $('#maxKBasic').val() == "" || $('#minKMocle').val() == "" || $('#maxKMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+            error = true;
+          }
+          else{
+            if($('#minKBasic').val() > $('#maxKBasic').val() || $('#minKMocle').val() > $('#maxKMocle').val()){
+              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+              error = true;
+            }
+          }
+          if($('#numGenMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>You should choose a Number of Generations.</p>');
+            error = true;
+          }
+          if($('#nearNeighMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>You should choose a percentage for Nearest Neighbours.</p>');
+            error = true;
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone1.processQueue();
+            $("#visWithAlg").prop("disabled",true);
+          }
+        });
+
+        $("#visOnlyBasic").click(function(){
+          error = false;
+          $('#chooseBasic').prop('checked', true);
+          if($('#checkboxDataSet:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should choose at least a Basic Algorithm to generate partitions.</p>');
+            error = true;
+          }
+          if($('#minKBasic').val() == "" || $('#maxKBasic').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+            error = true;
+          }
+          else{
+            if($('#minKBasic').val() > $('#maxKBasic').val()){
+              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+              error = true;
+            }
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone1.processQueue();
+            $("#visOnlyBasic").prop("disabled",true);
+          }
+        });
+
+        $("#visOnlyPartition").click(function(){
+          myDropzone2.processQueue();
+        });
+
+        $("#visOnlyMocle").click(function(){
+          $('#chooseMocle').prop('checked', true);
+          if($('#minKMocle').val() == "" || $('#maxKMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+            error = true;
+          }
+          else{
+            if($('#minKMocle').val() > $('#maxKMocle').val()){
+              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+              error = true;
+            }
+          }
+          if($('#numGenMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>You should choose a Number of Generations.</p>');
+            error = true;
+          }
+          if($('#nearNeighMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>You should choose a percentage for Nearest Neighbours.</p>');
+            error = true;
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone3.processQueue();
+            $("#visOnlyMocle").prop("disabled",true);
+          }
+        });
 
         //isso faz com que carreguem mais de 2 arquivos por vez
         myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
