@@ -98,38 +98,70 @@
               <input type="hidden" name="name" value="dataset" />
               <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
             </form>
-                <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="partitionchoicebutton" data-toggle="modal" data-target="#partitionchoice">Continue</button>
+                <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="continueDataset" data-toggle="modal" data-target="#partitionchoice">Continue</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <section class="container hidden" id="choosePath">
+      <div class="container text-center">
+        <div class="row" align="center">
+        <div class="col-12 mx-auto">
+          <h1><b>Partitions to Visualize</b></h1>
+          <div class="row" style="margin-top:2em;">
+            <div class="col-4"></div>
+            <label for="chooseGenerate" style="font-size:150%;"><input id="chooseGenerate" type="radio" name="choosePtoV"></input> Generate Partitions</label>
+          </div>
+          <div class="row form-check">
+            <div class="col-4"></div>
+            <div class="col-4 hidden" align="left" id="chooseBorM">
+              <label for="chooseBasic"><input id="chooseBasic" class="form-check-input" type="checkbox"></input><a href="#basicUsage"> Basic Algorithms</a></label><br>
+              <label for="chooseMocle"><input id="chooseMocle" class="form-check-input" type="checkbox"></input><a href="#mocleUsage"> MOCLE</a></label>
+            </div>
+          </div>
+          <div class="row" align="center" style="margin-top:1em;">
+            <div class="col-4"></div>
+            <label for="chooseUpload" style="font-size:150%;"><input id="chooseUpload" type="radio" name="choosePtoV"></input> Upload Partitions</label>
+          </div>
+          <div class="row" style="margin-top:1em;">
+            <div class="col-4"></div>
+            <div class="col-4" align="center">
+              <button type="button" class="btn btn-primary" id="continueChoosePath">Continue</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- only appears when Upload Partition is selected -->
     <section class="bg-primary text-white hidden" id="uploadpartition">
       <div class="container text-center">
         <div class="row" align="center">
-        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="right">
-          <h1><b>Partitions</b></h1>
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+          <h1><b>Upload Partition</b></h1>
           <form action="#" class="dropzone dz-clickable"  id="droppartition" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="name" value="partition" />
             <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
           </form>
-              <button type="submit" class="btn btn-secondary" style="margin-top:1em;" id="continuepartition">Continue</button>
+              <button type="submit" class="btn btn-secondary" style="margin-top:1em;" id="visOnlyPartitions">Generate Visualization</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-    <section id="clusteringDataSet" class="container hidden">
+    <!-- only appears when Generate Partition, Basic Algorithms and Mocle are selected -->
+    <section id="datasetBoth" class="container hidden">
         <h2>Clustering</h2>
-
         <!-- choose basic -->
         <div class="row" style="margin-top:2em;">
           <div class="col-12">
                <div class="card">
                <div class="card-header">
-                 <span>Basic Algorithms</span>
+                 <span><a href="#basicUsage">Basic Algorithms</a></span>
                </div>
                <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-data-basic">
                  <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" value="1" onclick="checkAll(this)"> Select All</label>
@@ -142,11 +174,24 @@
                    <label for="kMeans"><input type="checkbox" id="7"> KMeans</label>
                 </div>
                 <div class="col-6">
-                  <label for="selMetricDataSet">Crossover:</label><br>
-                  <select class="form-control" id="selMetricBasicDataSet">
+                  <label for="selMetricBasic"><a href="#distanceUsageBasic">Crossover</a>:</label><br>
+                  <select class="form-control" id="selMetricBasic">
                     <option value="E">Euclidean Distance</option>
                     <option value="P">Pearson Correlation</option>
                   </select>
+                </div>
+                <div class="col-10">
+                  <p style="margin-top: 1em;">Cluster Size Interval:</p>
+                  <div class="row" style="margin-top: 1em;">
+                    <label for="minKBasic" class="col-2 col-form-label">Minimum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="minKBasic">
+                    </div>
+                    <label for="maxKBasic" class="col-2 col-form-label">Maximum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="maxKBasic">
+                    </div>
+                  </div>
                 </div>
                </div>
              </div>
@@ -158,146 +203,165 @@
           <div class="col-12">
                <div class="card">
                  <div class="card-header">
-                   <input type="checkbox" id="datawithMocle" data-toggle="collapse" data-target="#filter-part-mocle">
-                   <span>Mocle</span>
+                   <span><a href="#mocleUsage">Mocle</a></span>
                  </div>
-                 <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
+                 <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
                    <div class="col-6">
-                     <label for="selMetricDataSet">Crossover:</label><br>
-                     <select class="form-control" id="selMetricMocleDataSet">
+                     <label for="selMetricMocle"><a href="#crossoverUsage">Crossover</a>:</label><br>
+                     <select class="form-control" id="selMetricMocle">
                        <option value="M">MCLA</option>
                        <option value="H">HBGF</option>
                      </select>
                    </div>
-                   <div class="row" style="margin-top: 1em;">
-                     <label for="numGenDataSet" class="col-2 col-form-label">Number of Generations:</label>
-                     <div class="col-2">
-                       <input class="form-control" type="number" min="0" value="1" id="numGenDataSet">
+                   <div class="col-10">
+                     <p style="margin-top: 1em;"><a href="#kConsensusUsage">k of the consensus partition</a>:</p>
+                     <div class="row" style="margin-top: 1em;">
+                       <label for="minKMocle" class="col-2 col-form-label">Minimum:</label>
+                       <div class="col-2">
+                         <input class="form-control" type="number" min="0" value="" id="minKMocle">
+                       </div>
+                       <label for="maxKMocle" class="col-2 col-form-label">Maximum:</label>
+                       <div class="col-2">
+                         <input class="form-control" type="number" min="0" value="" id="maxKMocle">
+                       </div>
                      </div>
-                     <div class="col-1"></div>
-                     <label for="nearNeighDataSet" class="col-2 col-form-label">Nearest Neighbours:</label>
+                   </div>
+                   <div class="row col-10" style="margin-top: 1em;">
+                     <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
                      <div class="col-2">
-                       <input class="form-control" type="number" min="0" value="1" id="nearNeighDataSet">
+                       <input class="form-control" type="number" min="0" value="1" id="numGenMocle">
+                     </div>
+                     <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours</a>:</label>
+                     <div class="col-2">
+                       <input class="form-control" type="number" min="0" value="1" id="nearNeighMocle">
                      </div>
                    </div>
                  </div>
                </div>
               </div>
           </div>
-        <p style="margin-top: 1em;">Clusters size interval:</p>
-        <div class="row" style="margin-top: 1em;">
-          <label for="minSize" class="col-1 col-form-label">Minimum:</label>
-          <div class="col-2">
-            <input class="form-control" type="number" min="0" value="" id="minKDataSet">
-          </div>
-          <label for="maxSize" class="col-1 col-form-label">Maximum:</label>
-          <div class="col-2">
-            <input class="form-control" type="number" min="0" value="" id="maxKDataSet">
-          </div>
-          <div class="col-1"></div>
-        </div>
         <div class="row" style="margin-top:2em;">
           <div class="col-12" align="center">
-            <button type="button" class="btn btn-primary" id="algdataset">View Results</button>
+            <button type="button" class="btn btn-primary" id="visWithAlg">Generate Visualization</button>
           </div>
         </div>
     </section>
 
-
-    <section id="clusteringPartition" class="container hidden">
+    <!-- only appears when Generate Partition and Basic Algorithms are selected -->
+    <section id="datasetOnlyBasic" class="container hidden">
         <h2>Clustering</h2>
-
-          <div class="row" style="margin-top:2em;">
+        <!-- choose basic -->
+        <div class="row" style="margin-top:2em;">
           <div class="col-12">
                <div class="card">
-                 <div class="card-header">
-                   <input type="checkbox" id="partitionwithMocle" data-toggle="collapse" data-target="#filter-panel-mocle">
-                   <span>Mocle</span>
-                 </div>
-                 <div class="card-block collapse filter-panel container" style="margin: 0.5em" id="filter-panel-mocle">
-                   <div class="col-6">
-                     <label for="selMetricPartition">Crossover:</label><br>
-                     <select class="form-control" id="selMetricMoclePartition">
-                       <option value="M">MCLA</option>
-                       <option value="B">HBGF</option>
-                     </select>
-                   </div>
-
-                   <div class="row" style="margin-top: 1em;">
-                     <label for="numGenPartition" class="col-2 col-form-label">Number of Generations:</label>
-                     <div class="col-2">
-                       <input class="form-control" type="number" min="1" id="numGenPartition">
-                     </div>
-                     <label for="nearNeighPartition" class="col-2 col-form-label">Nearest Neighbours:</label>
-                     <div class="col-2">
-                       <input class="form-control" type="number" min="1" id="nearNeighPartition">
-                     </div>
-                     <div class="col-1"></div>
-                   </div>
-                 </div>
-              </div>
-          </div>
+               <div class="card-header">
+                 <span><a href="#basicUsage">Basic Algorithms</a></span>
+               </div>
+               <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-data-basic">
+                 <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" value="1" onclick="checkAll(this)"> Select All</label>
+                 <div id="checkboxDataSet">
+                   <label for="singleLink"><input type="checkbox" id="2"> Single Link</label>
+                   <label for="averageLink"><input type="checkbox" id="3"> Average Link</label>
+                   <label for="centroidLink"><input type="checkbox" id="4"> Centroid Link</label>
+                   <label for="completeLink"><input type="checkbox" id="5"> Complete Link</label>
+                   <label for="SNN"><input type="checkbox" id="6"> SNN</label>
+                   <label for="kMeans"><input type="checkbox" id="7"> KMeans</label>
+                </div>
+                <div class="col-6">
+                  <label for="selMetricBasic"><a href="#distanceUsageBasic">Crossover</a>:</label><br>
+                  <select class="form-control" id="selMetricBasic">
+                    <option value="E">Euclidean Distance</option>
+                    <option value="P">Pearson Correlation</option>
+                  </select>
+                </div>
+                <div class="col-10">
+                  <p style="margin-top: 1em;">Cluster Size Interval:</p>
+                  <div class="row" style="margin-top: 1em;">
+                    <label for="minKBasic" class="col-2 col-form-label">Minimum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="minKBasic">
+                    </div>
+                    <label for="maxKBasic" class="col-2 col-form-label">Maximum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="maxKBasic">
+                    </div>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
         </div>
-
-        <p style="margin-top: 1em;">K of the Consensus Partition:</p>
-        <div class="row" style="margin-top: 1em;">
-          <!-- <div class="col-3"></div> -->
-          <label for="minKPartition" class="col-1 col-form-label">Minimum:</label>
-          <div class="col-2">
-            <input class="form-control" type="number" min="0" value="" id="minKPartition">
-          </div>
-          <label for="maxKPartition" class="col-1 col-form-label">Maximum:</label>
-          <div class="col-2">
-            <input class="form-control" type="number" min="0" value="" id="maxKPartition">
-          </div>
-          <div class="col-1"></div>
-        </div>
-
         <div class="row" style="margin-top:2em;">
           <div class="col-12" align="center">
-            <button type="button" class="btn btn-primary" id="finishpartition">View Results</button>
+            <button type="button" class="btn btn-primary" id="visOnlyBasic">Generate Visualization</button>
           </div>
         </div>
-     </section>
+      </section>
+
+      <!-- only appears when Generate Partition and Mocle are selected -->
+      <section class="hidden bg-light" id="datasetOnlyMocle">
+        <div class="container">
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" align="center">
+            <h1><b>Upload Partition</b></h1>
+            <form action="#" class="dropzone dz-clickable"  id="droppartitionWithMocle" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="name" value="partition" />
+              <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div>
+            </form>
+          </div>
+            <!-- choose mocle -->
+            <div class="row" style="margin-top:2em;">
+              <div class="col-12">
+                   <div class="card">
+                     <div class="card-header">
+                       <span><a href="#mocleUsage">Mocle</a></span>
+                     </div>
+                     <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
+                       <div class="col-6">
+                         <label for="selMetricMocle"><a href="#crossoverUsage">Crossover</a>:</label><br>
+                         <select class="form-control" id="selMetricMocle">
+                           <option value="M">MCLA</option>
+                           <option value="H">HBGF</option>
+                         </select>
+                       </div>
+                       <div class="col-10">
+                         <p style="margin-top: 1em;"><a href="#kConsensusUsage">k of the consensus partition</a>:</p>
+                         <div class="row" style="margin-top: 1em;">
+                           <label for="minKMocle" class="col-2 col-form-label">Minimum:</label>
+                           <div class="col-2">
+                             <input class="form-control" type="number" min="0" value="" id="minKMocle">
+                           </div>
+                           <label for="maxKMocle" class="col-2 col-form-label">Maximum:</label>
+                           <div class="col-2">
+                             <input class="form-control" type="number" min="0" value="" id="maxKMocle">
+                           </div>
+                         </div>
+                       </div>
+                       <div class="row col-10" style="margin-top: 1em;">
+                         <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
+                         <div class="col-2">
+                           <input class="form-control" type="number" min="0" value="1" id="numGenMocle">
+                         </div>
+                         <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours</a>:</label>
+                         <div class="col-2">
+                           <input class="form-control" type="number" min="0" value="1" id="nearNeighMocle">
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                  </div>
+              </div>
+              <div class="row" style="margin-top:2em;">
+                <div class="col-12" align="center">
+                  <button type="button" class="btn btn-primary" id="visOnlyMocle">Generate Visualization</button>
+                </div>
+              </div>
+          </div>
+    </section>
 
      <section class="container hidden" id="loading">
        <div align="center">
          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"></img>
        </div>
-     </section>
-
-     <section id="resultFilterDetails" class="bg-light hidden">
-       <div class="container">
-         <div class="row row-divided">
-           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultFilter" align="center">
-             <h3 style="margin-bottom:1em;">Visualize</h3>
-             <div class="row" align="center">
-               <div class="col-2"></div>
-               <div class="col-4"><label for="allClu"><input type="radio" name="chooseClu" id="allClu" checked> All Clusters</label></div>
-               <div class="col-4"><label for="distinctClu"><input type="radio" name="chooseClu" id="distClu"> Distinct Cluster</label></div>
-             </div>
-             <p style="margin-top:1em;">Clusters size interval:</p>
-             <div class="row">
-               <div class="col-1"></div>
-               <label for="minKResult" class="col-2 col-form-label">Minimum:</label>
-               <div class="col-3">
-                 <input class="form-control" type="number" min="1" id="minKResult">
-               </div>
-               <label for="maxKResult" class="col-2 col-form-label">Maximum:</label>
-               <div class="col-3">
-                 <input class="form-control" type="number" min="1" id="maxKResult">
-               </div>
-             </div>
-             <button type="button" class="btn btn-primary" id="applyFilter" onclick="cViz.onDataChange()" style="margin-top:1em;">Apply</button>
-           </div>
-           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultDetails">
-             <h3 style="margin-bottom:1em;">Details</h3>
-             <p>Partitions: <span id="partitionName"></span></p>
-             <p>Number of Partitions: <span class="nPartitions"></span></p>
-             <p>Number of Clusters Selected: <span class="nClusters"></span></p>
-           </div>
-          </div>
-        </div>
      </section>
 
      <div id="cViz" class="hidden container">
@@ -322,7 +386,7 @@
                 dominated consensus partitions. In this context, the selection of
                 a final candidate clustering may require additional insight into
                 the relationships between non-dominated output partitions.
-                CVis has been developed as a general
+                CVis has been developed as a generaluploadpartition
                 tool to provide insight into the relationship between any set
                 of partitions of a given data set. In particular,
                 the tool facilitates the visual analysis of the level of support
@@ -354,7 +418,7 @@
           </div>
         </div>
         <div class="col-lg-8 mx-auto">
-          <h3 style="margin-top:1em;"><b>Basic Algorithms</b></h4>
+          <h3 style="margin-top:1em;"><b id="basicUsage">Basic Algorithms</b></h4>
           <h5 id="distanceUsageBasic">Distance</h5>
           <ul>
             <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Euclidean Distance </div></li>
@@ -374,7 +438,7 @@
             <li><div class="mdl-card__subtitle-text mdl-color-text--black"> K-Means - Aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster.</div></li>
           </ul>
 
-          <h3 style="margin-top:1em;"><b>Mocle</b></h3>
+          <h3 style="margin-top:1em;"><b id="mocleUsage">Mocle</b></h3>
           <h5 id="crossoverUsage"> Crossover </h5>
             <ul>
               <li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm as described in (1) </div></li>
@@ -401,49 +465,7 @@
                  <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
                </ul>
         </div>
-
-        </div>
-        <!-- <div class="row" style="margin-top:1em;">
-            <h4>Basic Algorithms</h4><br>
-            <h5>Distance</h5><br>
-            <h5>MinK and MaxK</h5><br>
-            <h5>Algorithms</h5><br>
-              <ul>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Single Link - </div></li>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Average Link- </div></li>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Centroid Link - </div></li>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Complete Link - </div></li>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Shared Near Neighbors - </div></li>
-                <li><div class="mdl-card__subtitle-text mdl-color-text--black"> K-Means - </div></li>
-              </ul>
-            <br>
-            <h4>Mocle</h4>
-            <h5 id="crossoverUsage"> Crossover </h5>
-		          <ul>
-		          	<li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm as described in (1) </div></li>
-		          	<li><div class="mdl-card__subtitle-text mdl-color-text--black"> HBGF - Hybrid Bipartite Graph Formulation as described in (3) </div></li>
-		          </ul>
-			       <h5 id="kConsensusUsage"> k of the consensus partition</h5>
-		          	<ul>
-		           		<li>Interval of k for choosing the number of clusters for the consensus partition when applying the crossover. The maximum number of clusters in each consensus partition is randomly  choosen  within this interval.</li>
-		            </ul>
-           	 <h5 id="datasetUsage"> Data set </h5>
-		            <ul>
-		            	<li>Data set in a text file format, where the first row contains columns labels and first column indicates the objects IDs.</li>
-		            </ul>
-            	<h5 id="initialPartitionsUsage"> Initial Partitions </h5>
-              	<ul>
-		              <li>Initial partitions represented as text files. Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
-		            </ul>
-              <h5 id="nGenerationsUsage"> Number of Generations </h5>
-		            <ul>
-		            	<li>Maximum number of generations for running the genetic algorithm.</li>
-		            </ul>
-              <h5 id="nNearestNeighborsUsage"> Nearest Neighbors (%) </h5>
-		             <ul>
-		               <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
-		             </ul>
-	          </div> -->
+      </div>
     </section>
 
     <section id="contact">
@@ -481,25 +503,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" id="cleanbody" data-dismiss="modal">OK</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal choose partition -->
-    <div id="partitionchoice" class="modal fade" role="dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h2 class="modal-title">Partitions</h2>
-          </div>
-          <div class="modal-body">
-            <p style="font-size:20px;">Do you want to include initial partitions to the visualization?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="refusepartition" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-success" id="includepartition" data-dismiss="modal">Yes</button>
           </div>
         </div>
       </div>
@@ -544,13 +547,14 @@
       $(document).ready(function(){
         $("input").val("");
         $(".hidden").hide();
-        $("#partitionchoicebutton").prop("disabled",true);
-        $("#continuepartition").prop("disabled",true);
+        $("#continueDataset").prop("disabled",true);
+        $("#visOnlyPartitions").prop("disabled",true);
+        $("#visOnlyMocle").prop("disabled",true);
       });
 
       Dropzone.autoDiscover = false;
 
-      //dataset dropzone
+      //dataset with algorithms dropzone
         var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
           acceptedFiles: '.txt',
           addRemoveLinks: true,
@@ -592,10 +596,10 @@
                 }
             }),
             this.on("addedfile", function(event) {
-              $("#partitionchoicebutton").prop("disabled",false);
+              $("#continueDataset").prop("disabled",false);
             }),
             this.on("removedfile", function(event) {
-              $("#partitionchoicebutton").prop("disabled",true);
+              $("#continueDataset").prop("disabled",true);
             }),
             this.on("processing", function(event){
               $('#loading').show();
@@ -603,46 +607,138 @@
                   behavior: "smooth", // or "auto" or "instant"
                   block: "start" // or "end"
                 });
-            }),
-            this.on("success", function(file, response){
-              $('#minKResult').val($('#minKDataSet').val());
-              $('#maxKResult').val($('#maxKDataSet').val());
-              $('#loading').hide();
-              $('#resultFilterDetails').show();
-              $('#resultFilterDetails')[0].scrollIntoView({
-                  behavior: "smooth", // or "auto" or "instant"
-                  block: "start" // or "end"
-                });
-                cViz.directory = response;
-                d3.tsv("static/TSV/result.tsv", function(data){
-                  var table = data;
-                });
-                cViz.getColumnOrder("static/TSV/objOrderEAC.tsv", function(data){
-                  var columnorder = data;
-                });
-                cViz.getIdenticalObjs("static/TSV/listsIdenticalObjs.tsv", function(data){
-                  var identical = data;
-                });
-                cViz.getDistinctClusters("static/TSV/listDistinctClusters.tsv", function(data){
-                  var distinct = data;
-                });
-                cViz.ready(null, table, columnorder, identical, distinct);
-              $('#cViz').show();
-              // cViz.onDataChange();
             });
           }
         });
 
-        $('#partitionchoice #refusepartition').click(function(){
-          $('#numGenDataSet').val(100);
-          $('#nearNeighDataSet').val(5);
-          $('#clusteringDataSet').show();
-            $("#clusteringDataSet")[0].scrollIntoView({
+        //partition only dropzone
+        var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
+          acceptedFiles: '.clu',
+          addRemoveLinks: true,
+          thumbnailWidth: 500,
+          autoProcessQueue: false,
+
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+              formData.append('qtofdata', myDropzone2.getAcceptedFiles().length);
+              formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
+              formData.append("name", "partition");
+              formData.append("mocleSelected", "no");
+              myDropzone1.processQueue();
+            }),
+            this.on("addedfile", function(event) {
+              $("#visOnlyPartitions").prop("disabled",false);
+            }),
+            this.on("removedfile", function(event) {
+              $("#visOnlyPartitions").prop("disabled",true);
+            }),
+            this.on("processing", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
-            $("#partitionchoicebutton").prop("disabled",true);
-          });
+            });
+          }
+        });
+
+        //partition with mocle dropzone
+        var myDropzone3 = new Dropzone(document.getElementById("droppartitionWithMocle"), {
+          acceptedFiles: '.clu',
+          addRemoveLinks: true,
+          thumbnailWidth: 500,
+          autoProcessQueue: false,
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+              formData.append('qtofdata', myDropzone3.getAcceptedFiles().length);
+              formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
+              formData.append("name", "partition");
+              formData.append("mocleSelected", "yes");
+              formData.append("tipoDistMocle", $("#selMetricMoclePartition").val());
+              formData.append("numGen", $("#numGenPartition").val());
+              formData.append("nearNeigh", $("#nearNeighPartition").val());
+              formData.append("minK", $("#minKPartition").val());
+              formData.append("maxK", $("#maxKPartition").val());
+              myDropzone1.processQueue();
+            }),
+            this.on("addedfile", function(event) {
+              $("#visOnlyMocle").prop("disabled",false);
+            }),
+            this.on("removedfile", function(event) {
+              $("#visOnlyMocle").prop("disabled",true);
+            }),
+            this.on("processing", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+            });
+          }
+        });
+
+        $("#continueDataset").click(function(){
+          $('#choosePath').show();
+            $("#choosePath")[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+        });
+
+        $("#chooseGenerate").change(function(){
+          if($(this).is(':checked'))
+            $("#chooseBorM").show("slow");
+        });
+        $("#chooseUpload").change(function(){
+          if($(this).is(':checked'))
+            $("#chooseBorM").hide("slow");
+        });
+
+        $("#continueChoosePath").click(function(){
+          var error = false;
+          if($("#chooseGenerate").prop('checked') == false && $("#chooseUpload").prop('checked') == false){
+            $('#aviso_modal .modal-body').append('<p>You should choose between Generate or Upload partitions to continue.</p>');
+            error = true;
+          }
+          else if($("#chooseGenerate").is(':checked')){
+            if($("#chooseBasic").is(':checked') && $("#chooseMocle").is(':checked')){
+              $('#datasetBoth').show();
+                $("#datasetBoth")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else if($("#chooseBasic").is(':checked')){
+              $('#datasetOnlyBasic').show();
+                $("#datasetOnlyBasic")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else if($("#chooseMocle").is(':checked')){
+              $('#datasetOnlyMocle').show();
+                $("#datasetOnlyMocle")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else{
+              $('#aviso_modal .modal-body').append('<p>You should choose at least a algorithm to generate partitions.</p>');
+              error = true;
+            }
+          }
+          else if($("#chooseUpload").is(':checked')){
+            $('#uploadpartition').show();
+              $("#uploadpartition")[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          $("#continueChoosePath").prop("disabled",true);
+        });
 
         function checkAll(bx){
           var cbs = $('#checkboxDataSet input');
@@ -653,131 +749,11 @@
           }
         }
 
-        $('#algdataset').click(function(){
-          var error = false;
-          if($('#checkboxDataSet input:checked').length == 0){
-            $('#aviso_modal .modal-body').append('<p>You should select at least one Basic Algorithm.</p>');
-            error = true;
-          }
-          if($("#maxKDataSet").val() == "" || $("#minKDataSet").val() == ""){
-            $("#aviso_modal .modal-body").append("<p>Minimum and maximum cluster sizes are required values.</p>");
-            error = true;
-          }
-          if($("#maxKDataSet").val() != "" && parseInt($("#maxKDataSet").val()) < parseInt($("#minKDataSet").val())){
-            $("#aviso_modal .modal-body").append("<p>Maximum size must be higher than minimum size!</p>");
-            error = true;
-          }
-          if(error){
-            $('#aviso_modal').modal("show");
-          }
-          else{
-            myDropzone1.processQueue();
-          }
-        });
+        // myDropzone1.processQueue();
 
-        //partition dropzone
-        var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
-          acceptedFiles: '.clu',
-          addRemoveLinks: true,
-          thumbnailWidth: 500,
-          autoProcessQueue: false,
-
-          init: function() {
-            this.on("sending", function(file, xhr, formData){
-                formData.append('qtofdata', myDropzone2.getAcceptedFiles().length);
-                formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
-                formData.append("name", "partition");
-                if($("#partitionwithMocle:checked").length == 1){
-                  formData.append("mocleSelected", "yes");
-                  formData.append("tipoDistMocle", $("#selMetricMoclePartition").val());
-                  formData.append("numGen", $("#numGenPartition").val());
-                  formData.append("nearNeigh", $("#nearNeighPartition").val());
-                }
-                formData.append("minK", $("#minKPartition").val());
-                formData.append("maxK", $("#maxKPartition").val());
-                myDropzone1.processQueue();
-            }),
-            this.on("addedfile", function(event) {
-              $("#continuepartition").prop("disabled",false);
-            }),
-            this.on("removedfile", function(event) {
-              $("#continuepartition").prop("disabled",true);
-            }),
-            this.on("processing", function(event){
-              $('#loading').show();
-              $('#loading')[0].scrollIntoView({
-                  behavior: "smooth", // or "auto" or "instant"
-                  block: "start" // or "end"
-                });
-            }),
-            this.on("success", function(file, response){
-              $('#minKResult').val($('#minKPartition').val());
-              $('#maxKResult').val($('#maxKPartition').val());
-              $('#loading').hide();
-              $('#resultFilterDetails').show();
-              $('#resultFilterDetails')[0].scrollIntoView({
-                behavior: "smooth", // or "auto" or "instant"
-                block: "start" // or "end"
-              });
-              cViz.directory = response;
-              d3.tsv("static/TSV/result.tsv", function(data){
-                var table = data;
-              });
-              cViz.getColumnOrder("static/TSV/objOrderEAC.tsv", function(data){
-                var columnorder = data;
-              });
-              cViz.getIdenticalObjs("static/TSV/listsIdenticalObjs.tsv", function(data){
-                var identical = data;
-              });
-              cViz.getDistinctClusters("static/TSV/listDistinctClusters.tsv", function(data){
-                var distinct = data;
-              });
-              cViz.ready(null, table, columnorder, identical, distinct);
-              $('#cViz').show();
-              // cViz.onDataChange();
-            });
-          }
-        });
-
-          $('#partitionchoice #includepartition').click(function(){
-            $('#numGenPartition').val(100);
-            $('#nearNeighPartition').val(5);
-            $('#uploadpartition').show();
-            $("#uploadpartition")[0].scrollIntoView({
-                behavior: "smooth", // or "auto" or "instant"
-                block: "start" // or "end"
-              });
-              $("#partitionchoicebutton").prop("disabled",true);
-            });
-
-            $('#continuepartition').click(function(){
-              $('#clusteringPartition').show();
-                $("#clusteringPartition")[0].scrollIntoView({
-                    behavior: "smooth", // or "auto" or "instant"
-                    block: "start" // or "end"
-                  });
-              });
-
-              $('#finishpartition').click(function(){
-                error = false;
-                if($("#maxKPartition").val() == "" || $("#minKPartition").val() == ""){
-                  $("#aviso_modal .modal-body").append("<p>Minimum and maximum size are required.</p>");
-                  error = true;
-                }
-                if($("#maxKPartition").val() != "" && parseInt($("#maxKPartition").val()) < parseInt($("#minKPartition").val())){
-                  $("#aviso_modal .modal-body").append("<p>Maximum size must be higher than minimum size!</p>");
-                  error = true;
-                }
-                if(error){
-                  $("#aviso_modal").modal("show");
-                }
-                else{
-                  myDropzone2.processQueue();
-                }
-              });
-
-        // // isso faz com que carreguem mais de 2 arquivos por vez
+        //isso faz com que carreguem mais de 2 arquivos por vez
         myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
+        myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
 
         $("#cleanbody").click(function(){
           $("#aviso_modal .modal-body").empty();
