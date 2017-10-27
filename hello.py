@@ -95,7 +95,7 @@ def upload():
                 nearNeigh = int(request.form['nearNeigh'])
                 minK = int(request.form['minKMocle'])
                 maxK = int(request.form['maxKMocle'])
-                mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGem)
+                mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
 
             # depois de todo o processamento, monta a pasta de visualização e
             # xablau
@@ -104,6 +104,7 @@ def upload():
         # segundo caso: dataset + partição (sem mocle)
         # nesse caso, vai direto pra visualização dos parâmetros
         elif(request.form['partition'] == 'yes'):
+            print("REQUEST PARTITION")
             id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
 
             dir = '/uploaded-part/' + id
@@ -132,43 +133,44 @@ def upload():
             if(qtinfolder == int(request.form['qtofdata'])):
                 print("Oi! Você fez upload do partitions!");
 
-            if(request.form['mocle'] == 'no'):
-                # teoricamente não precisa criar uma pasta de algResult pq não vai
-                # ter processamento nenhum dos dados a não ser pelo loadCluster,
-                # então acho que é ok só deixar assim:
-                path = loadCluster(partitionlocation)
-            else:
-                # caso de o usuário ter selecionado upload de partição + mocle
-                newdirectory = False
-                if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
-                    newdirectory = True
-
-                if(newdirectory):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
+                if(request.form['mocle'] == 'no'):
+                    # teoricamente não precisa criar uma pasta de algResult pq não vai
+                    # ter processamento nenhum dos dados a não ser pelo loadCluster,
+                    # então acho que é ok só deixar assim:
+                    path = loadCluster(partitionlocation)
                 else:
-                    root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
-                    newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
+                    print("REQUEST MOCLE")
+                    # caso de o usuário ter selecionado upload de partição + mocle
+                    newdirectory = False
+                    if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
+                        newdirectory = True
 
-                    minK = int(request.form['minK'])
-                    maxK = int(request.form['maxK'])
+                    if(newdirectory):
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
+                        resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
+                    else:
+                        root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
+                        newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                        resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
 
-                    if(request.form['mocleSelected'] == 'yes'):
-                        # tratar: se M = 1 ou se B = 2
-                        if(request.form['tipoDistMocle'] == 'M'):
-                            crossover = 1
-                        else:
-                            crossover = 2
-                        # number of generations
-                        numGen = request.form['numGen']
-                        # nearest neighbours
-                        nearNeigh = request.form['nearNeigh']
-                        mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGem)
+                        minK = int(request.form['minK'])
+                        maxK = int(request.form['maxK'])
 
-                    path = loadCluster(resultfolder)
+                        if(request.form['mocleSelected'] == 'yes'):
+                            # tratar: se M = 1 ou se B = 2
+                            if(request.form['tipoDistMocle'] == 'M'):
+                                crossover = 1
+                            else:
+                                crossover = 2
+
+                            numGen = request.form['numGen']
+                            nearNeigh = request.form['nearNeigh']
+
+                            mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGem)
+
+                        path = loadCluster(resultfolder)
 
         return jsonify(path)
 
