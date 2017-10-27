@@ -24,14 +24,11 @@ def index():
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
+    print("UPLOAD")
     if request.method == 'POST':
+        print("POST")
         if(request.form['name'] == 'dataset'):
             print("REQUEST = DATASET")
-            # comentei esse if pq o dataset é obrigatório em todos os casos,
-            # então acho que a gente vai ter que criar a pasta pra ele de toda
-            # forma. depois é só salvar a localização numa variável e passar
-            # pras próximas pastas.
-            # if(request.form['partition'] == 'yes' and request.form['mocle'] == 'no'):
             id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
             dir = '/uploaded-data/' + id
 
@@ -47,10 +44,8 @@ def upload():
             with open(datasetlocation) as f:
                 numObj = sum(1 for _ in f)-1
 
-        # caso de o usuário querer somente a visualização
+        # caso 1: rodar os algoritmos em cima do dataset
         if(request.form['partition'] == 'no'):
-            # nesse caso, devemos checar quais os algoritmos foram selecionados
-            # e salvar os resultados em /algResult/
             newdirectory = False
             if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
                 os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
@@ -70,25 +65,22 @@ def upload():
                 tail = '/algResult' + 'results-' + str(newdir)
                 resultfolder = app.config['UPLOADED_PATH'] + tail
 
-            minK = int(request.form['minK'])
-            maxK = int(request.form['maxK'])
-
-            # chamar algoritmos
             if(request.form['basicSelected'] == 'yes'):
+                print("CLUSTERING SELECTED")
+                minK = int(request.form['minKBasic'])
+                maxK = int(request.form['maxKBasic'])
+
                 # crossover E ou P
                 tipoDistBasic = request.form['tipoDistBasic']
                 # algorithms (1, 2, 3, 4, 5, 6, 7)
                 # se composto, vem com virgula
                 alg = request.form['alg'].split(',')
                 print("alg", alg)
-                if len(alg)>1:
+                if len(alg) > 1:
                     for algnumber in alg:
-                        # passando parametros para função de clustering
-                        print("CLUSTERING SELECTED")
                         print("algnumber: ", algnumber)
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
                 else:
-                    print("ONE BASIC ALGORITHM SELECTED")
                     clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
             if(request.form['mocleSelected'] == 'yes'):
@@ -101,18 +93,84 @@ def upload():
                     crossover = 2
                 numGen = int(request.form['numGen'])
                 nearNeigh = int(request.form['nearNeigh'])
-                mocle(crossover, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation)
+                minK = int(request.form['minKMocle'])
+                maxK = int(request.form['maxKMocle'])
+                mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGem)
 
             # depois de todo o processamento, monta a pasta de visualização e
             # xablau
-            loadCluster(tail)
-            return 0
-        # segundo caso: dataset + partição
+            # conferir esse parâmetro dps
+            path = loadCluster(tail)
+        # segundo caso: dataset + partição (sem mocle)
         # nesse caso, vai direto pra visualização dos parâmetros
-        if(request.form['partition'] == 'yes'):
-            # ainda falta inserir nessa condição o nome do request.form do
-            # mocle selecionado ou não pra saber o que fazer 
-            return 0
+        elif(request.form['partition'] == 'yes'):
+            id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
+
+            dir = '/uploaded-part/' + id
+
+            # cria diretorio uploaded na pasta atual, se já não existir
+            if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
+                os.makedirs(app.config['UPLOADED_PATH'] + dir)
+
+            for n in request.files.getlist('datasetfile'):
+                datasetlocation = app.config['UPLOADED_PATH'] + dir
+                n.save(os.path.join(datasetlocation, n.filename))
+                datasetlocation += '/' + n.filename
+
+            if not os.path.exists(app.config['UPLOADED_PATH'] + dir + '/partition'):
+                os.makedirs(app.config['UPLOADED_PATH'] + dir + '/partition')
+
+            # loop over files since we allow multiple files
+            for f in request.files.getlist('file'):
+                partitionlocation = app.config['UPLOADED_PATH'] + dir + '/partition/'
+                f.save(os.path.join(partitionlocation, f.filename));
+
+            # checa numero de arquivos na pasta para saber se é o ultimo post
+            qtinfolder = len([name for name in os.listdir(app.config['UPLOADED_PATH'] + dir + '/partition/') if os.path.isfile(os.path.join(app.config['UPLOADED_PATH'] + dir + '/partition', name))])
+
+            # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
+            if(qtinfolder == int(request.form['qtofdata'])):
+                print("Oi! Você fez upload do partitions!");
+
+            if(request.form['mocle'] == 'no'):
+                # teoricamente não precisa criar uma pasta de algResult pq não vai
+                # ter processamento nenhum dos dados a não ser pelo loadCluster,
+                # então acho que é ok só deixar assim:
+                path = loadCluster(partitionlocation)
+            else:
+                # caso de o usuário ter selecionado upload de partição + mocle
+                newdirectory = False
+                if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
+                    newdirectory = True
+
+                if(newdirectory):
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
+                else:
+                    root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
+                    newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
+
+                    minK = int(request.form['minK'])
+                    maxK = int(request.form['maxK'])
+
+                    if(request.form['mocleSelected'] == 'yes'):
+                        # tratar: se M = 1 ou se B = 2
+                        if(request.form['tipoDistMocle'] == 'M'):
+                            crossover = 1
+                        else:
+                            crossover = 2
+                        # number of generations
+                        numGen = request.form['numGen']
+                        # nearest neighbours
+                        nearNeigh = request.form['nearNeigh']
+                        mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGem)
+
+                    path = loadCluster(resultfolder)
+
+        return jsonify(path)
 
 #            if(request.form['partition'] == 'yes'):
 #                pass
@@ -320,13 +378,14 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
 
     return subprocess.call(processo, shell=True)
 
-def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
+def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
     Parâmetros
     ---------
         crossover  :  int
             1 - mcla
             2 - bipartite
+        minK, maxK :  int
         dataset    :  string
             caminho absoluto pro arquivo de dataset
         popIniDir  :  string
@@ -337,7 +396,7 @@ def mocle(crossover, dataset, popIniDir, resultDir, truePartition):
             é inútil
     """
 
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, dataset, popIniDir, resultDir, truePartition]
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
     processo = ""
 
     for item in args:
