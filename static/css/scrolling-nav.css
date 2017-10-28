@@ -15,5 +15,9 @@ header {
 }
 
 section {
+<<<<<<< HEAD:static/css/scrolling-nav.css
   padding: 110px 0;
+=======
+  padding: 150px 0;
+>>>>>>> 85a52e6b6df70c3df5dd88b0d955ea8d0595a354:css/scrolling-nav.css
 }
