@@ -26,6 +26,7 @@ def loadCluster(dirPart):
             - result.tsv
             - objOrderEAC.tsv
     """
+    print("LOAD CLUSTER {}".format(dirPart))
     merged = pd.DataFrame()
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
