@@ -52,8 +52,8 @@ def upload():
                     newdirectory = True
 
                 if(newdirectory):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1')
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
                 else:
                     # ordena as pastas e pega o número da última pra saber qual o
                     # número da pasta nova
@@ -62,7 +62,7 @@ def upload():
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                     os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
-                    tail = 'algResult/' + 'results-' + str(newdir)
+                    tail = '/algResult/' + 'results-' + str(newdir)
                     resultfolder = app.config['UPLOADED_PATH'] + tail
 
                 if(request.form['basicSelected'] == 'yes' ):
@@ -97,16 +97,13 @@ def upload():
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-            loadCluster(tail)
+            path = loadCluster(resultfolder)
             print("path loadCluster = ", path)
         else:
             print("request partition")
-            flag = False
             if(request.form['mocleSelected'] == 'yes'):
                 # essa aqui é a gambiarra mais feia da face da terra, mas
                 # aparentemente a variável do form perde o valor??? sei lá
-                flag = True
-                print("mocle ok, mas ainda não tá indo pra onde deveria ir")
             id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
 
             dir = '/uploaded-part/' + id
@@ -138,9 +135,9 @@ def upload():
                 newdirectory = True
 
             if(newdirectory):
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/')
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1')
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
@@ -173,7 +170,6 @@ def upload():
                 # chama loadClusters.py aqui
                 path = loadCluster(resultfolder)
         return jsonify(path)
-
 
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-

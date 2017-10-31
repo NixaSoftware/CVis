@@ -29,14 +29,15 @@ def loadCluster(dirPart):
     merged = pd.DataFrame()
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
-    # dirPartitions = os.getcwd() + "/partitions-uploaded"
-    clusterDir = os.getcwd() + "/" + dirPart;
+# essa variável clusterDir é inútil, mas eu tô editando num lugar que vai dar pau em identação se eu mexer em mta coisa então deixa esse lixo aqui
+# depois eu tiro
+    clusterDir = dirPart
     (head, tail) = os.path.split(clusterDir);
 
     print("head {}\ntail {}".format(head, tail))
     expDirName = tail + '-files';
 
-    resDir = head + '/static/' + expDirName # os.path.join(head, expDirName);
+    resDir = head + '/../static/' + expDirName # os.path.join(head, expDirName);
 
     if not os.path.exists(resDir):
         os.makedirs(resDir)
