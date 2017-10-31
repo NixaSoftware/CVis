@@ -65,7 +65,7 @@ def upload():
                     tail = 'algResult/' + 'results-' + str(newdir)
                     resultfolder = app.config['UPLOADED_PATH'] + tail
 
-                if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
+                if(request.form['basicSelected'] == 'yes' ):
                     print("CLUSTERING AND MOCLE SELECTED")
                     minK = int(request.form['minKBasic'])
                     maxK = int(request.form['maxKBasic'])
@@ -83,6 +83,7 @@ def upload():
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
+                elif(request.form['mocleSelected'] == 'yes'):
                     # crossover
                     # tratar: se M = 1 ou se B = 2
                     if(request.form['tipoDistMocle'] == 'M'):
