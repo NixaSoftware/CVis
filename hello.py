@@ -97,7 +97,7 @@ def upload():
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-            path = loadCluster(resultfolder)
+            path = loadCluster(resultfolder + '/allPart')
             print("path loadCluster = ", path)
         else:
             print("request partition")
