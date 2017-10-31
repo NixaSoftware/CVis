@@ -6,7 +6,6 @@ import os
 import csv
 import pandas as pd
 
-
 # O parâmetro dirPart NECESSARIAMENTE tem que ser uma string
 def loadCluster(dirPart):
     """

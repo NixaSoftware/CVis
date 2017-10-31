@@ -93,7 +93,8 @@ def upload():
                     maxK = int(request.form['maxKMocle'])
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
-            path = loadCluster(tail)
+            print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
+            loadCluster(tail)
             print("path loadCluster = ", path)
             #elif(request.form['name'] == 'partition'):
         else:
