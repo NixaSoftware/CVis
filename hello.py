@@ -104,9 +104,9 @@ def upload():
             if(request.form['mocleSelected'] == 'yes'):
                 # essa aqui é a gambiarra mais feia da face da terra, mas
                 # aparentemente a variável do form perde o valor??? sei lá
-            id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
+                id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
 
-            dir = '/uploaded-part/' + id
+                dir = '/uploaded-part/' + id
 
             # cria diretorio uploaded na pasta atual, se já não existir
             if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
