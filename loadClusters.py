@@ -37,6 +37,7 @@ def loadCluster(dirPart):
     print("head {}\ntail {}".format(head, tail))
     expDirName = tail + '-files';
 
+    # TODO: mudar esse diretório aqui
     resDir = head + '/../static/' + expDirName # os.path.join(head, expDirName);
 
     if not os.path.exists(resDir):
