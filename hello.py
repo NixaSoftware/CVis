@@ -42,8 +42,10 @@ def upload():
             with open(datasetlocation) as f:
                 numObj = sum(1 for _ in f)-1
 
+            print("esse é um teste que eu gostaria de não estar fazendo às 3 da manhã")
             # caso 1: rodar os algoritmos em cima do dataset
             if(request.form['partition'] == 'no'):
+                print("request.form['partition'] == 'no'")
                 newdirectory = False
                 if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
                     os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
