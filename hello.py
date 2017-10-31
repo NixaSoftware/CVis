@@ -54,7 +54,7 @@ def upload():
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1/'
                 else:
                     # ordena as pastas e pega o número da última pra saber qual o
-                    # número da pasta nova 
+                    # número da pasta nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
@@ -94,6 +94,7 @@ def upload():
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
             path = loadCluster(tail)
+            print("path loadCluster = ", path)
             #elif(request.form['name'] == 'partition'):
         else:
             print("request partition")
