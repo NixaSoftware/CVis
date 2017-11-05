@@ -35,7 +35,9 @@ def loadCluster(dirPart):
     (head, tail) = os.path.split(clusterDir);
 
     print("head {}\ntail {}".format(head, tail))
-    expDirName = tail + '-files';
+    expTemp = tail;
+    (lixo, expDirName) = os.path.split(expTemp)
+    expDirName += "-files"
     print("expDirName {}".format(expDirName))
 
     # TODO: mudar esse diretório aqui
