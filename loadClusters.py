@@ -40,7 +40,8 @@ def loadCluster(dirPart):
 
     # TODO: mudar esse diretório aqui
     #resDir = head + '/../static/' + expDirName # os.path.join(head, expDirName);
-    resDir = "./../static/" + expDirName
+    resDir = "./static/" + expDirName
+    print("resDir {}".format(resDir))
 
     if not os.path.exists(resDir):
         os.makedirs(resDir)
