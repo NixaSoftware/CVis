@@ -99,6 +99,28 @@ def upload():
             return jsonify(path)
         else:
             print("request partition")
+            #########################################
+            name_dir = app.config['UPLOADED_PATH'] + '/uploaded-part/'
+            newdirectory = False
+            if not os.path.exists(name_dir):
+            os.makedirs(name_dir)
+            newdirectory = True
+
+            if(newdirectory):
+                os.makedirs(name_dir + '/upload-1/')
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
+            else:
+                # ordena as pastas e pega o número da última pra saber qual o
+                # número da pasta nova
+                root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
+                # natsorted serve para ordenar 10+
+                newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                # pasta para adicionar resultados tanto do clustering quanto do mocle
+                tail = '/algResult/' + 'results-' + str(newdir)
+                resultfolder = app.config['UPLOADED_PATH'] + tail
+
+            ######################################
             id = str(datetime.now().strftime('%d-%m-%Y/%H:%M'))
 
             dir = '/uploaded-part/' + id
