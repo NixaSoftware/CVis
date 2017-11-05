@@ -7,7 +7,7 @@ import csv
 import pandas as pd
 
 # O parâmetro dirPart NECESSARIAMENTE tem que ser uma string
-def loadCluster(dirPart):
+def loadCluster(dirPart, alg):
     """
     Função responsável pelo carregamento dos arquivos .clu gerados previamente
     em algoritmos de clusterização e pela geração de tabelas .tsv que serão
@@ -16,6 +16,10 @@ def loadCluster(dirPart):
     ----------
         dirPart  :  string
             caminho do diretório com os arquivos .clu
+        alg  :   int
+            0 para o caso de ser chamado pelo upload de partições
+            1 para o caso de geração de partições pelos algoritmos
+
     Retorno
     --------
         resDir  :   string
@@ -35,10 +39,15 @@ def loadCluster(dirPart):
     (head, tail) = os.path.split(clusterDir);
 
     print("head {}\ntail {}".format(head, tail))
-    expDirName = tail + '-files';
-
-    # TODO: mudar esse diretório aqui
-    resDir = head + '/../static/' + expDirName # os.path.join(head, expDirName);
+    expUpload = tail;
+    (lixo, expDirName) = os.path.split(head)
+    expDirName += "-files"
+    print("expDirName {}".format(expDirName))
+    if(alg):
+        resDir = "./static/" + expDirName
+    else:
+        resDir = "./static/" + expUpload
+    print("resDir {}".format(resDir))
 
     if not os.path.exists(resDir):
         os.makedirs(resDir)

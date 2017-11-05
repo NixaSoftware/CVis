@@ -13,11 +13,6 @@ dropzone = Dropzone(app)
 # get the current folder
 app.config['UPLOADED_PATH'] = os.getcwd()
 
-# essa variável serve pra gente não ter que ficar rodando
-# o servidor de novo toda hora
-# por via das dúvidas dá um export nela tbm
-DEBUG = True
-
 @app.route('/')
 def index():
    return render_template('index.html')
@@ -25,6 +20,7 @@ def index():
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
+        path = ""
         if(request.form['name'] == 'dataset'):
             print("request dataset")
             id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
@@ -66,7 +62,7 @@ def upload():
                     resultfolder = app.config['UPLOADED_PATH'] + tail
 
                 if(request.form['basicSelected'] == 'yes' ):
-                    print("CLUSTERING AND MOCLE SELECTED")
+                    print("CLUSTERING SELECTED")
                     minK = int(request.form['minKBasic'])
                     maxK = int(request.form['maxKBasic'])
 
@@ -84,6 +80,7 @@ def upload():
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
                 elif(request.form['mocleSelected'] == 'yes'):
+                    print("MOCLE SELECTED")
                     # crossover
                     # tratar: se M = 1 ou se B = 2
                     if(request.form['tipoDistMocle'] == 'M'):
@@ -97,16 +94,14 @@ def upload():
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-            path = loadCluster(resultfolder + '/allPart')
+            path = loadCluster(resultfolder + '/allPart', 1)
             print("path loadCluster = ", path)
+            return jsonify(path)
         else:
             print("request partition")
-            if(request.form['mocleSelected'] == 'yes'):
-                # essa aqui é a gambiarra mais feia da face da terra, mas
-                # aparentemente a variável do form perde o valor??? sei lá
-                id = str(datetime.now().strftime('%d-%m-%Y/%H:%M:%S'))
+            id = str(datetime.now().strftime('%d-%m-%Y/%H:%M'))
 
-                dir = '/uploaded-part/' + id
+            dir = '/uploaded-part/' + id
 
             # cria diretorio uploaded na pasta atual, se já não existir
             if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
@@ -129,6 +124,7 @@ def upload():
             # checa numero de arquivos na pasta para saber se é o ultimo post
             qtinfolder = len([name for name in os.listdir(app.config['UPLOADED_PATH'] + dir + '/partition/') if os.path.isfile(os.path.join(app.config['UPLOADED_PATH'] + dir + '/partition', name))])
 
+            print("diretório que tá sendo checada a qtd de arquivos: {}".format(app.config['UPLOADED_PATH']+dir+'/partition'))
             newdirectory = False
             if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
                 os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
@@ -149,13 +145,13 @@ def upload():
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
                 print("Oi! Você fez upload do partitions!");
-
-                minK = int(request.form['minKMocle'])
-                maxK = int(request.form['maxKMocle'])
-                print("minK = {}, maxK = {}".format(minK, maxK))
-
+                
                 if(request.form['mocleSelected'] == 'yes'):
-                    print("MOCLE SELECTED")
+                    print("MOCLE + UPLOAD SELECTED")
+                    minK = int(request.form['minKMocle'])
+                    maxK = int(request.form['maxKMocle'])
+                    print("minK = {}, maxK = {}".format(minK, maxK))
+
                     # tratar: se M = 1 ou se B = 2
                     if(request.form['tipoDistMocle'] == 'M'):
                         crossover = 1
@@ -167,9 +163,12 @@ def upload():
                     nearNeigh = request.form['nearNeigh']
                     mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGen)
 
-                # chama loadClusters.py aqui
-                path = loadCluster(resultfolder)
-        return jsonify(path)
+                path = loadCluster(resultfolder, 0)
+                return jsonify(path)
+            else:
+                print("qtinfolder != qtofdata")
+                print("qtinfolder: {}\nqtofdata: {}".format(qtinfolder, int(request.form['qtofdata'])))
+    return "Erro"
 
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
@@ -241,6 +240,7 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
     for item in args:
         processo += str(item)
         processo += " "
+    print("o mocle está sendo chamado????? talvez\no processo é esse: ", processo)
     return subprocess.call(processo, shell=True)
 
 
