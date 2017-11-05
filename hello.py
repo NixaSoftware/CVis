@@ -103,31 +103,32 @@ def upload():
             name_dir = app.config['UPLOADED_PATH'] + '/uploaded-part/'
             newdirectory = False
             if not os.path.exists(name_dir):
-            os.makedirs(name_dir)
-            newdirectory = True
+                os.makedirs(name_dir)
+                newdirectory = True
 
             if(newdirectory):
                 os.makedirs(name_dir + '/upload-1/')
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
+                resultfolder = name_dir + 'upload-1/'
             else:
                 # ordena as pastas e pega o número da última pra saber qual o
                 # número da pasta nova
-                root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
+                root, dirs, files = next(os.walk(name_dir)
                 # natsorted serve para ordenar 10+
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                os.makedirs(name_dir + 'upload-' + str(newdir))
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                tail = '/algResult/' + 'results-' + str(newdir)
-                resultfolder = app.config['UPLOADED_PATH'] + tail
+                tail = '/uploaded-part/' + 'upload-' + str(newdir)
+                dir = app.config['UPLOADED_PATH'] + tail
+            print("dirLocation: {}".format(dir))
 
             ######################################
-            id = str(datetime.now().strftime('%d-%m-%Y/%H:%M'))
+           # id = str(datetime.now().strftime('%d-%m-%Y/%H:%M'))
 
-            dir = '/uploaded-part/' + id
+           # dir = '/uploaded-part/' + id
 
             # cria diretorio uploaded na pasta atual, se já não existir
-            if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
-                os.makedirs(app.config['UPLOADED_PATH'] + dir)
+            #if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
+            #    os.makedirs(app.config['UPLOADED_PATH'] + dir)
 
             for n in request.files.getlist('datasetfile'):
                 datasetlocation = app.config['UPLOADED_PATH'] + dir
@@ -167,7 +168,7 @@ def upload():
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
                 print("Oi! Você fez upload do partitions!");
-                
+
                 if(request.form['mocleSelected'] == 'yes'):
                     print("MOCLE + UPLOAD SELECTED")
                     minK = int(request.form['minKMocle'])
