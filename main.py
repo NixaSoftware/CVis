@@ -17,6 +17,10 @@ app.config['UPLOADED_PATH'] = os.getcwd()
 def index():
    return render_template('index.html')
 
+@app.route('/visualization')
+def visualization():
+   return render_template('visualization.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
