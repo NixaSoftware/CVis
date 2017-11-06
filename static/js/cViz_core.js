@@ -5,7 +5,8 @@
     cViz.getData = function(file, callback){
         d3.tsv(file,
               function(error, data) {
-                  console.log(data);
+                  //console.log(data);
+
                   if(error){
                     return callback(error);
                   }
@@ -14,7 +15,6 @@
               }).row(function(d) {
     // for each row of the data, create an object with these properties...
     return {
-
       time: d3.time.format('%Y/%m/%d %H:%M:%S').parse(d.Time),
       conditions: d.Conditions,
       temperature: +d.Temperature,
@@ -85,7 +85,6 @@
                 cViz.nObjects = cViz.nObjects + rowArray.length;
                 //objs.splice(fim do array, 0, rowArray);
             });
-
            //objs[i] = array com todos os objetos identicos
             //console.log(data);
             //console.log(cViz.nObjects);
@@ -107,7 +106,6 @@
                 //cViz.nObjects = cViz.nObjects + rowArray.length;
                 //objs.splice(fim do array, 0, rowArray);
             });
-
            //objs[i] = array com todos os objetos identicos
             //console.log(distObjs);
             //console.log(cViz.nObjects);
@@ -287,7 +285,7 @@ cViz.clustersData = cViz.data.allData.columns.map(function(key){
         table.append("thead")
         d3.select("thead").append("tr");
         table.append("tbody");
-        document.getElementById("maxKResult").value = cViz.nObjects;
+        document.getElementById("maxCSize").value = cViz.nObjects;
         cViz.clustersTableWidth = parseInt(d3.select("#clustersTable").style("width"));
         //cViz.clustersTableWidth = parseInt(d3.select("#cViz").style("width"));
 //        cViz.clustersTableWidth = document.documentElement.clientWidth;
@@ -301,6 +299,7 @@ cViz.clustersData = cViz.data.allData.columns.map(function(key){
    }
 
    cViz.onDataChange = function(){
+        //var data = cViz.getData();
 
         //$('input[name="maxSize"]').value = cViz.nObjects;
         //console.log(d3.select("input[name=maxSize]").value);
@@ -320,11 +319,11 @@ cViz.clustersData = cViz.data.allData.columns.map(function(key){
 //                return parseInt(d["cSize"]) > 200;
 //            });
 //
-        var min =  parseInt(document.getElementById("minKResult").value);
-        var max =  parseInt(document.getElementById("maxKResult").value);
+        var min =  parseInt(document.getElementById("minCSize").value);
+        var max =  parseInt(document.getElementById("maxCSize").value);
         cViz.data.filteredClustersData = cViz.data.clustersData.filter(function(d){
                 var cs = parseInt(d["cSize"]);
-                if(d3.select('input[name="chooseClu"]:checked').property("value") == "distinctClu"){
+                if(d3.select('input[name="allClusters"]:checked').property("value") == "distinctClu"){
                     //console.log(d["ID"]);
                     //console.log(cViz.data.distinctClusters.indexOf(d["ID"]));
                     return (cs >= min && cs <= max && cViz.data.distinctClusters.indexOf(d["ID"])!== -1)

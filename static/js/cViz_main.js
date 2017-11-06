@@ -2,19 +2,17 @@
 
 (function(cViz) {
     //'use strict';
-
 //    cViz.directory = document.getElementById("partSetName").value;
 //    console.log(cViz.directory);
     // Load the initial data
 //    console.log(cViz.directory);
-    //
-    // queue()
-    //     //.defer(cViz.getData, "data/result.tsv")
-    //     .defer(d3.tsv, "static/TSV/result.tsv")
-    //     .defer(cViz.getColumnOrder, "static/TSV/objOrderEAC.tsv")
-    //     .defer(cViz.getIdenticalObjs, "static/TSV/listsIdenticalObjs.tsv")
-    //     .defer(cViz.getDistinctClusters, "static/TSV/listDistinctClusters.tsv")
-    //     .await(ready);
+    queue()
+        //.defer(cViz.getData, "data/result.tsv")
+        .defer(d3.tsv, "../TSV/" + cViz.directory + "/result.tsv")
+        .defer(cViz.getColumnOrder, "../TSV/" + cViz.directory + "/objOrderEAC.tsv")
+        .defer(cViz.getIdenticalObjs, "../TSV/" + cViz.directory + "/listsIdenticalObjs.tsv")
+        .defer(cViz.getDistinctClusters, "../TSV/" + cViz.directory + "/listDistinctClusters.tsv")
+        .await(ready);
     //cViz.getData("data/result.tsv");
 
     //cViz.getData("data/result.tsv", cViz.drawTable);
