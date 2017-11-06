@@ -626,6 +626,8 @@
           '<a data-dz-remove href="" class="text-danger delete" style="text-decoration: none;">  <span class="fa fa-trash"></span></a><p><strong class="error partitionerror" data-dz-errormessage></strong></p></div></div>',
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
+          uploadMultiple: true,
+          parallelUploads: 500,
           thumbnailWidth: 500,
           autoProcessQueue: false,
 
@@ -672,6 +674,8 @@
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
           thumbnailWidth: 500,
+          uploadMultiple: true,
+          parallelUploads: 500,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -887,8 +891,8 @@
         });
 
         //isso faz com que carreguem mais de 2 arquivos por vez
-        myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
-        myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
+        // myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
+        // myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
 
         $("#cleanbody").click(function(){
           $("#aviso_modal .modal-body").empty();
