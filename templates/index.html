@@ -117,7 +117,7 @@
         <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
           <h1><b>Upload Partitions to Visualize</b></h1>
           <button type="button" class="btn btn-secondary" style="margin-top: 2em; margin-bottom: 1em;" id="partitionbutton">Upload</button>
-          <form action="#" class="drop" id="droppartition" method="POST" enctype="multipart/form-data">
+          <form action="#" class="drop" id="droppartition" method="POST" enctype="multipart/form-data" multiple>
             <input type="hidden" name="name" value="partition" />
             <!-- <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div> -->
           </form>
@@ -279,7 +279,7 @@
           <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" align="center">
             <h1><b>Upload MOCLE's Base Partitions</b></h1>
             <button type="button" class="btn btn-secondary" style="margin-top: 2em; margin-bottom: 2em;" id="moclebutton">Upload</button>
-            <form action="#" class="drop" id="droppartitionWithMocle" method="POST" enctype="multipart/form-data">
+            <form action="#" class="drop" id="droppartitionWithMocle" method="POST" enctype="multipart/form-data" multiple>
               <input type="hidden" name="name" value="partition" />
               <!-- <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div> -->
             </form>
@@ -627,9 +627,8 @@
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
           uploadMultiple: true,
-          parallelUploads: 500,
+          parallelUploads: 5,
           autoProcessQueue: false,
-
           init: function() {
             this.on("sending", function(file, xhr, formData){
               formData.append('qtofdata', myDropzone2.getAcceptedFiles().length);
@@ -646,7 +645,7 @@
                 $("#visOnlyPartitions").hide();
               }
             }),
-            this.on("processingmultiple", function(event){
+            this.on("processing", function(event){
               $('#loading').show();
               $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
@@ -673,7 +672,7 @@
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
           uploadMultiple: true,
-          parallelUploads: 500,
+          parallelUploads: 5,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -696,7 +695,7 @@
                 $("#visOnlyMocle").hide();
               }
             }),
-            this.on("processingmultiple", function(event){
+            this.on("processing", function(event){
               $('#loading').show();
               $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
@@ -889,8 +888,8 @@
         });
 
         //isso faz com que carreguem mais de 2 arquivos por vez
-        myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
-        myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
+        // myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
+        // myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
 
         $("#cleanbody").click(function(){
           $("#aviso_modal .modal-body").empty();
