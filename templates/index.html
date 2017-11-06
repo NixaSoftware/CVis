@@ -628,7 +628,6 @@
           acceptedFiles: '.clu',
           uploadMultiple: true,
           parallelUploads: 500,
-          thumbnailWidth: 500,
           autoProcessQueue: false,
 
           init: function() {
@@ -647,14 +646,14 @@
                 $("#visOnlyPartitions").hide();
               }
             }),
-            this.on("processing", function(event){
+            this.on("processingmultiple", function(event){
               $('#loading').show();
               $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
             });
-            this.on("error", function(file, error){
+            this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
                 $('.partitionerror').html("Server internal error");
               }
@@ -673,7 +672,6 @@
           '<a data-dz-remove href="" class="text-danger delete" style="text-decoration: none;">  <span class="fa fa-trash"></span></a><p><strong class="error mocleerror" data-dz-errormessage></strong></p></div></div>',
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
-          thumbnailWidth: 500,
           uploadMultiple: true,
           parallelUploads: 500,
           autoProcessQueue: false,
@@ -698,14 +696,14 @@
                 $("#visOnlyMocle").hide();
               }
             }),
-            this.on("processing", function(event){
+            this.on("processingmultiple", function(event){
               $('#loading').show();
               $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
             });
-            this.on("error", function(file, error){
+            this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
                 $('.mocleerror').html("Server internal error");
               }
