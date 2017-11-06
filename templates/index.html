@@ -891,8 +891,8 @@
         });
 
         //isso faz com que carreguem mais de 2 arquivos por vez
-        // myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
-        // myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
+        myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
+        myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
 
         $("#cleanbody").click(function(){
           $("#aviso_modal .modal-body").empty();
