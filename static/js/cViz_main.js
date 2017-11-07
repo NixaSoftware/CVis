@@ -8,10 +8,10 @@
 //    console.log(cViz.directory);
     queue()
         //.defer(cViz.getData, "data/result.tsv")
-        .defer(d3.tsv, "../TSV/" + cViz.directory + "/result.tsv")
-        .defer(cViz.getColumnOrder, "../TSV/" + cViz.directory + "/objOrderEAC.tsv")
-        .defer(cViz.getIdenticalObjs, "../TSV/" + cViz.directory + "/listsIdenticalObjs.tsv")
-        .defer(cViz.getDistinctClusters, "../TSV/" + cViz.directory + "/listDistinctClusters.tsv")
+        .defer(d3.tsv, "/static/TSV/" + cViz.directory + "/result.tsv")
+        .defer(cViz.getColumnOrder, "/static/TSV/" + cViz.directory + "/objOrderEAC.tsv")
+        .defer(cViz.getIdenticalObjs, "/static/TSV/" + cViz.directory + "/listsIdenticalObjs.tsv")
+        .defer(cViz.getDistinctClusters, "/static/TSV/" + cViz.directory + "/listDistinctClusters.tsv")
         .await(ready);
     //cViz.getData("data/result.tsv");
 
