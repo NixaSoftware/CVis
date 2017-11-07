@@ -609,7 +609,7 @@
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
           uploadMultiple: true,
-          parallelUploads: 5,
+          parallelUploads: 100,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -617,7 +617,6 @@
               formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
               formData.append("name", "partition");
               formData.append("mocleSelected", "no");
-              myDropzone1.processQueue();
             }),
             this.on("addedfile", function(event) {
               $("#visOnlyPartitions").show();
@@ -633,10 +632,13 @@
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
-              
+
               // chama a pagina de visualizacao da tabela
-              window.open("/visualization");
-            });
+              // window.open("/visualization");
+            }),
+            this.on("success", function(event){
+              myDropzone1.processQueue();
+            }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
                 $('.partitionerror').html("Server internal error");
@@ -657,7 +659,7 @@
           dictDefaultMessage: "",
           acceptedFiles: '.clu',
           uploadMultiple: true,
-          parallelUploads: 5,
+          parallelUploads: 100,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -670,7 +672,6 @@
               formData.append("nearNeigh", $("#datasetOnlyMocle #nearNeighMocle").val());
               formData.append("minKMocle", $("#datasetOnlyMocle #minKMocle").val());
               formData.append("maxKMocle", $("#datasetOnlyMocle #maxKMocle").val());
-              myDropzone1.processQueue();
             }),
             this.on("addedfile", function(event) {
               $("#visOnlyMocle").show();
@@ -687,6 +688,9 @@
                 block: "start" // or "end"
               });
             });
+            this.on("success", function(event){
+              myDropzone1.processQueue();
+            }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
                 $('.mocleerror').html("Server internal error");
