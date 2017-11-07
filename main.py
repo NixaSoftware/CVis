@@ -101,7 +101,8 @@ def upload():
             path = loadCluster(resultfolder + '/allPart', 1)
             print("path loadCluster = ", path)
             return jsonify(path)
-        else:
+
+        elif request.form['name'] == 'partition':
             print("request partition")
             #id = str(datetime.now().strftime('%d-%m-%Y/%H:%M'))
 
@@ -127,13 +128,14 @@ def upload():
                 os.makedirs(novoDir + '/partition')
 
             print("request.files: ", request.files)
-            print("request.files.getlist: ", request.files.getlist('files[]'))
+            keys = [k for k in request.files if k.startswith('file')]
+            print(keys)
+            
             # loop over files since we allow multiple files
-            for f in request.files.getlist("file[]"):
-                print("loop")
+            for name in keys:
+                f = request.files[name]
                 #salva arquivos na pasta atual + /uploaded
                 partitionlocation = novoDir + '/partition/'
-                print("ARQUIVO DA LISTA: ", f.filename)
                 f.save(os.path.join(partitionlocation, f.filename));
 
             # checa numero de arquivos na pasta para saber se é o ultimo post
