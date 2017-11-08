@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/dropzone/dropzone.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/reset.css')}}" />
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/akottr.css')}}" />
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dragtable.css')}}" />
 
   </head>
 
@@ -40,7 +43,7 @@
       </div>
     </nav>
 
-  <section id="resultFilterDetails" class="bg-light hidden" style="height:350px;">
+  <section id="resultFilterDetails" class="bg-light hidden" style="height:310px;">
     <div class="container">
       <div class="row row-divided">
         <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultFilter" align="center">
@@ -64,8 +67,8 @@
           </div>
           <button type="button" class="btn btn-primary" id="applyFilter" onclick="cViz.onDataChange()" style="margin-top:1em;">Apply</button>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultDetails">
-          <h3 style="margin-bottom:1em; font-size:25px;" align="center">Details</h3>
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultDetails" align="center">
+          <h3 style="margin-bottom:1em; font-size:25px;">Details</h3>
           <p>Partitions: <span id="partitionName"></span></p>
           <p>Number of Partitions: <span class="nPartitions"></span></p>
           <p>Number of Clusters Selected: <span class="nClusters"></span></p>
@@ -73,25 +76,30 @@
        </div>
      </div>
   </section>
+  <div class="dropdown" align="right" style="margin-bottom: 1em;">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+      <a class="dropdown-item" href="#"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
+      <a class="dropdown-item" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> JPG</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
+    </div>
+  </div>
 
   <!-- Table for visualizing all the clustes -->
-  <div id="cViz" class="w3-container w3-card-4 w3-theme-l5 w3-padding-16" style="overflow-y:auto; max-height: 20em;">
+  <div id="cViz" class="w3-container w3-card-4 w3-theme-l5 w3-padding-16">
       <div id="clustersTable"></div>
   </div>
 
   <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script>
 
-   <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/reset.css" />
-  <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/akottr.css" />
-  <link rel="stylesheet" type="text/css" href="others/dragtable-master/dragtable.css" />
-
-  <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+  <script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
 
   <!-- Colorbrewer Library for colour scales -->
-  <script src="../static/css/colorbrewer.v1.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+  <script src="{{url_for('static', filename='js/colorbrewer.v1.js')}}"></script>
+  <script src="{{url_for('static', filename='js/topojson.min.js')}}"></script>
+  <script src="{{url_for('static', filename='js/queue.min.js')}}"></script>
 
   <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
 
@@ -107,10 +115,10 @@
   <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
 
   <!-- cViz core -->
-  <script src="../static/js/cViz_core.js"></script>
+  <script src="{{url_for('static', filename='js/cViz_core.js')}}"></script>
 
   <!-- Table with the visualization of the clusters -->
-  <script src="../static/js/cViz_clustersTable.js">
+  <script src="{{url_for('static', filename='js/cViz_clustersTable.js')}}">
   </script>
 
   <script>
@@ -119,7 +127,7 @@
   </script>
 
   <!-- Main loading of data -->
-  <script src="../static/js/cViz_main.js"></script>
+  <script src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
 
 
 </body>
