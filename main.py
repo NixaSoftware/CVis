@@ -21,6 +21,10 @@ def index():
 def visualization():
    return render_template('visualization.html')
 
+@app.route('/result')
+def result():
+    return render_template('result.html')
+
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':

@@ -1,93 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
 
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+  <head>
 
-        <!-- Visualization's Style -->
-        <link rel="stylesheet" href="../static/css/style1.css" media="screen" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    </head>
-    <body>
-    <!-- Layout - ver W3.CSS - https://www.w3schools.com/w3css/w3css_layout.asp -->
-    <div class="w3-cell-row">
+    <title>Cluster Visualization</title>
+     <link rel="icon" href="../static/images/icon.png">
 
-        <div class="w3-container w3-cell w3-card-4 w3-theme-l5 w3-padding-16">
-            <header class="w3-container w3-card-4 w3-theme w3-padding-16">
-                <h1>Filtering options</h1>
-            </header>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-            <form class="w3-padding-16">
-                <input type="radio" name="allClusters" value="allClu" checked> All clusters<br>
-                <input type="radio" name="allClusters" value="distinctClu"> Distinct clusters<br><br>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-                <fieldset>
-                    <legend>Clusters size interval:</legend>
-                    Minimum:
-                    <input type="number" id="minCSize" value="1"><br>
-                    Maximum:
-                    <input type="number" id="maxCSize"><br><br>
-                </fieldset>
-                <input type="button" onclick="cViz.onDataChange()" value="Apply"/><br>
-            </form>
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- Visualization's Style -->
+    <link rel="stylesheet" href="../static/css/style1.css" media="screen" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/scrolling-nav.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/dropzone/dropzone.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/reset.css')}}" />
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/akottr.css')}}" />
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/dragtable.css')}}" />
 
+  </head>
 
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="/">Cluster Visualization</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+
+  <section id="resultFilterDetails" class="bg-light hidden" style="height:310px;">
+    <div class="container">
+      <div class="row row-divided">
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultFilter" align="center">
+          <h3 style="margin-bottom:1em; font-size:25px;">Filtering options</h3>
+          <div class="row" align="center">
+            <div class="col-2"></div>
+            <div class="col-4"><label for="allClu"><input type="radio" name="allClusters" id="allClu" checked> All Clusters</label></div>
+            <div class="col-4"><label for="distinctClu"><input type="radio" name="allClusters" id="distClu"> Distinct Cluster</label></div>
+          </div>
+          <p style="margin-top:1em; margin-bottom:1em; font-size:15px;">Clusters size interval:</p>
+          <div class="row">
+            <div class="col-1"></div>
+            <label for="minCSize" class="col-2 col-form-label">Minimum:</label>
+            <div class="col-3">
+              <input class="form-control" type="number" min="1" value="1" id="minCSize">
+            </div>
+            <label for="maxCSize" class="col-2 col-form-label">Maximum:</label>
+            <div class="col-3">
+              <input class="form-control" type="number" min="1" value="72" id="maxCSize">
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" id="applyFilter" onclick="cViz.onDataChange()" style="margin-top:1em;">Apply</button>
         </div>
-
-        <!-- Details about what is being visualized -->
-        <div class="w3-container w3-cell w3-card-4 w3-theme-l5 w3-padding-16">
-            <header class="w3-container w3-card-4 w3-theme w3-padding-16">
-                <h1>Details</h1>
-            </header>
-
-            <section class="w3-padding-16">
-                Partitions: BP-KM-k2-8 + MOCLE-L4-MCLA-run1 + TP
-
-                <p>Number of Partitions:
-                <div class = "nPartitions"> </div></p>
-                <br>
-                <p>Number of Clusters selected:
-                <div class = "nClusters"> </div></p>
-            </section>
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" id="resultDetails" align="center">
+          <h3 style="margin-bottom:1em; font-size:25px;">Details</h3>
+          <p>Partitions: <span id="partitionName"></span></p>
+          <p>Number of Partitions: <span class="nPartitions"></span></p>
+          <p>Number of Clusters Selected: <span class="nClusters"></span></p>
         </div>
+       </div>
+     </div>
+  </section>
+  <div class="dropdown" align="right" style="margin-bottom: 1em;">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+      <a class="dropdown-item" href="#"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
+      <a class="dropdown-item" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> JPG</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
     </div>
+  </div>
 
-    <!-- Table for visualizing all the clustes -->
-    <div id="cViz" class="w3-container w3-card-4 w3-theme-l5 w3-padding-16">
-        <div id="clustersTable"></div>
-    </div>
+  <!-- Table for visualizing all the clustes -->
+  <div id="cViz" class="w3-container w3-card-4 w3-theme-l5 w3-padding-16">
+      <div id="clustersTable"></div>
+  </div>
 
-        <!-- D3 Version 4 -->
-    <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script>
 
-     <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="http://akottr.github.io/css/akottr.css" />
-    <link rel="stylesheet" type="text/css" href="others/dragtable-master/dragtable.css" />
+  <script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
 
-    <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+  <!-- Colorbrewer Library for colour scales -->
+  <script src="{{url_for('static', filename='js/colorbrewer.v1.js')}}"></script>
+  <script src="{{url_for('static', filename='js/topojson.min.js')}}"></script>
+  <script src="{{url_for('static', filename='js/queue.min.js')}}"></script>
 
-    <!-- Colorbrewer Library for colour scales -->
-    <script src="../static/css/colorbrewer.v1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.20/topojson.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+  <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
+
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+  <!-- Plugin JavaScript -->
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+  <!-- Custom JavaScript for this theme -->
+  <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
+
+  <!-- cViz core -->
+  <script src="{{url_for('static', filename='js/cViz_core.js')}}"></script>
+
+  <!-- Table with the visualization of the clusters -->
+  <script src="{{url_for('static', filename='js/cViz_clustersTable.js')}}">
+  </script>
+
+  <script>
+  cViz.directory = sessionStorage.getItem("sent");
+  cViz.onDataChange();
+  </script>
+
+  <!-- Main loading of data -->
+  <script src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
 
 
-    <!-- cViz core -->
-    <script src="../static/js/cViz_core.js"></script>
-
-    <!-- Table with the visualization of the clusters -->
-    <script src="../static/js/cViz_clustersTable.js">
-    </script>
-
-    <script>cViz.directory = "BP-KM-k2-8---MOCLE-L4-MCLA-run1---TP-files";
-        <!--console.log(cViz.directory);-->
-    </script>
-
-    <!-- Main loading of data -->
-    <script src="../static/js/cViz_main.js"></script>
-    </body>
-</html>
+</body>

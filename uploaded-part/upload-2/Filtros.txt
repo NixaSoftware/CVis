@@ -1,0 +1,8 @@
+------Filtros-------
+
+Contribuidores: Código, nome, telefone, cidade e status
+Histórico de doações: Código, Contribuinte, Valor, Status
+***Lembrando que deve estar ordenado descrescentemente por data***
+Repique: Código, Contribuinte, Telefone, Valor
+Recibos: Código doação, Contribuinte
+***Ordenar crescentemente por data de entrega***
