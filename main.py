@@ -42,7 +42,6 @@ def upload():
             with open(datasetlocation) as f:
                 numObj = sum(1 for _ in f)-1
 
-            print("esse é um teste que eu gostaria de não estar fazendo às 3 da manhã")
             # caso 1: rodar os algoritmos em cima do dataset
             if(request.form['partition'] == 'no'):
                 print("request.form['partition'] == 'no'")
@@ -52,18 +51,20 @@ def upload():
                     newdirectory = True
 
                 if(newdirectory):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1')
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
+                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1')
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1'
                 else:
                     # ordena as pastas e pega o número da última pra saber qual o
                     # número da pasta nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluter_mocle-' + str(newdir)
+                    #os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir))
+                    os.makedirs(resultfolder)
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
-                    tail = '/algResult/' + 'results-' + str(newdir)
-                    resultfolder = app.config['UPLOADED_PATH'] + tail
+                   # tail = '/algResult/' + 'cluster_mocle-' + str(newdir)
+                   # resultfolder = app.config['UPLOADED_PATH'] + tail
 
                 if(request.form['basicSelected'] == 'yes' ):
                     print("CLUSTERING SELECTED")
@@ -75,7 +76,6 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
-                    print("alg", alg)
                     if len(alg) > 1:
                         for algnumber in alg:
                             print("algnumber: ", algnumber)
@@ -83,7 +83,7 @@ def upload():
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
-                elif(request.form['mocleSelected'] == 'yes'):
+                if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
                     print("MOCLE SELECTED")
                     # crossover
                     # tratar: se M = 1 ou se B = 2
@@ -109,11 +109,13 @@ def upload():
             id = 'upload-1'
             dir = '/uploaded-part/' + id
             dirAtual = app.config['UPLOADED_PATH']
+            novoDir = dirAtual + dir
 
             if not os.path.exists(dirAtual + dir):
-                os.makedirs(dirAtual + dir)
+                os.makedirs(novoDir)
             else:
                 root, dirs, files = next(os.walk(dirAtual + '/uploaded-part/'))
+                print("natsorted(dirs) ", natsorted(dirs))
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                 novoDir = dirAtual +'/uploaded-part/' + 'upload-' + str(newdir)
                 print("diretório criado: ", novoDir)
@@ -127,21 +129,18 @@ def upload():
             if not os.path.exists(novoDir + '/partition'):
                 os.makedirs(novoDir + '/partition')
 
-            print("request.files: ", request.files)
             keys = [k for k in request.files if k.startswith('file')]
-            print(keys)
+            #print(keys)
             
             # loop over files since we allow multiple files
             for name in keys:
                 f = request.files[name]
                 #salva arquivos na pasta atual + /uploaded
-                partitionlocation = novoDir + '/partition/'
+                partitionlocation = novoDir + '/partition'
                 f.save(os.path.join(partitionlocation, f.filename));
 
             # checa numero de arquivos na pasta para saber se é o ultimo post
             qtinfolder = len([name for name in os.listdir(novoDir + '/partition/') if os.path.isfile(os.path.join(novoDir + '/partition', name))])
-
-            print("diretório que tá sendo checada a qtd de arquivos: {}".format(novoDir+'/partition'))
 
             newdirectory = False
             if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
@@ -149,16 +148,16 @@ def upload():
                 newdirectory = True
 
             if(newdirectory):
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1')
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-1')
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-1'
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-1'
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir))
+                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-' + str(newdir))
 
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'results-' + str(newdir)
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-' + str(newdir)
 
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
@@ -180,12 +179,12 @@ def upload():
                     # nearest neighbours
                     nearNeigh = request.form['nearNeigh']
                     mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGen)
+                    path = loadCluster(resultfolder, 0)
+                else:
+                    path = loadCluster(partitionlocation, 1)
 
-                path = loadCluster(resultfolder, 0)
+                print("path loadCluster: ", path)
                 return jsonify(path)
-            else:
-                print("qtinfolder != qtofdata")
-                print("qtinfolder: {}\nqtofdata: {}".format(qtinfolder, int(request.form['qtofdata'])))
     return "Erro"
 
 #!/usr/bin/env python

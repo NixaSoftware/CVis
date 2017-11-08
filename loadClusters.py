@@ -41,12 +41,13 @@ def loadCluster(dirPart, alg):
     print("head {}\ntail {}".format(head, tail))
     expUpload = tail;
     (lixo, expDirName) = os.path.split(head)
-    expDirName += "-files"
-    print("expDirName {}".format(expDirName))
+    #expDirName += "-files"
     if(alg):
-        resDir = "./static/" + expDirName
+        print("expDirName {}".format(expDirName))
+        resDir = "./static/resultados/" + expDirName
     else:
-        resDir = "./static/" + expUpload
+        print("expUpload {}".format(expUpload))
+        resDir = "./static/resultados/" + expUpload
     print("resDir {}".format(resDir))
 
     if not os.path.exists(resDir):
