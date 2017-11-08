@@ -80,7 +80,7 @@
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
-      <a class="dropdown-item" href="#"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
+      <a class="dropdown-item" href="#"  onclick="$('#clustersTable table').tableExport({type:'png',escape:'false'});"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
       <a class="dropdown-item" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> JPG</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
@@ -110,6 +110,12 @@
 
   <!-- Plugin JavaScript -->
   <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+  <!-- Export table -->
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/tableExport.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/jquery.base64.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/html2canvas.js')}}"></script>
+
 
   <!-- Custom JavaScript for this theme -->
   <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
