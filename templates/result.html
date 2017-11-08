@@ -113,8 +113,9 @@
   <script src="../static/js/cViz_clustersTable.js">
   </script>
 
-  <script>cViz.directory = "BP-KM-k2-8---MOCLE-L4-MCLA-run1---TP-files";
-      cViz.onDataChange();
+  <script>
+  cViz.directory = sessionStorage.getItem("sent");
+  cViz.onDataChange();
   </script>
 
   <!-- Main loading of data -->

@@ -588,6 +588,11 @@
                   behavior: "smooth", // or "auto" or "instant"
                   block: "start" // or "end"
                 });
+
+            //which will support for every browser that will store the sessions.
+            sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
+            //this is to open a window in new tab
+            window.open("/visualization","_blank");
             });
             this.on("error", function(file, error){
               if(error != "You can't upload files of this type."){
@@ -632,14 +637,11 @@
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
-
               // chama a pagina de visualizacao da tabela
-              //the sessionStorage.setItem(); is the predefined function in javascript
               //which will support for every browser that will store the sessions.
-              // sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1---TP-files");
-
-                //this is to open a window in new tab
-                window.open("/result","_blank");
+              sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
             }),
             this.on("success", function(event){
               myDropzone1.processQueue();
@@ -686,12 +688,17 @@
                 $("#visOnlyMocle").hide();
               }
             }),
-            this.on("processing", function(event){
+            this.on("processingmultiple", function(event){
               $('#loading').show();
               $('#loading')[0].scrollIntoView({
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
+
+              //which will support for every browser that will store the sessions.
+              sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
             });
             this.on("success", function(event){
               myDropzone1.processQueue();
