@@ -12,12 +12,9 @@
      <link rel="icon" href="../static/images/icon.png">
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+    <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/scrolling-nav.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/scrolling-nav.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
@@ -204,11 +201,11 @@
                    <div class="row col-10" style="margin-top: 1em;">
                      <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
                      <div class="col-2">
-                       <input class="form-control" type="number" min="0" id="numGenMocle">
+                       <input class="form-control" type="number" min="0" value="100" id="numGenMocle" name="numGenMocle">
                      </div>
                      <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours (%)</a>:</label>
                      <div class="col-2">
-                       <input class="form-control" type="number" min="0" id="nearNeighMocle">
+                       <input class="form-control" type="number" min="0" value="5" id="nearNeighMocle" name="nearNeighMocle">
                      </div>
                    </div>
                  </div>
@@ -315,11 +312,11 @@
                        <div class="row col-10" style="margin-top: 1em;">
                          <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
                          <div class="col-2">
-                           <input class="form-control" type="number" min="0" id="numGenMocle">
+                           <input class="form-control" type="number" min="0" value="100" id="numGenMocle" name="numGenMocle">
                          </div>
                          <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours (%)</a>:</label>
                          <div class="col-2">
-                           <input class="form-control" type="number" min="0" id="nearNeighMocle">
+                           <input class="form-control" type="number" min="0" value="5" id="nearNeighMocle" name="nearNeighMocle">
                          </div>
                        </div>
                      </div>
@@ -503,7 +500,7 @@
     var partitionSelected = false;
 
       $(document).ready(function(){
-        $("input").val("");
+        $("input input:not([name='numGenMocle']) input:not([name='nearNeighMocle'])").val("");
         $(".hidden").hide();
         $("#continueDataset").hide();
         $("#visOnlyPartitions").hide();
@@ -745,8 +742,6 @@
                     behavior: "smooth", // or "auto" or "instant"
                     block: "start" // or "end"
                   });
-              $('#datasetBoth #numGenMocle').attr('value', "100");
-              $("#datasetBoth #nearNeighMocle").attr('value', "5");
             }
             else if($("#chooseBasic").is(':checked')){
               $('#datasetOnlyBasic').show();
@@ -761,8 +756,6 @@
                     behavior: "smooth", // or "auto" or "instant"
                     block: "start" // or "end"
                   });
-                $('#datasetOnlyMocle #numGenMocle').attr('value', "100");
-                $("#datasetOnlyMocle #nearNeighMocle").attr('value', "5");
             }
             else{
               $('#aviso_modal .modal-body').append('<p>You should choose at least a algorithm to generate partitions.</p>');
@@ -801,23 +794,25 @@
             $('#aviso_modal .modal-body').append('<p>You should choose at least a Basic Algorithm to generate partitions.</p>');
             error = true;
           }
-          if($('#datasetBoth #minKBasic').val() == "" || $('#datasetBoth #maxKBasic').val() == "" || $('#datasetBoth #minKMocle').val() == "" || $('#datasetBoth #maxKMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+          if($('#datasetBoth #minKBasic').val() == "" || $('#datasetBoth #maxKBasic').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum number of clusters values are required.</p>');
             error = true;
           }
           else{
-            if($('#datasetBoth #minKBasic').val() > $('#datasetBoth #maxKBasic').val() || $('#datasetBoth #minKMocle').val() > $('#datasetBoth #maxKMocle').val()){
-              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+            if($('#datasetBoth #minKBasic').val() > $('#datasetBoth #maxKBasic').val()){
+              $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
               error = true;
             }
           }
-          if($('#datasetBoth #numGenMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>You should choose a Number of Generations.</p>');
+          if($('#datasetBoth #minKMocle').val() == "" || $('#datasetBoth #maxKMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum k of the consensus partition values are required.</p>');
             error = true;
           }
-          if($('#datasetBoth #nearNeighMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>You should choose a percentage for Nearest Neighbours.</p>');
-            error = true;
+          else{
+            if($('#datasetBoth #minKMocle').val() > $('#datasetBoth #maxKMocle').val()){
+              $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
+              error = true;
+            }
           }
           if(error){
             $('#aviso_modal').modal("show");
@@ -836,12 +831,12 @@
             error = true;
           }
           if($('#datasetOnlyBasic #minKBasic').val() == "" || $('#datasetOnlyBasic #maxKBasic').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum number of clusters values are required.</p>');
             error = true;
           }
           else{
             if($('#datasetOnlyBasic #minKBasic').val() > $('#datasetOnlyBasic #maxKBasic').val()){
-              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+              $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
               error = true;
             }
           }
@@ -862,22 +857,14 @@
           var error = false;
           $('#chooseMocle').prop('checked', true);
           if($('#datasetOnlyMocle #minKMocle').val() == "" || $('#datasetOnlyMocle #maxKMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum cluster size interval values are required.</p>');
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum k of the consensus partition values are required.</p>');
             error = true;
           }
           else{
             if($('#datasetOnlyMocle #minKMocle').val() > $('#datasetOnlyMocle #maxKMocle').val()){
-              $('#aviso_modal .modal-body').append('<p>Maximum cluster size must be higher than minimum cluster size.</p>');
+              $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
               error = true;
             }
-          }
-          if($('#datasetOnlyMocle #numGenMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>You should choose a Number of Generations.</p>');
-            error = true;
-          }
-          if($('#datasetOnlyMocle #nearNeighMocle').val() == ""){
-            $('#aviso_modal .modal-body').append('<p>You should choose a percentage for Nearest Neighbours.</p>');
-            error = true;
           }
           if(error){
             $('#aviso_modal').modal("show");
