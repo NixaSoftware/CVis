@@ -63,7 +63,7 @@ def upload():
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluter_mocle-' + str(newdir)
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir)
                     #os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir))
                     os.makedirs(resultfolder)
                     # pasta para adicionar resultados tanto do clustering quanto do mocle
@@ -99,7 +99,7 @@ def upload():
                     nearNeigh = int(request.form['nearNeigh'])
                     minK = int(request.form['minKMocle'])
                     maxK = int(request.form['maxKMocle'])
-                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/AllParts', resultfolder, datasetlocation, nearNeigh, numGen)
+                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart', datasetlocation, nearNeigh, numGen)
                 # conferir no loadClusters como o caminho tá sendo pegado
             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
             path = loadCluster(resultfolder + '/allPart', 1)
@@ -135,7 +135,7 @@ def upload():
 
             keys = [k for k in request.files if k.startswith('file')]
             #print(keys)
-            
+
             # loop over files since we allow multiple files
             for name in keys:
                 f = request.files[name]

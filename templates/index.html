@@ -585,12 +585,15 @@
                   behavior: "smooth", // or "auto" or "instant"
                   block: "start" // or "end"
                 });
+            }),
+            this.on("successmultiple", function(event){
+              $('#loading').hide();
+              //which will support for every browser that will store the sessions.
+              sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
 
-            //which will support for every browser that will store the sessions.
-            sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
-            //this is to open a window in new tab
-            window.open("/visualization","_blank");
-            });
+            }),
             this.on("error", function(file, error){
               if(error != "You can't upload files of this type."){
                 $('.dataseterror').html("Server internal error");
@@ -634,14 +637,15 @@
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
+            }),
+            this.on("successmultiple", function(event){
+              myDropzone1.processQueue();
+              $('#loading').hide();
               // chama a pagina de visualizacao da tabela
               //which will support for every browser that will store the sessions.
               sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
               //this is to open a window in new tab
               window.open("/visualization","_blank");
-            }),
-            this.on("success", function(event){
-              myDropzone1.processQueue();
             }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
@@ -691,14 +695,14 @@
                 behavior: "smooth", // or "auto" or "instant"
                 block: "start" // or "end"
               });
-
+            }),
+            this.on("successmultiple", function(event){
+              myDropzone1.processQueue();
+              $('#loading').hide();
               //which will support for every browser that will store the sessions.
               sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
               //this is to open a window in new tab
               window.open("/visualization","_blank");
-            });
-            this.on("success", function(event){
-              myDropzone1.processQueue();
             }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
