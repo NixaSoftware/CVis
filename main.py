@@ -83,9 +83,9 @@ def upload():
                     if len(alg) > 1:
                         for algnumber in alg:
                             print("algnumber: ", algnumber)
-                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
+                            wait = clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
                     else:
-                        clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
+                        wait = clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
                 if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
                     print("MOCLE SELECTED")
@@ -237,7 +237,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
     print('esse é o processo do clustering', processo)
     clustering = subprocess.call(processo, shell=True)
 
-    return True
+    return '', 200
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
