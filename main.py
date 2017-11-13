@@ -83,12 +83,7 @@ def upload():
                     if len(alg) > 1:
                         for algnumber in alg:
                             print("algnumber: ", algnumber)
-                            args = ['/home/lasid/programs/clustering/./clustering', tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber)]
-                            for item in args:
-                                processo += str(item)
-                                processo += " "
-                            subprocess.Popen(processo, stdout=subprocess.PIPE)
-                            print(stdout)
+                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
@@ -239,8 +234,8 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
     for item in args:
         processo += str(item)
         processo += " "
-    subprocess.call(processo, shell=True)
-    return True
+
+    return subprocess.call(processo, shell=True)
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
