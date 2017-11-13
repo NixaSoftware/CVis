@@ -235,7 +235,8 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += str(item)
         processo += " "
     print('esse é o processo do clustering', processo)
-    return subprocess.call(processo, shell=True)
+    subprocess.call(processo, shell=True)
+    return '', 204
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
