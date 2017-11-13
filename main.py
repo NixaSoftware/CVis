@@ -87,7 +87,8 @@ def upload():
                             for item in args:
                                 processo += str(item)
                                 processo += " "
-                            subprocess.call(processo, shell=True)
+                            subprocess.Popen(processo, stdout=subprocess.PIPE)
+                            print(stdout)
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
 
