@@ -21,10 +21,6 @@ def index():
 def visualization():
    return render_template('visualization.html')
 
-@app.route('/result')
-def result():
-    return render_template('result.html')
-
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
@@ -84,8 +80,10 @@ def upload():
                         for algnumber in alg:
                             print("algnumber: ", algnumber)
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
+                            print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
+                        print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
 
                 if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
                     print("MOCLE SELECTED")
