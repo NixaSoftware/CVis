@@ -254,13 +254,13 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
             é inútil
     """
 
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
+    #args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle']
     processo = ""
 
     for item in args:
         processo += str(item)
         processo += " "
-    print("o mocle está sendo chamado????? talvez\no processo é esse: ", processo)
     return subprocess.call(processo, shell=True)
 
 
