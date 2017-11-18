@@ -79,7 +79,7 @@
   <div class="dropdown" align="right" style="margin-bottom: 1em;">
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="#"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+      <a class="dropdown-item" href="#" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
       <a class="dropdown-item" href="#"  onclick="$('#clustersTable table').tableExport({type:'png',escape:'false'});"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
       <a class="dropdown-item" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> JPG</a>
       <div class="dropdown-divider"></div>
@@ -117,6 +117,9 @@
   <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/html2canvas.js')}}"></script>
 
 
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/jspdf.min.js')}}"></script>
+
+
   <!-- Custom JavaScript for this theme -->
   <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
 
@@ -135,5 +138,13 @@
   <!-- Main loading of data -->
   <script src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
 
+  <script language="javascript">
+      $('#pdf').click(function(){
+          var pdf = new jsPDF('p', 'pt', 'letter');
+            pdf.addHTML($('#cViz'), function () {
+            pdf.save('Test.pdf');
+        });
+      });
+  </script>
 
 </body>
