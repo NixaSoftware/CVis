@@ -141,15 +141,19 @@
   <script language="javascript">
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
-            pdf.addHTML($('#table-clu'), function () {
-            pdf.save('Test.pdf');
-        });
+          var options = {
+                      background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+          };
+          pdf.addHTML($('#table-clu'), options, function () {
+              pdf.save('Test.pdf');
+          });
       });
 
      $('#jpeg').click(function(){
          //transforma em canvas
          html2canvas($('#table-clu'),
          {
+             background:'#FFFFFF',
              onrendered: function (canvas) {
                  var a = document.createElement('a');
                  // o default é png, transforma pra jpg
@@ -166,6 +170,7 @@
         //transforma em canvas
         html2canvas($('#table-clu'),
         {
+            background:'#FFFFFF',
             onrendered: function (canvas) {
                 var a = document.createElement('a');
                 // faz o donwload

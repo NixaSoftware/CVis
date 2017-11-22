@@ -27,3 +27,7 @@ button:hover{
   overflow-y: auto;
   max-height: 5em;
 }
+
+body{
+  backgroud-color: #FFFFFF;
+}
