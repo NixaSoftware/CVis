@@ -279,7 +279,8 @@ cViz.clustersData = cViz.data.allData.columns.map(function(key){
 
         //cViz.clustersTableWidth = parseInt(d3.select("#clustersTable").style("width")); //to calculate the width of each cell proportional to the number of objects it represents
         var table = d3.select("#clustersTable")
-                        .append("table").attr("class", "w3-table");
+                        .append("table").attr("class", "w3-table")
+		                .attr("id", "table-clu");
 //                        .attr("class", "sar-table")
 //		                .attr("id", "constrainTable handlerTable");
         table.append("thead")

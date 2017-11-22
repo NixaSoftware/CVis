@@ -554,6 +554,7 @@
                   }
                   //dados que são utilizados para rodar apenas o clustering
                   else{
+                    formData.append("mocleSelected", "no");
                     formData.append("tipoDistBasic", $("#datasetBoth #selMetricBasic").val());
                     if($('#datasetOnlyBasic #chooseAll:checked').length == 1 && $('#datasetOnlyBasic #checkboxDataSet input:checked').length == 6){
                       formData.append("alg", "1");

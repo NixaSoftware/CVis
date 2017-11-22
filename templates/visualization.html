@@ -80,8 +80,8 @@
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="#" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
-      <a class="dropdown-item" href="#"  onclick="$('#clustersTable table').tableExport({type:'png',escape:'false'});"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
-      <a class="dropdown-item" href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> JPG</a>
+      <a class="dropdown-item" href="#"  id = "png"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
+      <a class="dropdown-item" href="#"  id = "jpeg"><i class="fa fa-picture-o" aria-hidden="true"></i> JPEG</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
     </div>
@@ -115,10 +115,10 @@
   <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/tableExport.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/jquery.base64.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/html2canvas.js')}}"></script>
-
-
   <script type="text/javascript" src="{{url_for('static', filename='vendor/table-export/jspdf.min.js')}}"></script>
-
+  <script type="text/javascript" language="javascript" src="{{url_for('static', filename='vendor/table-export/canvas2image.js')}}"></script>
+  <script src="https://rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
+  <script src ="https://rawgit.com/eligrey/canvas-toBlob.js/master/canvas-toBlob.js"></script>
 
   <!-- Custom JavaScript for this theme -->
   <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
@@ -141,10 +141,45 @@
   <script language="javascript">
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
-            pdf.addHTML($('#cViz'), function () {
-            pdf.save('Test.pdf');
-        });
+          var options = {
+                      background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+          };
+          pdf.addHTML($('#table-clu'), options, function () {
+              pdf.save('Test.pdf');
+          });
       });
-  </script>
 
+     $('#jpeg').click(function(){
+         //transforma em canvas
+         html2canvas($('#table-clu'),
+         {
+             background:'#FFFFFF',
+             onrendered: function (canvas) {
+                 var a = document.createElement('a');
+                 // o default é png, transforma pra jpg
+                 a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+                //faz o download com o nome certo
+                 canvas.toBlob(function(blob) {
+                    saveAs(blob, "output.jpg");
+                 }, "image/jpeg", 1);
+            }
+        });
+    });
+
+    $('#png').click(function(){
+        //transforma em canvas
+        html2canvas($('#table-clu'),
+        {
+            background:'#FFFFFF',
+            onrendered: function (canvas) {
+                var a = document.createElement('a');
+                // faz o donwload
+                canvas.toBlob(function(blob) {
+                    saveAs(blob, "output.png");
+                }, "image/png");
+            }
+        });
+    });
+
+  </script>
 </body>

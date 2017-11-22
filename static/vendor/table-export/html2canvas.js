@@ -416,7 +416,7 @@ _html2canvas.Util.Children = function( elem ) {
 };
 
 _html2canvas.Util.isTransparent = function(backgroundColor) {
-  return (!backgroundColor || backgroundColor === "transparent" || backgroundColor === "rgba(0, 0, 0, 0)");
+  return (!backgroundColor || backgroundColor === "transparent" || backgroundColor === "rgba(0, 0, 0, 0)"  || backgroundColor === undefined);
 };
 
 _html2canvas.Util.Font = (function () {
@@ -2989,16 +2989,16 @@ _html2canvas.Renderer.Canvas = function(options) {
         // crop image to the bounds of selected (single) element
         bounds = _html2canvas.Util.Bounds(options.elements[0]);
         newCanvas = document.createElement('canvas');
-        
+
 
 	    newCanvas.width = Math.ceil(bounds.width);
         newCanvas.height = Math.ceil(bounds.height);
-   
+
 	  ctx = newCanvas.getContext("2d");
       ctx.drawImage(canvas, bounds.left, bounds.top, bounds.width, bounds.height, 0, 0, bounds.width, bounds.height);
 
-		
-		
+
+
 		canvas = null;
         return newCanvas;
       }
