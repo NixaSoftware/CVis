@@ -3,6 +3,7 @@ from flask_dropzone import Dropzone
 from datetime import datetime
 import json
 from natsort import  natsorted, ns
+import pprint
 import os
 from loadClusters import *
 #from script_fcs import *
@@ -66,7 +67,30 @@ def upload():
                    # tail = '/algResult/' + 'cluster_mocle-' + str(newdir)
                    # resultfolder = app.config['UPLOADED_PATH'] + tail
 
-                if(request.form['basicSelected'] == 'yes' ):
+                print("REQUESTS CLUSTER: ", request.form['basicSelected'])
+                print("REQUESTS MOCLE: ", request.form['mocleSelected'])
+                if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
+                    print("BASIC + MOCLE SELECTED")
+                    # crossover
+                    # tratar: se M = 1 ou se B = 2
+                    if(request.form['tipoDistMocle'] == 'M'):
+                        crossover = 1
+                    else:
+                        crossover = 2
+                    numGen = int(request.form['numGen'])
+                    nearNeigh = int(request.form['nearNeigh'])
+                    minK = int(request.form['minKMocle'])
+                    maxK = int(request.form['maxKMocle'])
+                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', datasetlocation, nearNeigh, numGen)
+                    path = loadCluster(resultfolder + '/allPart-mocle', 1)
+                else:
+                    path = loadCluster(resultfolder + '/allPart', 1)
+
+                # conferir no loadClusters como o caminho tá sendo pegado
+               # print("path loadCluster = ", path)
+               # return jsonify(path)
+                
+                if(request.form['basicSelected'] == 'yes'):
                     print("CLUSTERING SELECTED")
                     minK = int(request.form['minKBasic'])
                     maxK = int(request.form['maxKBasic'])
@@ -84,26 +108,8 @@ def upload():
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
                         print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-
-                if(request.form['basicSelected'] == 'yes' and request.form['mocleSelected'] == 'yes'):
-                    print("MOCLE SELECTED")
-                    # crossover
-                    # tratar: se M = 1 ou se B = 2
-                    if(request.form['tipoDistMocle'] == 'M'):
-                        crossover = 1
-                    else:
-                        crossover = 2
-                    numGen = int(request.form['numGen'])
-                    nearNeigh = int(request.form['nearNeigh'])
-                    minK = int(request.form['minKMocle'])
-                    maxK = int(request.form['maxKMocle'])
-                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart', datasetlocation, nearNeigh, numGen)
-
-            # conferir no loadClusters como o caminho tá sendo pegado
-            print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-            path = loadCluster(resultfolder + '/allPart', 1)
-            print("path loadCluster = ", path)
-            return jsonify(path)
+                print("ALO QUE É QUE TÁ ROLANDO @DEUS\n");
+                
 
         elif request.form['name'] == 'partition':
             print("request partition")
@@ -190,6 +196,13 @@ def upload():
                 return jsonify(path)
     return "Erro"
 
+#@app.after_request
+#def after(response):
+#    print(response.status)
+#    print(response.headers)
+#    print(response.get_data())
+#    return response
+
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
@@ -234,7 +247,8 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += str(item)
         processo += " "
 
-    return subprocess.call(processo, shell=True)
+    subprocess.call(processo, shell=True)
+    return 
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
@@ -254,15 +268,18 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
             é inútil
     """
 
-    #args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle']
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
     processo = ""
 
     for item in args:
         processo += str(item)
         processo += " "
-    return subprocess.call(processo, shell=True)
+
+    retorno = subprocess.call(processo, shell=True)
+    print("retorno = ", retorno)
+    return 1
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+    app.config['TRAP_BAD_REQUEST_ERRORS'] = True
