@@ -99,8 +99,9 @@ def upload():
                     minK = int(request.form['minKMocle'])
                     maxK = int(request.form['maxKMocle'])
                     
+                    trueP = os.listdir(resultfolder+'/allPart')
                     print("antes de tudo dar errado:")
-                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', datasetlocation, nearNeigh, numGen)
+                    mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
                     path = loadCluster(resultfolder + '/allPart-mocle', 1)
                 else:
                     path = loadCluster(resultfolder + '/allPart', 1)
@@ -266,16 +267,16 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
             é inútil
     """
 
-    #args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle']
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir+'/', resultDir+'/', truePartition, nearNeigh, numGem]
+    #args = ['/home/lasid/programs/MOCLE-v3/./mocle']
     processo = ""
 
     for item in args:
         processo += str(item)
         processo += " "
 
+    print("processo: ", processo)
     retorno = subprocess.call(processo, shell=True)
-    print("retorno = ", retorno)
     return 1
 
 
