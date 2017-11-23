@@ -587,7 +587,8 @@
                   block: "start" // or "end"
                 });
             }),
-            this.on("success", function(event){
+            this.on("success", function(event, response){
+              console.log(response);
               $('#loading').hide();
               //which will support for every browser that will store the sessions.
               sessionStorage.setItem("sent", "BP-KM-k2-8---MOCLE-L4-MCLA-run1-files");
