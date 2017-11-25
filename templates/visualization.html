@@ -79,7 +79,7 @@
   <div class="dropdown" align="right" style="margin-bottom: 1em;">
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="#" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+      <button class="dropdown-item" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
       <a class="dropdown-item" href="#"  id = "png"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
       <a class="dropdown-item" href="#"  id = "jpeg"><i class="fa fa-picture-o" aria-hidden="true"></i> JPEG</a>
       <div class="dropdown-divider"></div>
@@ -133,6 +133,7 @@
   <script>
   cViz.directory = sessionStorage.getItem("sent");
   var nome = sessionStorage.getItem("sent").split('/');
+  var pasta = sessionStorage.getItem("sent");
   cViz.onDataChange();
   </script>
 
@@ -184,6 +185,9 @@
             }
         });
     });
+
+    $('a#someID').attr({target: '_blank',
+                    href  : pasta});
     });
 
   </script>
