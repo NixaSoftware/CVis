@@ -143,15 +143,15 @@
 
     $(document).ready(function(){
       $('#partitionName').html(nome[nome.length-1]);
-      $('#pdf').click(function(){
-          var pdf = new jsPDF('p', 'pt', 'letter');
-          var options = {
-                      background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
-          };
-          pdf.addHTML($('#table-clu'), options, function () {
-              pdf.save(nome[nome.length-1]+'.pdf');
-          });
-      });
+      // $('#pdf').click(function(){
+      //     var pdf = new jsPDF('p', 'pt', 'letter');
+      //     var options = {
+      //                 background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+      //     };
+      //     pdf.addHTML($('#table-clu'), options, function () {
+      //         pdf.save(nome[nome.length-1]+'.pdf');
+      //     });
+      // });
 
      $('#jpeg').click(function(){
          //transforma em canvas
