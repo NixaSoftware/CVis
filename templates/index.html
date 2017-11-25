@@ -594,7 +594,7 @@
               sessionStorage.setItem("sent", response);
               //this is to open a window in new tab
               window.open("/visualization","_blank");
-
+              window.close();
             }),
             this.on("error", function(file, error){
               console.log(error);
@@ -655,6 +655,7 @@
               // chama a pagina de visualizacao da tabela
               //this is to open a window in new tab
               window.open("/visualization","_blank");
+              window.close();
             }),
             this.on("errormultiple", function(file, error){
               console.log(error);
@@ -719,6 +720,7 @@
               // chama a pagina de visualizacao da tabela
               //this is to open a window in new tab
               window.open("/visualization","_blank");
+              window.close();
             }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){

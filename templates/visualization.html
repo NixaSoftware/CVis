@@ -141,7 +141,8 @@
 
   <script language="javascript">
 
-
+    $(document).ready(function(){
+      $('#partitionName').html(nome[nome.length-1]);
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
           var options = {
@@ -183,9 +184,6 @@
             }
         });
     });
-
-    $(document).ready(function(){
-      $('#partitionName').html(nome[nome.length-1]);
     });
 
   </script>
