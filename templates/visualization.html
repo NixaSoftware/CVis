@@ -132,7 +132,7 @@
 
   <script>
   cViz.directory = sessionStorage.getItem("sent");
-  var nome = sessionStorage.getItem("sent");
+  var nome = sessionStorage.getItem("sent").split('/');
   cViz.onDataChange();
   </script>
 
@@ -140,8 +140,7 @@
   <script src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
 
   <script language="javascript">
-      var name = sessionStorage.getItem("sent").split('/');
-      console.log(name[name.length]);
+
 
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
@@ -187,6 +186,7 @@
 
     $(document).ready(function(){
       $('#partitionName').html(nome);
+      console.log(nome[nome.length-1]);
     });
 
   </script>
