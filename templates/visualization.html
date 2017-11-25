@@ -146,9 +146,9 @@
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
           var options = {
-                      background-color: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+            background-color: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
           };
-          pdf.addHTML($('#table-clu'), options, function () {
+          pdf.addHTML($('#clustersTable'), options, function () {
               pdf.save(nome[nome.length-1]+'.pdf');
           });
       });
