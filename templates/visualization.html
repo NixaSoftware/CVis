@@ -94,6 +94,7 @@
 
   <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script>
 
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
 
   <!-- Colorbrewer Library for colour scales -->
@@ -104,7 +105,6 @@
   <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
 
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
@@ -148,7 +148,7 @@
                       background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
           };
           pdf.addHTML($('#table-clu'), options, function () {
-              pdf.save('Test.pdf');
+              pdf.save(nome[nome.length-1]+'.pdf');
           });
       });
 
@@ -163,7 +163,7 @@
                  a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 //faz o download com o nome certo
                  canvas.toBlob(function(blob) {
-                    saveAs(blob, "output.jpg");
+                    saveAs(blob, nome[nome.length-1]+".jpg");
                  }, "image/jpeg", 1);
             }
         });
@@ -178,15 +178,14 @@
                 var a = document.createElement('a');
                 // faz o donwload
                 canvas.toBlob(function(blob) {
-                    saveAs(blob, "output.png");
+                    saveAs(blob, nome[nome.length-1]+".png");
                 }, "image/png");
             }
         });
     });
 
     $(document).ready(function(){
-      $('#partitionName').html(nome);
-      console.log(nome[nome.length-1]);
+      $('#partitionName').html(nome[nome.length-1]);
     });
 
   </script>
