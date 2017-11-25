@@ -519,6 +519,7 @@
           acceptedFiles: '.txt',
           thumbnailWidth: 500,
           maxFiles: 1,
+          timeout: 300000,
           autoProcessQueue: false,
 
           init: function() {
@@ -598,7 +599,12 @@
             this.on("error", function(file, error){
               console.log(error);
               if(error != "You can't upload files of this type."){
-                $('.dataseterror').html("Server internal error");
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                }
+                else{
+                  $('.dataseterror').html("Server internal error");
+                }
               }
               else{
                 this.removeFile(file);
@@ -617,6 +623,7 @@
           acceptedFiles: '.clu',
           uploadMultiple: true,
           parallelUploads: 100,
+          timeout: 300000,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -652,7 +659,11 @@
             this.on("errormultiple", function(file, error){
               console.log(error);
               if(error != "You can't upload files of this type."){
-                $('.partitionerror').html("Server internal error");
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                } else {
+                  $('.partitionerror').html("Server internal error");
+                }
               }
               else{
                 this.removeFile(file);
@@ -671,6 +682,7 @@
           acceptedFiles: '.clu',
           uploadMultiple: true,
           parallelUploads: 100,
+          timeout: 300000,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -709,9 +721,13 @@
               window.open("/visualization","_blank");
             }),
             this.on("errormultiple", function(file, error){
-              console.log(error);
               if(error != "You can't upload files of this type."){
-                $('.mocleerror').html("Server internal error");
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                }
+                else{
+                  $('.mocleerror').html("Server internal error");
+                }
               }
               else{
                 this.removeFile(file);
