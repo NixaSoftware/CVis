@@ -826,7 +826,7 @@
             error = true;
           }
           else{
-            if($('#datasetBoth #minKBasic').val() > $('#datasetBoth #maxKBasic').val()){
+            if(parseInt($('#datasetBoth #minKBasic').val()) > parseInt($('#datasetBoth #maxKBasic').val())){
               $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
               error = true;
             }
@@ -836,7 +836,7 @@
             error = true;
           }
           else{
-            if($('#datasetBoth #minKMocle').val() > $('#datasetBoth #maxKMocle').val()){
+            if(parseInt($('#datasetBoth #minKMocle').val()) > parseInt($('#datasetBoth #maxKMocle').val())){
               $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
               error = true;
             }
@@ -862,7 +862,7 @@
             error = true;
           }
           else{
-            if($('#datasetOnlyBasic #minKBasic').val() > $('#datasetOnlyBasic #maxKBasic').val()){
+            if(parseInt($('#datasetOnlyBasic #minKBasic').val()) > parseInt($('#datasetOnlyBasic #maxKBasic').val())){
               $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
               error = true;
             }
@@ -888,7 +888,7 @@
             error = true;
           }
           else{
-            if($('#datasetOnlyMocle #minKMocle').val() > $('#datasetOnlyMocle #maxKMocle').val()){
+            if(parseInt($('#datasetOnlyMocle #minKMocle').val()) > parseInt($('#datasetOnlyMocle #maxKMocle').val())){
               $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
               error = true;
             }

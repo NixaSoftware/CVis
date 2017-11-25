@@ -146,18 +146,18 @@
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
           var options = {
-            background-color: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
+                      background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
           };
-          pdf.addHTML($('#clustersTable'), options, function () {
+          pdf.addHTML($('#table-clu'), options, function () {
               pdf.save(nome[nome.length-1]+'.pdf');
           });
       });
 
      $('#jpeg').click(function(){
          //transforma em canvas
-         html2canvas($('#clustersTable'),
+         html2canvas($('#table-clu'),
          {
-             background-color:'#FFFFFF',
+             background:'#FFFFFF',
              onrendered: function (canvas) {
                  var a = document.createElement('a');
                  // o default é png, transforma pra jpg
@@ -172,9 +172,9 @@
 
     $('#png').click(function(){
         //transforma em canvas
-        html2canvas($('#clustersTable'),
+        html2canvas($('#table-clu'),
         {
-            background-color:'#FFFFFF',
+            background:'#FFFFFF',
             onrendered: function (canvas) {
                 var a = document.createElement('a');
                 // faz o donwload
