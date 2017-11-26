@@ -102,7 +102,7 @@ def upload():
                     trueP = os.listdir(resultfolder+'/allPart')
                     print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
-                    path = loadCluster(resultfolder + '/allPart-mocle', 1)
+                    path = loadCluster(resultfolder + '/allPart-mocle/solutionPopulation', 1)
                 else:
                     path = loadCluster(resultfolder + '/allPart', 1)
 
@@ -187,7 +187,7 @@ def upload():
                     # nearest neighbours
                     nearNeigh = request.form['nearNeigh']
                     mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGen)
-                    path = loadCluster(resultfolder, 0)
+                    path = loadCluster(resultfolder+'/solutionPopulation', 0)
                 else:
                     path = loadCluster(partitionlocation, 1)
 
