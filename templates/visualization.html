@@ -79,11 +79,11 @@
   <div class="dropdown" align="right" style="margin-bottom: 1em;">
     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="#" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+      <button class="dropdown-item" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
       <a class="dropdown-item" href="#"  id = "png"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
       <a class="dropdown-item" href="#"  id = "jpeg"><i class="fa fa-picture-o" aria-hidden="true"></i> JPEG</a>
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
+      <a class="dropdown-item" id="downtables" href="#"><i class="fa fa-table" aria-hidden="true"></i> Download TSV tables</a>
     </div>
   </div>
 
@@ -94,6 +94,7 @@
 
   <script src="{{url_for('static', filename='js/d3.v4.js')}}"></script>
 
+  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
   <script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
 
   <!-- Colorbrewer Library for colour scales -->
@@ -104,7 +105,6 @@
   <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
 
   <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 
@@ -132,6 +132,8 @@
 
   <script>
   cViz.directory = sessionStorage.getItem("sent");
+  var nome = sessionStorage.getItem("sent").split('/');
+  var pasta = sessionStorage.getItem("sent");
   cViz.onDataChange();
   </script>
 
@@ -139,13 +141,16 @@
   <script src="{{url_for('static', filename='js/cViz_main.js')}}"></script>
 
   <script language="javascript">
+
+    $(document).ready(function(){
+      $('#partitionName').html(nome[nome.length-1]);
       $('#pdf').click(function(){
           var pdf = new jsPDF('p', 'pt', 'letter');
           var options = {
                       background: '#fff' //background is transparent if you don't set it, which turns it black for some reason.
           };
           pdf.addHTML($('#table-clu'), options, function () {
-              pdf.save('Test.pdf');
+              pdf.save(nome[nome.length-1]+'.pdf');
           });
       });
 
@@ -160,7 +165,7 @@
                  a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
                 //faz o download com o nome certo
                  canvas.toBlob(function(blob) {
-                    saveAs(blob, "output.jpg");
+                    saveAs(blob, nome[nome.length-1]+".jpg");
                  }, "image/jpeg", 1);
             }
         });
@@ -175,10 +180,14 @@
                 var a = document.createElement('a');
                 // faz o donwload
                 canvas.toBlob(function(blob) {
-                    saveAs(blob, "output.png");
+                    saveAs(blob, nome[nome.length-1]+".png");
                 }, "image/png");
             }
         });
+    });
+
+    $('#downtables').attr({target: '_blank',
+                    href  : pasta});
     });
 
   </script>
