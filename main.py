@@ -15,11 +15,11 @@ app.config['UPLOADED_PATH'] = os.getcwd()
 
 @app.route('/')
 def index():
-   return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/visualization')
 def visualization():
-   return render_template('visualization.html')
+    return render_template('visualization.html')
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
@@ -254,13 +254,16 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
             é inútil
     """
 
-    #args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle']
+    """
+    Usage: ./mocle <Crossover Type: 1- mcla or 2 - bipartite> <minK> <maxK> <Dataset> <Initial Population Directory> <Results Directory> <True Partition (can be a fake one if not known)> [L - Percentage of the number of neighbors for calculating the connectivity - default = 5%] [G - Number of generations - defauld = 100]
+    """
+    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem]
     processo = ""
 
     for item in args:
         processo += str(item)
         processo += " "
+
     return subprocess.call(processo, shell=True)
 
 
