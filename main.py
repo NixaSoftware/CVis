@@ -5,6 +5,7 @@ import json
 from natsort import  natsorted, ns
 import pprint
 import os
+import shutil
 from loadClusters import *
 #from script_fcs import *
 
@@ -61,11 +62,7 @@ def upload():
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir)
-                    #os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir))
                     os.makedirs(resultfolder)
-                    # pasta para adicionar resultados tanto do clustering quanto do mocle
-                   # tail = '/algResult/' + 'cluster_mocle-' + str(newdir)
-                   # resultfolder = app.config['UPLOADED_PATH'] + tail
 
                 if(request.form['basicSelected'] == 'yes'):
                     print("CLUSTERING SELECTED")
@@ -79,9 +76,18 @@ def upload():
                     alg = request.form['alg'].split(',')
                     if len(alg) > 1:
                         for algnumber in alg:
-                            print("algnumber: ", algnumber)
-                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder+str(algnumber), int(algnumber))
+                            resultAlg = resultfolder + '/' + algnumber
+                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
+                             
                             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
+                        dest = resultfolder+'/allPart'
+                        os.makedirs(dest)
+                        for root, dirs, files in os.walk(resultfolder, topdown=False):
+                            for name in files:
+                                print(os.path.join(root, name))
+                                source = os.path.join(root, name)
+                                shutil.copy(source, dest) 
+                        
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
                         print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
