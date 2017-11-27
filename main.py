@@ -263,6 +263,7 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
     Usage: ./mocle <Crossover Type: 1- mcla or 2 - bipartite> <minK> <maxK> <Dataset> <Initial Population Directory> <Results Directory> <True Partition (can be a fake one if not known)> [L - Percentage of the number of neighbors for calculating the connectivity - default = 5%] [G - Number of generations - defauld = 100]
     """
     args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir+'/', resultDir+'/', truePartition, nearNeigh, numGem]
+    processo = ""
 
     for item in args:
         processo += str(item)
