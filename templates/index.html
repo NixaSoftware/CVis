@@ -387,19 +387,36 @@
         <div class="row">
           <div class="col-lg-8 mx-auto">
             <h2>Usage</h2>
-            <h5>You can read below the definition of the algorithms' parameters:</h5>
+	    <h5>In this manual you have the step-by-step to generate your visualization and the detailed parameter list of the algorithms used. </h5>
+	    </div> 
+	    <div class="col-lg-8 mx-auto">
+          <h4 style="margin-top:1em;text-align: justify;"><b id="firstSteps"> First Steps</b></h4>
+	    <h10  style="text-align: justify;"> The first step to use this tool is to upload your dataset file. After that you will be directed to the "Partitions to Visualize" page and there are different ways for the tool to obtain the partitions necessary to generate the visualization.</h10>
+	    </div>
+	    <div class="col-lg-8 mx-auto">
+          <h4 style="margin-top:1em;text-align: justify;"><b id="partitionsToVisualize"> Methods to obtain partitions</b></h4>
+	    <ul style="text-align: justify;">
+		<li><b>Upload partitions</b>: you can upload your own partitions to generate the visualization, all you have to do is check the Upload Partitions box and click Continue. You will then be directed to a page similar to the first one, to do the uploading. Once you upload all of your partitions you can click in Generate Visualization and will be directed to the "Visualization" page.</li>
+	    	<li><b>Generate partitions with Basic Algorithms</b>: to generate partitions based on your dataset using only the basic algorithms all you have to do is select the Generate Partitions option and the Basic Algorithms option. Click on Continue and you will be directed to a page where you can select the algorithms you would like to run and set the necessary parameters (read below the definition of the algorithms' parameters). Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page.</li>
+	    	<li><b>Generate partitions with MOCLE</b>: to generate partitions based on your dataset using only MOCLE all you have to do is select the Generate Partitions option and the MOCLE option. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can set the other parameters for this algorithm. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
+	    	<li><b>Generate partitions with Basic Algoritms and MOCLE</b>: to generate partitions based on your dataset using the Basic Algorithms and MOCLE you have to select the Generate Partitions option and check both the Basic Algoritms and the MOCLE options. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can select the basic algorithms you would like to run and set their parameters and also set the other MOCLE parameters. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
+		</ul>
+		
+		</div>
+		   <div class="col-lg-8 mx-auto">
+          <h3 style="margin-top:1em;text-align: justify;"><b id="Parameters">Definition of the algorithms' parameters </b></h4>
             <h5 id="datasetUsage"> Data set </h5>
             <ul>
-              <li>Data set in a text file format, where the first row contains columns labels and first column indicates the objects IDs.</li>
+              <li>Data set in a text file format (.txt), where the first row contains columns labels and first column indicates the objects IDs.</li>
             </ul>
             <h5 id="partitionsUsage"> Partitions </h5>
             <ul>
-              <li>Partitions represented as text files. Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
+              <li>Partitions represented as text files (.clu). Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
             </ul>
           </div>
         </div>
         <div class="col-lg-8 mx-auto">
-          <h3 style="margin-top:1em;"><b id="basicUsage">Basic Algorithms</b></h4>
+          <h3 style="margin-top:1em;text-align: justify;"><b id="basicUsage">Basic Algorithms</b></h4>
           <h5 id="kClustersUsage">Number Of Clusters</h5>
           <ul>
             <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Minimum: Minimum number of clusters to be generated </div></li>
@@ -419,7 +436,7 @@
             <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Euclidean Distance </div></li>
             <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Pearson Correlation </div></li>
           </ul>
-          <h3 style="margin-top:1em;"><b id="mocleUsage">MOCLE</b></h3>
+          <h3 style="margin-top:1em;text-align: justify;"><b id="mocleUsage">MOCLE</b></h3>
           <h5 id="crossoverUsage"> Crossover </h5>
             <ul>
               <li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm </div></li>
@@ -437,6 +454,7 @@
                <ul>
                  <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
                </ul>
+          </div>     
         </div>
       </div>
     </section>
