@@ -33,18 +33,25 @@ def loadCluster(dirPart, alg):
     merged = pd.DataFrame()
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
-# essa variável clusterDir é inútil, mas eu tô editando num lugar que vai dar pau em identação se eu mexer em mta coisa então deixa esse lixo aqui
-# depois eu tiro
+    # essa variável clusterDir é inútil, mas eu tô editando num lugar que vai dar pau em identação se eu mexer em mta coisa então deixa esse lixo aqui
+    # depois eu tiro
     clusterDir = dirPart
     (head, tail) = os.path.split(clusterDir);
 
     print("head {}\ntail {}".format(head, tail))
     expUpload = tail;
     (lixo, expDirName) = os.path.split(head)
-    #expDirName += "-files"
-    if(alg):
+
+    # caso clustering
+    if(alg == 1):
         print("expDirName {}".format(expDirName))
         resDir = "./static/resultados/" + expDirName
+    # caso mocle
+    elif(alg == 2):
+        print("expDirName {}".format(expDirName))
+        (lixo, mocleExpDirName) = os.path.split(lixo)
+        resDir = "./static/resultados/", + mocleExpDirName
+    # caso partitions
     else:
         print("expUpload {}".format(expUpload))
         resDir = "./static/resultados/" + expUpload
