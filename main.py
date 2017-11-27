@@ -80,7 +80,7 @@ def upload():
                     if len(alg) > 1:
                         for algnumber in alg:
                             print("algnumber: ", algnumber)
-                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(algnumber))
+                            clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder+str(algnumber), int(algnumber))
                             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
@@ -195,17 +195,10 @@ def upload():
                 return jsonify(path)
     return "Erro"
 
-#@app.after_request
-#def after(response):
-#    print(response.status)
-#    print(response.headers)
-#    print(response.get_data())
-#    return response
-
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
-# clusterização etc
+# clusterização
 #
 import subprocess
 
