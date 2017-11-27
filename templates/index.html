@@ -388,7 +388,7 @@
           <div class="col-lg-8 mx-auto">
             <h2>Usage</h2>
 	    <h5>In this manual you have the step-by-step to generate your visualization and the detailed parameter list of the algorithms used. </h5>
-	    </div> 
+	    </div>
 	    <div class="col-lg-8 mx-auto">
           <h4 style="margin-top:1em;text-align: justify;"><b id="firstSteps"> First Steps</b></h4>
 	    <h10  style="text-align: justify;"> The first step to use this tool is to upload your dataset file. After that you will be directed to the "Partitions to Visualize" page and there are different ways for the tool to obtain the partitions necessary to generate the visualization.</h10>
@@ -401,7 +401,7 @@
 	    	<li><b>Generate partitions with MOCLE</b>: to generate partitions based on your dataset using only MOCLE all you have to do is select the Generate Partitions option and the MOCLE option. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can set the other parameters for this algorithm. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
 	    	<li><b>Generate partitions with Basic Algoritms and MOCLE</b>: to generate partitions based on your dataset using the Basic Algorithms and MOCLE you have to select the Generate Partitions option and check both the Basic Algoritms and the MOCLE options. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can select the basic algorithms you would like to run and set their parameters and also set the other MOCLE parameters. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
 		</ul>
-		
+
 		</div>
 		   <div class="col-lg-8 mx-auto">
           <h3 style="margin-top:1em;text-align: justify;"><b id="Parameters">Definition of the algorithms' parameters </b></h4>
@@ -454,7 +454,7 @@
                <ul>
                  <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
                </ul>
-          </div>     
+          </div>
         </div>
       </div>
     </section>
@@ -600,19 +600,23 @@
               $("#continueDataset").hide();
             }),
             this.on("processing", function(event){
-              $('#loading').show();
-              $('#loading')[0].scrollIntoView({
-                  behavior: "smooth", // or "auto" or "instant"
-                  block: "start" // or "end"
-                });
+              if($('#chooseUpload:checked').length != 1 || $('#chooseMocle:checked').length != 1 && $('#chooseBasic:checked').length != 0){
+                $('#loading').show();
+                $('#loading')[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+              }
             }),
             this.on("success", function(event, response){
-              $('#loading').hide();
-              //which will support for every browser that will store the sessions.
-              sessionStorage.setItem("sent", response);
-              //this is to open a window in new tab
-              window.open("/visualization","_blank");
-              self.close();
+              if($('#chooseUpload:checked').length != 1 || $('#chooseMocle:checked').length != 1 && $('#chooseBasic:checked').length != 0){
+                $('#loading').hide();
+                //which will support for every browser that will store the sessions.
+                sessionStorage.setItem("sent", response);
+                //this is to open a window in new tab
+                window.open("/visualization","_blank");
+                self.close();
+              }
             }),
             this.on("error", function(file, error){
               console.log(error);
