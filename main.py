@@ -76,18 +76,18 @@ def upload():
                     alg = request.form['alg'].split(',')
                     if len(alg) > 1:
                         for algnumber in alg:
-                            resultAlg = resultfolder + '/' + algnumber
+                            resultAlg = resultfolder + '/several/' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
-                             
+
                             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                         dest = resultfolder+'/allPart'
                         os.makedirs(dest)
-                        for root, dirs, files in os.walk(resultfolder, topdown=False):
+                        for root, dirs, files in os.walk(resultfolder+'/several/', topdown=False):
                             for name in files:
                                 print(os.path.join(root, name))
                                 source = os.path.join(root, name)
-                                shutil.copy(source, dest) 
-                        
+                                shutil.copy(source, dest)
+
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
                         print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
