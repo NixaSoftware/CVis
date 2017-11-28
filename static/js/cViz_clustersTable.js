@@ -57,7 +57,7 @@
                             tooltipText = cViz.data.identicalObjs[d].length;
                              if (cViz.data.identicalObjs[d].length > 1)
                                 // tooltipText = tooltipText + " objects: ";
-                                tooltipText = tooltipText + " objects: ";
+                                tooltipText = tooltipText + " objects";
 
                              else
                                 tooltipText = tooltipText + " object";
