@@ -622,7 +622,7 @@
             this.on("error", function(file, error){
               console.log(error);
               if(error != "You can't upload files of this type."){
-                if(error = "Server responded with 0 code."){
+                if(error == "Server responded with 0 code."){
                   alert('Timeout!');
                 }
                 else{
@@ -683,7 +683,7 @@
             this.on("errormultiple", function(file, error){
               console.log(error);
               if(error != "You can't upload files of this type."){
-                if(error = "Server responded with 0 code."){
+                if(error == "Server responded with 0 code."){
                   alert('Timeout!');
                 } else {
                   $('.partitionerror').html("Server internal error");
@@ -747,7 +747,7 @@
             }),
             this.on("errormultiple", function(file, error){
               if(error != "You can't upload files of this type."){
-                if(error = "Server responded with 0 code."){
+                if(error == "Server responded with 0 code."){
                   alert('Timeout!');
                 }
                 else{
