@@ -626,7 +626,8 @@
                   alert('Timeout!');
                 }
                 else{
-                  $('.dataseterror').html("Server internal error");
+                  $('.mocleerror').html("Server internal error");
+                  $('#loading').html('<h4>Some error occured, try again.</h4>');
                 }
               }
               else{
@@ -685,8 +686,10 @@
               if(error != "You can't upload files of this type."){
                 if(error == "Server responded with 0 code."){
                   alert('Timeout!');
-                } else {
-                  $('.partitionerror').html("Server internal error");
+                }
+                else{
+                  $('.mocleerror').html("Server internal error");
+                  $('#loading').html('<h4>Some error occured, try again.</h4>');
                 }
               }
               else{
@@ -752,6 +755,7 @@
                 }
                 else{
                   $('.mocleerror').html("Server internal error");
+                  $('#loading').html('<h4>Some error occured, try again.</h4>');
                 }
               }
               else{
