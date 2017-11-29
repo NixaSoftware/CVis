@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cluster Visualization</title>
+     <link rel="icon" href="../static/images/icon.png">
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/scrolling-nav.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/scrolling-nav.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/dropzone/dropzone.css')}}">
+
+    <style>
+    .dropzone {
+      min-height: 0px !important;
+      }
+    </style>
+
+  </head>
+
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Cluster Visualization</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#usage">Usage</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+            </li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="bg-primary text-white" id="uploaddataset">
+      <div class="container text-center">
+        <div class="row" align="center">
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+            <h1><b>Data Set Upload</b></h1>
+            <!-- upload vai aqui -->
+            <form action="#" id="dropdataset" method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="name" value="dataset" />
+              <!-- <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div> -->
+            </form>
+                <button type="button" class="btn btn-secondary" style="margin-top: 2em;" id="datasetbutton">Upload</button>
+                <button type="submit" class="btn btn-secondary" style="margin-top: 1em;" id="continueDataset" data-toggle="modal" data-target="#partitionchoice">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container hidden" id="choosePath">
+      <div class="container text-center">
+        <div class="row" align="center">
+        <div class="col-12 mx-auto">
+          <h1><b>Partitions to Visualize</b></h1>
+          <div class="row" style="margin-top:2em;">
+            <div class="col-4"></div>
+            <label for="chooseGenerate" style="font-size:150%;"><input id="chooseGenerate" type="radio" name="choosePtoV"></input> Generate Partitions</label>
+          </div>
+          <div class="row form-check">
+            <div class="col-4"></div>
+            <div class="col-4 hidden" align="left" id="chooseBorM">
+              <label for="chooseBasic"><input id="chooseBasic" class="form-check-input" type="checkbox"></input><a href="#basicUsage"> Basic Algorithms</a></label><br>
+              <label for="chooseMocle"><input id="chooseMocle" class="form-check-input" type="checkbox"></input><a href="#mocleUsage"> MOCLE</a></label>
+            </div>
+          </div>
+          <div class="row" align="center" style="margin-top:1em;">
+            <div class="col-4"></div>
+            <label for="chooseUpload" style="font-size:150%;"><input id="chooseUpload" type="radio" name="choosePtoV"></input> Upload Partitions</label>
+          </div>
+          <div class="row" style="margin-top:1em;">
+            <div class="col-4"></div>
+            <div class="col-4" align="center">
+              <button type="button" class="btn btn-primary" id="continueChoosePath">Continue</button>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- only appears when Upload Partition is selected -->
+    <section class="bg-primary text-white hidden" id="uploadpartition">
+      <div class="container text-center">
+        <div class="row" align="center">
+        <div class="col-lg-6 col-md-6 col-sm-12 mx-auto">
+          <h1><b>Upload Partitions to Visualize</b></h1>
+          <button type="button" class="btn btn-secondary" style="margin-top: 2em; margin-bottom: 1em;" id="partitionbutton">Upload</button>
+          <form action="#" class="drop" id="droppartition" method="POST" enctype="multipart/form-data" multiple>
+            <input type="hidden" name="name" value="partition" />
+            <!-- <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div> -->
+          </form>
+              <button type="submit" class="btn btn-secondary" style="margin-top:1em;" id="visOnlyPartitions">Generate Visualization</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- only appears when Generate Partition, Basic Algorithms and Mocle are selected -->
+    <section id="datasetBoth" class="container hidden">
+        <h2>Clustering</h2>
+        <!-- choose basic -->
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+               <div class="card-header">
+                 <span><a href="#basicUsage">Basic Algorithms</a></span>
+               </div>
+               <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-data-basic">
+                 <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" value="1" onclick="checkAll(this)"> Select All</label>
+                 <div id="checkboxDataSet">
+                   <label for="singleLink"><input type="checkbox" id="2"> Single Link</label>
+                   <label for="averageLink"><input type="checkbox" id="3"> Average Link</label>
+                   <label for="centroidLink"><input type="checkbox" id="4"> Centroid Link</label>
+                   <label for="completeLink"><input type="checkbox" id="5"> Complete Link</label>
+                   <label for="SNN"><input type="checkbox" id="6"> SNN</label>
+                   <label for="kMeans"><input type="checkbox" id="7"> KMeans</label>
+                </div>
+                <div class="col-6">
+                  <label for="selMetricBasic"><a href="#distanceUsageBasic">Similarity/Dissimilarity</a>:</label><br>
+                  <select class="form-control" id="selMetricBasic">
+                    <option value="E">Euclidean Distance</option>
+                    <option value="P">Pearson Correlation</option>
+                  </select>
+                </div>
+                <div class="col-10">
+                  <p style="margin-top: 1em;"><a href="#kClustersUsage">Number of Clusters</a>:</p>
+                  <div class="row" style="margin-top: 1em;">
+                    <label for="minKBasic" class="col-2 col-form-label">Minimum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="minKBasic">
+                    </div>
+                    <label for="maxKBasic" class="col-2 col-form-label">Maximum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" value="" id="maxKBasic">
+                    </div>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
+        </div>
+
+        <!-- choose mocle -->
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+                 <div class="card-header">
+                   <span><a href="#mocleUsage">MOCLE</a></span>
+                 </div>
+                 <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
+                   <div class="col-6">
+                     <label for="selMetricMocle"><a href="#crossoverUsage">Crossover</a>:</label><br>
+                     <select class="form-control" id="selMetricMocle">
+                       <option value="M">MCLA</option>
+                       <option value="H">HBGF</option>
+                     </select>
+                   </div>
+                   <div class="col-10">
+                     <p style="margin-top: 1em;"><a href="#kConsensusUsage">k of the consensus partition</a>:</p>
+                     <div class="row" style="margin-top: 1em;">
+                       <label for="minKMocle" class="col-2 col-form-label">Minimum:</label>
+                       <div class="col-2">
+                         <input class="form-control" type="number" min="0" value="" id="minKMocle">
+                       </div>
+                       <label for="maxKMocle" class="col-2 col-form-label">Maximum:</label>
+                       <div class="col-2">
+                         <input class="form-control" type="number" min="0" value="" id="maxKMocle">
+                       </div>
+                     </div>
+                   </div>
+                   <div class="row col-10" style="margin-top: 1em;">
+                     <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
+                     <div class="col-2">
+                       <input class="form-control" type="number" min="0" value="100" id="numGenMocle" name="numGenMocle">
+                     </div>
+                     <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours (%)</a>:</label>
+                     <div class="col-2">
+                       <input class="form-control" type="number" min="0" value="5" id="nearNeighMocle" name="nearNeighMocle">
+                     </div>
+                   </div>
+                 </div>
+               </div>
+              </div>
+          </div>
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12" align="center">
+            <button type="button" class="btn btn-primary" id="visWithAlg">Generate Visualization</button>
+          </div>
+        </div>
+    </section>
+
+    <!-- only appears when Generate Partition and Basic Algorithms are selected -->
+    <section id="datasetOnlyBasic" class="container hidden">
+        <h2>Clustering</h2>
+        <!-- choose basic -->
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12">
+               <div class="card">
+               <div class="card-header">
+                 <span><a href="#basicUsage">Basic Algorithms</a></span>
+               </div>
+               <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-data-basic">
+                 <label for="chooseAll"><input type="checkbox" style="font-weight:bold;" id="chooseAll" value="1" onclick="checkAll(this)"> Select All</label>
+                 <div id="checkboxDataSet">
+                   <label for="singleLink"><input type="checkbox" id="2"> Single Link</label>
+                   <label for="averageLink"><input type="checkbox" id="3"> Average Link</label>
+                   <label for="centroidLink"><input type="checkbox" id="4"> Centroid Link</label>
+                   <label for="completeLink"><input type="checkbox" id="5"> Complete Link</label>
+                   <label for="SNN"><input type="checkbox" id="6"> SNN</label>
+                   <label for="kMeans"><input type="checkbox" id="7"> KMeans</label>
+                </div>
+                <div class="col-6">
+                  <label for="selMetricBasic"><a href="#distanceUsageBasic">Similarity/Dissimilarity</a>:</label><br>
+                  <select class="form-control" id="selMetricBasic">
+                    <option value="E">Euclidean Distance</option>
+                    <option value="P">Pearson Correlation</option>
+                  </select>
+                </div>
+                <div class="col-10">
+                  <p style="margin-top: 1em;"><a href="#kClustersUsage">Number of Clusters</a>:</p>
+                  <div class="row" style="margin-top: 1em;">
+                    <label for="minKBasic" class="col-2 col-form-label">Minimum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" id="minKBasic">
+                    </div>
+                    <label for="maxKBasic" class="col-2 col-form-label">Maximum:</label>
+                    <div class="col-2">
+                      <input class="form-control" type="number" min="0" id="maxKBasic">
+                    </div>
+                  </div>
+                </div>
+               </div>
+             </div>
+           </div>
+        </div>
+        <div class="row" style="margin-top:2em;">
+          <div class="col-12" align="center">
+            <button type="button" class="btn btn-primary" id="visOnlyBasic">Generate Visualization</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- only appears when Generate Partition and Mocle are selected -->
+      <section class="hidden bg-light" id="datasetOnlyMocle">
+        <div class="container">
+          <div class="col-lg-6 col-md-6 col-sm-12 mx-auto" align="center">
+            <h1><b>Upload MOCLE's Base Partitions</b></h1>
+            <button type="button" class="btn btn-secondary" style="margin-top: 2em; margin-bottom: 2em;" id="moclebutton">Upload</button>
+            <form action="#" class="drop" id="droppartitionWithMocle" method="POST" enctype="multipart/form-data" multiple>
+              <input type="hidden" name="name" value="partition" />
+              <!-- <div class="dz-message" data-dz-message style="color:grey;"><span><b>Drop files</b> or <b>click here</b> to upload</span><p style="font-size:80%;">The files must have a text format</p></div> -->
+            </form>
+          </div>
+            <!-- choose mocle -->
+            <div class="row" style="margin-top:2em;">
+              <div class="col-12">
+                   <div class="card">
+                     <div class="card-header">
+                       <span><a href="#mocleUsage">MOCLE</a></span>
+                     </div>
+                     <div class="card-block filter-panel container" style="margin: 0.5em" id="filter-part-mocle">
+                       <div class="col-6">
+                         <label for="selMetricMocle"><a href="#crossoverUsage">Crossover</a>:</label><br>
+                         <select class="form-control" id="selMetricMocle">
+                           <option value="M">MCLA</option>
+                           <option value="H">HBGF</option>
+                         </select>
+                       </div>
+                       <div class="col-10">
+                         <p style="margin-top: 1em;"><a href="#kConsensusUsage">k of the consensus partition</a>:</p>
+                         <div class="row" style="margin-top: 1em;">
+                           <label for="minKMocle" class="col-2 col-form-label">Minimum:</label>
+                           <div class="col-2">
+                             <input class="form-control" type="number" min="0" value="" id="minKMocle">
+                           </div>
+                           <label for="maxKMocle" class="col-2 col-form-label">Maximum:</label>
+                           <div class="col-2">
+                             <input class="form-control" type="number" min="0" value="" id="maxKMocle">
+                           </div>
+                         </div>
+                       </div>
+                       <div class="row col-10" style="margin-top: 1em;">
+                         <label for="numGenMocle" class="col-2 col-form-label"><a href="#nGenerationsUsage">Number of Generations</a>:</label>
+                         <div class="col-2">
+                           <input class="form-control" type="number" min="0" value="100" id="numGenMocle" name="numGenMocle">
+                         </div>
+                         <label for="nearNeighMocle" class="col-2 col-form-label"><a href="#nNearestNeighborsUsage">Nearest Neighbours (%)</a>:</label>
+                         <div class="col-2">
+                           <input class="form-control" type="number" min="0" value="5" id="nearNeighMocle" name="nearNeighMocle">
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                  </div>
+              </div>
+              <div class="row" style="margin-top:2em;">
+                <div class="col-12" align="center">
+                  <button type="button" class="btn btn-primary" id="visOnlyMocle">Generate Visualization</button>
+                </div>
+              </div>
+          </div>
+    </section>
+
+     <section class="container hidden" id="loading">
+       <div align="center">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"></img>
+       </div>
+     </section>
+
+     <div id="cViz" class="hidden container">
+       <div id="clustersTable" style="max-height: 400px; overflow: auto;"></div>
+     </div>
+
+    <section id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>About</h2>
+            <p class="lead">The tool</p>
+            <p style="text-align: justify;">Ensemble methods for clustering take a collection
+                of input partitions, produced for the same data set, and generate
+                an ensemble partition that tries to preserve the information
+                carried in this collective. Acceptance of the resulting partition(s)
+                by decision makers can be a problem, due to the inherent
+                complexity of ensemble techniques, and the associated lack of
+                intuition on how a consensus has been derived from the original
+                set of input partitions. This problem is exacerbated in multi-
+                objective ensemble techniques, which generate a set of non-
+                dominated consensus partitions. In this context, the selection of
+                a final candidate clustering may require additional insight into
+                the relationships between non-dominated output partitions.
+                CVis has been developed as a generaluploadpartition
+                tool to provide insight into the relationship between any set
+                of partitions of a given data set. In particular,
+                the tool facilitates the visual analysis of the level of support
+                identified for individual consensus clusters, which is helpful in
+                explaining final solutions to a decision maker.</p>
+            <p class="lead">Citing CVis</p>
+            <p>If you publish material using CVis, please cite the following
+            reference:</p>
+            <p>Faceli, K., Sakata, T., and Handl, J. CVis - towards a
+            novel visualization tool to explore the relationship between input
+            and output partitions in multi-objective clustering ensembles. (2016).
+            <p class="lead">Citing MOCLE</p>
+            <p>If you publish material using MOCLE, please cite the following reference:</p>
+            <p>Katti Faceli, Marcílio C. P. de Souto, D. S. A. de Araujo, André C. P. L. F. de Carvalho.
+              Multi-objective clustering ensemble for gene expression data analysis. Neurocomputing 72 (13-15): 2763-2774 (2009).
+              <a href="http://www.sciencedirect.com/science/article/pii/S0925231209001167">DOI: 10.1016</a></p>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="usage" class="bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>Usage</h2>
+	    <h5>In this manual you have the step-by-step to generate your visualization and the detailed parameter list of the algorithms used. </h5>
+	    </div> 
+	    <div class="col-lg-8 mx-auto">
+          <h4 style="margin-top:1em;text-align: justify;"><b id="firstSteps"> First Steps</b></h4>
+	    <h10> The first step to use this tool is to upload your dataset file. After that you will be directed to the "Partitions to Visualize" page and there are different ways for the tool to obtain the partitions necessary to generate the visualization.</h10>
+	    </div>
+	    <div class="col-lg-8 mx-auto">
+          <h4 style="margin-top:1em;text-align: justify;"><b id="partitionsToVisualize"> Methods to obtain partitions</b></h4>
+	    <ul style="text-align: justify;">
+		<li><b>Upload partitions</b>: you can upload your own partitions to generate the visualization, all you have to do is check the Upload Partitions box and click Continue. You will then be directed to a page similar to the first one, to do the uploading. Once you upload all of your partitions you can click in Generate Visualization and will be directed to the "Visualization" page.</li>
+	    	<li><b>Generate partitions with Basic Algorithms</b>: to generate partitions based on your dataset using only the basic algorithms all you have to do is select the Generate Partitions option and the Basic Algorithms option. Click on Continue and you will be directed to a page where you can select the algorithms you would like to run and set the necessary parameters (read below the definition of the algorithms' parameters). Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page.</li>
+	    	<li><b>Generate partitions with MOCLE</b>: to generate partitions based on your dataset using only MOCLE all you have to do is select the Generate Partitions option and the MOCLE option. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can set the other parameters for this algorithm. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
+	    	<li><b>Generate partitions with Basic Algoritms and MOCLE</b>: to generate partitions based on your dataset using the Basic Algorithms and MOCLE you have to select the Generate Partitions option and check both the Basic Algoritms and the MOCLE options. Click on Continue and you will be directed to a page similar to the first one, where you will need to upload MOCLE's base partitions. Once you have selected all the partitions you can click Upload and will be directed to a page where you can select the basic algorithms you would like to run and set their parameters and also set the other MOCLE parameters. Once you are done you can click on Generate Visualizations and will be directed to the "Visualization" page. </li>
+		</ul>
+		
+		</div>
+		   <div class="col-lg-8 mx-auto">
+          <h3 style="margin-top:1em;text-align: justify;"><b id="Parameters">Definition of the algorithms' parameters </b></h4>
+            <h5 id="datasetUsage"> Data set </h5>
+            <ul>
+              <li>Data set in a text file format (.txt), where the first row contains columns labels and first column indicates the objects IDs.</li>
+            </ul>
+            <h5 id="partitionsUsage"> Partitions </h5>
+            <ul>
+              <li>Partitions represented as text files (.clu). Each file represents one partition and must contain two columns: the first column denotes the IDs of the objects (as in the data set) and the second column represents the labels of the clusters.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-8 mx-auto">
+          <h3 style="margin-top:1em;text-align: justify;"><b id="basicUsage">Basic Algorithms</b></h4>
+          <h5 id="kClustersUsage">Number Of Clusters</h5>
+          <ul>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Minimum: Minimum number of clusters to be generated </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Maximum: Maximum number of clusters to be generated </div></li>
+          </ul>
+          <h5 id="algorithmsUsageBasic">Algorithms</h5>
+          <ul>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Single Link</div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Average Link </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Centroid Link </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Complete Link </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Shared Near Neighbors </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> K-Means </div></li>
+          </ul>
+          <h5 id="distanceUsageBasic">Similarity/Dissimilarity</h5>
+          <ul>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Euclidean Distance </div></li>
+            <li><div class="mdl-card__subtitle-text mdl-color-text--black"> Pearson Correlation </div></li>
+          </ul>
+          <h3 style="margin-top:1em;text-align: justify;"><b id="mocleUsage">MOCLE</b></h3>
+          <h5 id="crossoverUsage"> Crossover </h5>
+            <ul>
+              <li><div class="mdl-card__subtitle-text mdl-color-text--black"> MCLA - Meta-CLustering Algorithm </div></li>
+              <li><div class="mdl-card__subtitle-text mdl-color-text--black"> HBGF - Hybrid Bipartite Graph Formulation </div></li>
+            </ul>
+           <h5 id="kConsensusUsage"> k of the consensus partition</h5>
+              <ul>
+                <li>Interval of k for choosing the number of clusters for the consensus partition when applying the crossover. The maximum number of clusters in each consensus partition is randomly  choosen  within this interval.</li>
+              </ul>
+            <h5 id="nGenerationsUsage"> Number of Generations </h5>
+              <ul>
+                <li>Maximum number of generations for running the genetic algorithm.</li>
+              </ul>
+            <h5 id="nNearestNeighborsUsage"> Nearest Neighbors (%) </h5>
+               <ul>
+                 <li>Percentage of the data set size used to define the number of nearest neighbor objects for calculating the connectivity.</li>
+               </ul>
+          </div>     
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <h2>Contact</h2>
+            <p class="lead"><a href="http://lattes.cnpq.br/4451540730749377">Katti Faceli</a> (katti <i>at </i>ufscar <i>dot</i> br)</p>
+            <p class="lead"><a href="http://lattes.cnpq.br/3560505262283874">Tiemi C. Sakata</a> (tiemi <i>at</i> ufscar <i>dot</i> br)</p>
+            <p class="lead"><a href="http://personalpages.manchester.ac.uk/mbs/julia.handl/">Julia Handl</a> (Julia <i>dot</i> Handl <i>at</i> manchester <i>dot</i> ac <i>dot</i> uk)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">The opinions, hypothesis,
+        conclusions or recommendations contained in this material are the responsibility of the author(s) and do not necessarily reflect FAPESP's vision. (As opiniões, hipóteses e conclusões ou recomendações expressas neste material são de responsabilidade do autor(es) e não
+        necessariamente refletem a visão da FAPESP)</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Modal warning -->
+    <div id="aviso_modal" class="modal fade" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Required</h4>
+          </div>
+          <div class="modal-body" style="background-color:tomato;">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="cleanbody" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Dropzone -->
+      <script src="{{url_for('static', filename='vendor/dropzone/dropzone.js')}}"></script>
+
+      <!-- Bootstrap core JavaScript -->
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery/jquery.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/popper/popper.min.js')}}"></script>
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+      <!-- Plugin JavaScript -->
+      <script type="text/javascript" src="{{url_for('static', filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+      <!-- Custom JavaScript for this theme -->
+      <script type="text/javascript" src="{{url_for('static', filename='js/scrolling-nav.js')}}"></script>
+
+
+    <script type="text/javascript">
+    var partitionSelected = false;
+
+      $(document).ready(function(){
+        $("input input:not([name='numGenMocle']) input:not([name='nearNeighMocle'])").val("");
+        $(".hidden").hide();
+        $("#continueDataset").hide();
+        $("#visOnlyPartitions").hide();
+        $("#visOnlyMocle").hide();
+      });
+
+      Dropzone.autoDiscover = false;
+
+      //dataset with algorithms dropzone
+        var myDropzone1 = new Dropzone(document.getElementById("dropdataset"), {
+          clickable: "#datasetbutton",
+          previewTemplate: '<div class="table table-striped" class="files" id="previews"><div id="template" class="file-row text-white">'+
+          'Chosen dataset: <span class="name" data-dz-name></span> (<span class="size" data-dz-size></span>)'+
+          '<a data-dz-remove href="" class="text-danger delete" style="text-decoration: none;">  <span class="fa fa-trash"></span></a><p><strong class="error dataseterror" data-dz-errormessage></strong></p></div></div>',
+          dictDefaultMessage: "",
+          acceptedFiles: '.txt',
+          thumbnailWidth: 500,
+          maxFiles: 1,
+          timeout: 300000,
+          autoProcessQueue: false,
+
+          init: function() {
+            $('#dataseterror').html("");
+            this.on("sending", function(file, xhr, formData){
+                if($('#chooseUpload:checked').length == 1 || $('#chooseMocle:checked').length == 1 && $('#chooseBasic:checked').length == 0){
+                  formData.append("partition", "yes");
+                }
+                else{
+                  formData.append("partition", "no");
+                  formData.append("basicSelected", "yes");
+
+                  //dados que são utilizados para rodar o clustering e o mocle
+                  if($('#chooseMocle:checked').length == 1){
+                    formData.append("tipoDistBasic", $("#datasetBoth #selMetricBasic").val());
+                    if($('#datasetBoth #chooseAll:checked').length == 1 && $('#datasetBoth #checkboxDataSet input:checked').length == 6){
+                      formData.append("alg", "1");
+                    }
+                    else{
+                      var alg = $('#datasetBoth #checkboxDataSet input:checked').map(function() {
+                        return this.id;
+                      }).get();
+                      formData.append("alg", alg);
+                    }
+                    formData.append("minKBasic", $("#datasetBoth #minKBasic").val());
+                    formData.append("maxKBasic", $("#datasetBoth #maxKBasic").val());
+                    formData.append("mocleSelected", "yes");
+                    formData.append("tipoDistMocle", $("#datasetBoth #selMetricMocle").val());
+                    formData.append("numGen", $("#datasetBoth #numGenMocle").val());
+                    formData.append("nearNeigh", $("#datasetBoth #nearNeighMocle").val());
+                    formData.append("minKMocle", $("#datasetBoth #minKMocle").val());
+                    formData.append("maxKMocle", $("#datasetBoth #maxKMocle").val());
+                  }
+                  //dados que são utilizados para rodar apenas o clustering
+                  else{
+                    formData.append("mocleSelected", "no");
+                    formData.append("tipoDistBasic", $("#datasetBoth #selMetricBasic").val());
+                    if($('#datasetOnlyBasic #chooseAll:checked').length == 1 && $('#datasetOnlyBasic #checkboxDataSet input:checked').length == 6){
+                      formData.append("alg", "1");
+                    }
+                    else{
+                      var alg = $('#datasetOnlyBasic #checkboxDataSet input:checked').map(function() {
+                        return this.id;
+                      }).get();
+                      formData.append("alg", alg);
+                    }
+                    formData.append("minKBasic", $("#datasetOnlyBasic #minKBasic").val());
+                    formData.append("maxKBasic", $("#datasetOnlyBasic #maxKBasic").val());
+                  }
+
+                  formData.append("name", "dataset");
+                }
+            }),
+            this.on("addedfile", function(event) {
+              $("#datasetbutton").hide();
+              $("#continueDataset").show();
+            }),
+            this.on("removedfile", function(event) {
+              $("#datasetbutton").show();
+              $("#continueDataset").hide();
+            }),
+            this.on("processing", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
+            }),
+            this.on("success", function(event, response){
+              $('#loading').hide();
+              //which will support for every browser that will store the sessions.
+              sessionStorage.setItem("sent", response);
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
+              self.close();
+            }),
+            this.on("error", function(file, error){
+              console.log(error);
+              if(error != "You can't upload files of this type."){
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                }
+                else{
+                  $('.dataseterror').html("Server internal error");
+                }
+              }
+              else{
+                this.removeFile(file);
+              }
+            });
+          }
+        });
+
+        //partition only dropzone
+        var myDropzone2 = new Dropzone(document.getElementById("droppartition"), {
+          clickable: "#partitionbutton",
+          previewTemplate: '<div class="table table-striped" class="files" id="previews"><div id="template" class="file-row text-white">'+
+          '<span class="name" data-dz-name></span> (<span class="size" data-dz-size></span>)'+
+          '<a data-dz-remove href="" class="text-danger delete" style="text-decoration: none;">  <span class="fa fa-trash"></span></a><p><strong class="error partitionerror" data-dz-errormessage></strong></p></div></div>',
+          dictDefaultMessage: "",
+          acceptedFiles: '.clu',
+          uploadMultiple: true,
+          parallelUploads: 100,
+          timeout: 300000,
+          autoProcessQueue: false,
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+              formData.append('qtofdata', myDropzone2.getAcceptedFiles().length);
+              formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
+              formData.append("name", "partition");
+              formData.append("mocleSelected", "no");
+            }),
+            this.on("addedfile", function(event) {
+              $("#visOnlyPartitions").show();
+            }),
+            this.on("removedfile", function(event) {
+              if(myDropzone2.getAcceptedFiles().length == 0){
+                $("#visOnlyPartitions").hide();
+              }
+            }),
+            this.on("processingmultiple", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+            }),
+            this.on("success", function(event, response){
+              myDropzone1.processQueue();
+              $('#loading').hide();
+              //which will support for every browser that will store the sessions.
+              sessionStorage.setItem("sent", response);
+              // chama a pagina de visualizacao da tabela
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
+              self.close();
+            }),
+            this.on("errormultiple", function(file, error){
+              console.log(error);
+              if(error != "You can't upload files of this type."){
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                } else {
+                  $('.partitionerror').html("Server internal error");
+                }
+              }
+              else{
+                this.removeFile(file);
+              }
+            });
+          }
+        });
+
+        //partition with mocle dropzone
+        var myDropzone3 = new Dropzone(document.getElementById("droppartitionWithMocle"), {
+          clickable: "#moclebutton",
+          previewTemplate: '<div class="table table-striped" class="files" id="previews"><div id="template" class="file-row text-black">'+
+          '<span class="name" data-dz-name></span> (<span class="size" data-dz-size></span>)'+
+          '<a data-dz-remove href="" class="text-danger delete" style="text-decoration: none;">  <span class="fa fa-trash"></span></a><p><strong class="error mocleerror" data-dz-errormessage></strong></p></div></div>',
+          dictDefaultMessage: "",
+          acceptedFiles: '.clu',
+          uploadMultiple: true,
+          parallelUploads: 100,
+          timeout: 300000,
+          autoProcessQueue: false,
+          init: function() {
+            this.on("sending", function(file, xhr, formData){
+              formData.append('qtofdata', myDropzone3.getAcceptedFiles().length);
+              formData.append('datasetfile', myDropzone1.getAcceptedFiles()[0]);
+              formData.append("name", "partition");
+              formData.append("mocleSelected", "yes");
+              formData.append("tipoDistMocle", $("#datasetOnlyMocle #selMetricMocle").val());
+              formData.append("numGen", $("#datasetOnlyMocle #numGenMocle").val());
+              formData.append("nearNeigh", $("#datasetOnlyMocle #nearNeighMocle").val());
+              formData.append("minKMocle", $("#datasetOnlyMocle #minKMocle").val());
+              formData.append("maxKMocle", $("#datasetOnlyMocle #maxKMocle").val());
+            }),
+            this.on("addedfile", function(event) {
+              $("#visOnlyMocle").show();
+            }),
+            this.on("removedfile", function(event) {
+              if(myDropzone3.getAcceptedFiles().length == 0){
+                $("#visOnlyMocle").hide();
+              }
+            }),
+            this.on("processingmultiple", function(event){
+              $('#loading').show();
+              $('#loading')[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+            }),
+            this.on("success", function(event, response){
+              myDropzone1.processQueue();
+              $('#loading').hide();
+              //which will support for every browser that will store the sessions.
+              sessionStorage.setItem("sent", response);
+              // chama a pagina de visualizacao da tabela
+              //this is to open a window in new tab
+              window.open("/visualization","_blank");
+              self.close();
+            }),
+            this.on("errormultiple", function(file, error){
+              if(error != "You can't upload files of this type."){
+                if(error = "Server responded with 0 code."){
+                  alert('Timeout!');
+                }
+                else{
+                  $('.mocleerror').html("Server internal error");
+                }
+              }
+              else{
+                this.removeFile(file);
+              }
+            });
+          }
+        });
+
+        $("#continueDataset").click(function(){
+          $('#choosePath').show();
+            $("#choosePath")[0].scrollIntoView({
+                behavior: "smooth", // or "auto" or "instant"
+                block: "start" // or "end"
+              });
+          $("#continueDataset").prop("disabled",true);
+        });
+
+        $("#chooseGenerate").change(function(){
+          if($(this).is(':checked'))
+            $("#chooseBorM").show("slow");
+        });
+        $("#chooseUpload").change(function(){
+          if($(this).is(':checked'))
+            $("#chooseBorM").hide("slow");
+        });
+
+        $("#continueChoosePath").click(function(){
+          var error = false;
+          if($("#chooseGenerate").prop('checked') == false && $("#chooseUpload").prop('checked') == false){
+            $('#aviso_modal .modal-body').append('<p>You should choose between Generate or Upload partitions to continue.</p>');
+            error = true;
+          }
+          else if($("#chooseGenerate").is(':checked')){
+            if($("#chooseBasic").is(':checked') && $("#chooseMocle").is(':checked')){
+              $('#datasetBoth').show();
+                $("#datasetBoth")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else if($("#chooseBasic").is(':checked')){
+              $('#datasetOnlyBasic').show();
+                $("#datasetOnlyBasic")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else if($("#chooseMocle").is(':checked')){
+              $('#datasetOnlyMocle').show();
+                $("#datasetOnlyMocle")[0].scrollIntoView({
+                    behavior: "smooth", // or "auto" or "instant"
+                    block: "start" // or "end"
+                  });
+            }
+            else{
+              $('#aviso_modal .modal-body').append('<p>You should choose at least a algorithm to generate partitions.</p>');
+              error = true;
+            }
+          }
+          else if($("#chooseUpload").is(':checked')){
+            $('#uploadpartition').show();
+              $("#uploadpartition")[0].scrollIntoView({
+                  behavior: "smooth", // or "auto" or "instant"
+                  block: "start" // or "end"
+                });
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            $("#continueChoosePath").prop("disabled",true);
+          }
+        });
+
+        function checkAll(bx){
+          var cbs = $('#checkboxDataSet input');
+          for(var i=0; i < cbs.length; i++) {
+            if(cbs[i].type == 'checkbox') {
+              cbs[i].checked = bx.checked;
+            }
+          }
+        }
+
+        $("#visWithAlg").click(function(){
+          var error = false;
+          $('#chooseBasic').prop('checked', true);
+          $('#chooseMocle').prop('checked', true);
+          if($('#datasetBoth #checkboxDataSet input:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should choose at least a Basic Algorithm to generate partitions.</p>');
+            error = true;
+          }
+          if($('#datasetBoth #minKBasic').val() == "" || $('#datasetBoth #maxKBasic').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum number of clusters values are required.</p>');
+            error = true;
+          }
+          else{
+            if(parseInt($('#datasetBoth #minKBasic').val()) > parseInt($('#datasetBoth #maxKBasic').val())){
+              $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
+              error = true;
+            }
+          }
+          if($('#datasetBoth #minKMocle').val() == "" || $('#datasetBoth #maxKMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum k of the consensus partition values are required.</p>');
+            error = true;
+          }
+          else{
+            if(parseInt($('#datasetBoth #minKMocle').val()) > parseInt($('#datasetBoth #maxKMocle').val())){
+              $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
+              error = true;
+            }
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone1.processQueue();
+            $("#visWithAlg").prop("disabled",true);
+          }
+        });
+
+        $("#visOnlyBasic").click(function(){
+          var error = false;
+          $('#chooseBasic').prop('checked', true);
+          if($('#datasetOnlyBasic #checkboxDataSet input:checked').length == 0){
+            $('#aviso_modal .modal-body').append('<p>You should choose at least a Basic Algorithm to generate partitions.</p>');
+            error = true;
+          }
+          if($('#datasetOnlyBasic #minKBasic').val() == "" || $('#datasetOnlyBasic #maxKBasic').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum number of clusters values are required.</p>');
+            error = true;
+          }
+          else{
+            if(parseInt($('#datasetOnlyBasic #minKBasic').val()) > parseInt($('#datasetOnlyBasic #maxKBasic').val())){
+              $('#aviso_modal .modal-body').append('<p>Maximum number of clusters must be higher than minimum number of clusters.</p>');
+              error = true;
+            }
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone1.processQueue();
+            $("#visOnlyBasic").prop("disabled",true);
+          }
+        });
+
+        $("#visOnlyPartitions").click(function(){
+          myDropzone2.processQueue();
+        });
+
+        $("#visOnlyMocle").click(function(){
+          var error = false;
+          $('#chooseMocle').prop('checked', true);
+          if($('#datasetOnlyMocle #minKMocle').val() == "" || $('#datasetOnlyMocle #maxKMocle').val() == ""){
+            $('#aviso_modal .modal-body').append('<p>Both minimum and maximum k of the consensus partition values are required.</p>');
+            error = true;
+          }
+          else{
+            if(parseInt($('#datasetOnlyMocle #minKMocle').val()) > parseInt($('#datasetOnlyMocle #maxKMocle').val())){
+              $('#aviso_modal .modal-body').append('<p>Maximum k of the consensus partition must be higher than minimum k of the consensus partition.</p>');
+              error = true;
+            }
+          }
+          if(error){
+            $('#aviso_modal').modal("show");
+          }
+          else{
+            myDropzone3.processQueue();
+            $("#visOnlyMocle").prop("disabled",true);
+          }
+        });
+
+        //isso faz com que carreguem mais de 2 arquivos por vez
+        // myDropzone2.on('success', myDropzone2.processQueue.bind(myDropzone2));
+        // myDropzone3.on('success', myDropzone3.processQueue.bind(myDropzone3));
+
+        $("#cleanbody").click(function(){
+          $("#aviso_modal .modal-body").empty();
+        });
+
+    </script>
+
+  </body>
+</html>
