@@ -749,6 +749,7 @@
               self.close();
             }),
             this.on("errormultiple", function(file, error){
+              console.log(error);
               if(error != "You can't upload files of this type."){
                 if(error == "Server responded with 0 code."){
                   alert('Timeout!');

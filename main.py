@@ -75,19 +75,17 @@ def upload():
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
                     if len(alg) > 1:
+                        dest = resultfolder+'/allPart'
+                        os.makedirs(dest)
                         for algnumber in alg:
                             resultAlg = resultfolder + '/' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
 
-                            print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
-                        dest = resultfolder+'/allPart'
-                        os.makedirs(dest)
-                        for root, dirs, files in os.walk(resultfolder, topdown=False):
-                            for name in files:
-                                print(os.path.join(root, name))
-                                source = os.path.join(root, name)
+                            print("resulAlg: ", resultAlg)
+                            for files in os.listdir(resultAlg+'/allPart'):
+                                source = os.path.join(resultAlg+'/allPart',files)
                                 shutil.copy(source, dest)
-
+                            print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                     else:
                         clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultfolder, int(alg[0]))
                         print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
