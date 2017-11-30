@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
 from operator import itemgetter, attrgetter, methodcaller
 import numpy as np
 import distutils
@@ -45,16 +48,16 @@ def loadCluster(dirPart, alg):
     # caso clustering
     if(alg == 1):
         print("expDirName {}".format(expDirName))
-        resDir = "./static/resultados/" + expDirName
+        resDir = "/var/www/cvis/static/resultados/" + expDirName
     # caso mocle
     elif(alg == 2):
         (lixo2, mocleExpDirName) = os.path.split(lixo)
         print("expDirName {}".format(expDirName))
-        resDir = "./static/resultados/" + mocleExpDirName
+        resDir = "/var/www/cvis/static/resultados/" + mocleExpDirName
     # caso partitions
     else:
         print("expUpload {}".format(expUpload))
-        resDir = "./static/resultados/" + expUpload
+        resDir = "/var/www/cvis/static/resultados/" + expUpload
     print("resDir {}".format(resDir))
 
     if not os.path.exists(resDir):

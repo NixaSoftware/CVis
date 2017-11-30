@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_dropzone import Dropzone
 from datetime import datetime
@@ -13,7 +15,10 @@ app = Flask(__name__, static_folder="static")
 dropzone = Dropzone(app)
 
 # get the current folder
-app.config['UPLOADED_PATH'] = os.getcwd()
+
+#app.config['UPLOADED_PATH'] = os.getcwd()
+
+app.config['UPLOADED_PATH'] = '/home/cvis'
 
 @app.route('/')
 def index():
@@ -74,6 +79,9 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
+
+                    # criação de txt com parametros
+
                     if len(alg) > 1:
                         dest = resultfolder+'/allPart'
                         os.makedirs(dest)
