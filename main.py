@@ -15,10 +15,7 @@ app = Flask(__name__, static_folder="static")
 dropzone = Dropzone(app)
 
 # get the current folder
-<<<<<<< HEAD
 #app.config['UPLOADED_PATH'] = os.getcwd()
-=======
->>>>>>> a14a3b1ae7281fb97eab4a86ef7158072b304c26
 app.config['UPLOADED_PATH'] = '/home/cvis'
 
 @app.route('/')
