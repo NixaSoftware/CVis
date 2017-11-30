@@ -16,14 +16,13 @@ dropzone = Dropzone(app)
 
 # get the current folder
 <<<<<<< HEAD
-app.config['UPLOADED_PATH'] = os.getcwd()
-=======
-<<<<<<< HEAD
+
 #app.config['UPLOADED_PATH'] = os.getcwd()
+
 =======
->>>>>>> a14a3b1ae7281fb97eab4a86ef7158072b304c26
+#app.config['UPLOADED_PATH'] = os.getcwd()
+>>>>>>> 89ae7592c0bfb59872fa47559f394b83417a7717
 app.config['UPLOADED_PATH'] = '/home/cvis'
->>>>>>> d73a105be9ff0a3e423565d22addff9d3cf5d604
 
 @app.route('/')
 def index():
@@ -84,6 +83,9 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
+
+                    # criação de txt com parametros
+
                     if len(alg) > 1:
                         dest = resultfolder+'/allPart'
                         os.makedirs(dest)
@@ -209,6 +211,8 @@ def upload():
                 return jsonify(path)
     return "Erro"
 
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização
 #
