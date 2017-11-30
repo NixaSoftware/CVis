@@ -15,7 +15,10 @@ app = Flask(__name__, static_folder="static")
 dropzone = Dropzone(app)
 
 # get the current folder
+<<<<<<< HEAD
 #app.config['UPLOADED_PATH'] = os.getcwd()
+=======
+>>>>>>> a14a3b1ae7281fb97eab4a86ef7158072b304c26
 app.config['UPLOADED_PATH'] = '/home/cvis'
 
 @app.route('/')
@@ -77,6 +80,9 @@ def upload():
                     # algorithms (1, 2, 3, 4, 5, 6, 7)
                     # se composto, vem com virgula
                     alg = request.form['alg'].split(',')
+
+                    # criação de txt com parametros
+
                     if len(alg) > 1:
                         dest = resultfolder+'/allPart'
                         os.makedirs(dest)
