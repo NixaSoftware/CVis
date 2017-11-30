@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
 from operator import itemgetter, attrgetter, methodcaller
 import numpy as np
 import distutils

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_dropzone import Dropzone
 from datetime import datetime
@@ -13,7 +15,8 @@ app = Flask(__name__, static_folder="static")
 dropzone = Dropzone(app)
 
 # get the current folder
-app.config['UPLOADED_PATH'] = os.getcwd()
+#app.config['UPLOADED_PATH'] = os.getcwd()
+app.config['UPLOADED_PATH'] = '/home/cvis'
 
 @app.route('/')
 def index():
@@ -199,8 +202,6 @@ def upload():
                 return jsonify(path)
     return "Erro"
 
-#!/usr/bin/env python
-#-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização
 #
