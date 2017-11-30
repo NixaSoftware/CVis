@@ -137,9 +137,15 @@ div.tooltip {
   border: 0px;
   border-radius: 8px;
   pointer-events: none;
-  /*min-width:100px;
-  max-width:100px;*/
+  min-width:100px;
+  max-width:200px;
+  margin:0;
+  opacity: 0;
+  position: absolute;
+  width:100%;
+  height:100%;
 }
+
 
 /* Table layout
 https://www.w3.org/TR/CSS2/tables.html#columns*/

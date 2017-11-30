@@ -7,7 +7,6 @@
         var div = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
-
         //console.log(data.columns);
         // create the table header
 //        newColumns = ["ID"];
@@ -56,13 +55,10 @@
                     div.html(function(){
                             tooltipText = cViz.data.identicalObjs[d].length;
                              if (cViz.data.identicalObjs[d].length > 1)
-                                // tooltipText = tooltipText + " objects: ";
-                                tooltipText = tooltipText + " objects";
-
+                                tooltipText = tooltipText + " objects: ";
                              else
-                                tooltipText = tooltipText + " object";
-                                // tooltipText = tooltipText + " object: ";
-                             // tooltipText = tooltipText + cViz.data.identicalObjs[d];
+                                tooltipText = tooltipText + " object: ";
+                             tooltipText = tooltipText + cViz.data.identicalObjs[d];
                             return tooltipText;
                         //cViz.data.identicalObjs[d])
                     })
