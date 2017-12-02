@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <title>Cluster Visualization</title>
-     <link rel="icon" href="../static/images/icon.png">
+     <link rel="icon" href="{{url_for('static', filename='images/icon.png')}}">
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -80,7 +80,6 @@
      <div class="dropdown" align="right" style="margin-right:1em;">
        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-download" aria-hidden="true"></i></button>
        <div class="dropdown-menu dropdown-menu-right">
-         <button class="dropdown-item" id = "pdf"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</button>
          <a class="dropdown-item" href="#"  id = "png"><i class="fa fa-file-image-o" aria-hidden="true"></i> PNG</a>
          <a class="dropdown-item" href="#"  id = "jpeg"><i class="fa fa-picture-o" aria-hidden="true"></i> JPEG</a>
          <div class="dropdown-divider"></div>
@@ -135,9 +134,10 @@
   </script>
 
   <script>
-  cViz.directory = sessionStorage.getItem("sent");
-  var nome = sessionStorage.getItem("sent").split('/');
-  var pasta = sessionStorage.getItem("sent");
+  cViz.directory = sessionStorage.getItem("diretorio");
+  console.log(sessionStorage.getItem("diretorio"));
+  var nome = sessionStorage.getItem("diretorio").split('/');
+  var pasta = sessionStorage.getItem("diretorio");
   cViz.onDataChange();
   </script>
 
@@ -149,64 +149,6 @@
 
     $(document).ready(function(){
       $('#partitionName').html(nome[nome.length-1]);
-      $('#pdf').click(function(){
-          var pdf = new jsPDF("p", "mm", "a4");;
-          var options = {
-                      background:'#F3F4FB',
-                      //pagesplit: true,
-                      //margin: {top: 10, right: 10, bottom: 10, left: 10, useFor: 'content'}
-          };
-          const doc = jsPDF()
-          pdf.addHTML($('#table-clu'), options, function () {
-
-              pdf.save(nome[nome.length-1]+'.pdf');
-          });
-
-    //melhor qualidade (bem pouco)
-    // html2canvas($('#table-clu'), {
-    //                 onrendered: function (canvas) {
-    //                 var imageData = canvas.toDataURL("image/jpeg");
-    //                 var image = new Image();
-    //                 image = Canvas2Image.convertToJPEG(canvas);
-    //                 var doc = new jsPDF();
-    //                 doc.addImage(imageData, 'JPEG', 12, 10);
-    //                 var croppingYPosition = 1095;
-    //                 count = (image.height) / 1095;
-    //
-    //                 for (var i =1; i < count; i++) {
-    //                         doc.addPage();
-    //                         var sourceX = 0;
-    //                         var sourceY = croppingYPosition;
-    //                         var sourceWidth = image.width;
-    //                         var sourceHeight = 1095;
-    //                         var destWidth = sourceWidth;
-    //                         var destHeight = sourceHeight;
-    //                         var destX = 0;
-    //                         var destY = 0;
-    //                         var canvas1 = document.createElement('canvas');
-    //                         canvas1.setAttribute('height', destHeight);
-    //                         canvas1.setAttribute('width', destWidth);
-    //                         var ctx = canvas1.getContext("2d");
-    //                         ctx.drawImage(image, sourceX,
-    //                                              sourceY,
-    //                                              sourceWidth,
-    //                                              sourceHeight,
-    //                                              destX,
-    //                                              destY,
-    //                                              destWidth,
-    //                                              destHeight);
-    //                         var image2 = new Image();
-    //                         image2 = Canvas2Image.convertToJPEG(canvas1);
-    //                         image2Data = image2.src;
-    //                         doc.addImage(image2Data, 'JPEG', 12, 10);
-    //                         croppingYPosition += destHeight;
-    //                     }
-    //                 filename = nome[nome.length-1]+'.pdf';
-    //                 doc.save(filename);
-    //             }
-    //
-    //              });
-             });
 
      $('#jpeg').click(function(){
          //transforma em canvas

@@ -9,7 +9,8 @@
     <meta name="author" content="">
 
     <title>Cluster Visualization</title>
-     <link rel="icon" href="../static/images/icon.png">
+     <link rel="icon" href="{{url_for('static', filename='images/icon.png')}}">
+
 
     <!-- Bootstrap core CSS -->
     <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -617,7 +618,7 @@
               if($('#chooseUpload:checked').length != 1 || $('#chooseMocle:checked').length != 1 && $('#chooseBasic:checked').length != 0){
                 $('#loading').hide();
                 //which will support for every browser that will store the sessions.
-                sessionStorage.setItem("sent", response);
+                sessionStorage.setItem("diretorio", response);
                 //this is to open a window in new tab
                 window.open("/CVis/visualization","_blank");
                 self.close();
@@ -679,7 +680,7 @@
               myDropzone1.processQueue();
               $('#loading').hide();
               //which will support for every browser that will store the sessions.
-              sessionStorage.setItem("sent", response);
+              sessionStorage.setItem("diretorio", response);
               // chama a pagina de visualizacao da tabela
               //this is to open a window in new tab
               window.open("/CVis/visualization","_blank");
@@ -746,10 +747,10 @@
               myDropzone1.processQueue();
               $('#loading').hide();
               //which will support for every browser that will store the sessions.
-              sessionStorage.setItem("sent", response);
+              sessionStorage.setItem("diretorio", response);
               // chama a pagina de visualizacao da tabela
               //this is to open a window in new tab
-              window.open("/visualization","_blank");
+              window.open("/CVis/visualization","_blank");
               self.close();
             }),
             this.on("errormultiple", function(file, error){
