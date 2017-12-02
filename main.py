@@ -6,9 +6,10 @@ from datetime import datetime
 import json
 from natsort import  natsorted, ns
 import pprint
-import os
+import os, sys, stat
 import shutil
 from loadClusters import *
+import subprocess
 #from script_fcs import *
 
 app = Flask(__name__, static_folder="static")
@@ -18,7 +19,7 @@ dropzone = Dropzone(app)
 
 #app.config['UPLOADED_PATH'] = os.getcwd()
 
-app.config['UPLOADED_PATH'] = 'home/cvis'
+app.config['UPLOADED_PATH'] = '/home/cvis'
 
 @app.route('/')
 def index():
@@ -38,7 +39,12 @@ def upload():
             dir = '/uploaded-data/' + id
 
             if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
-                os.makedirs(app.config['UPLOADED_PATH'] + dir)
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(app.config['UPLOADED_PATH'] + dir, 0o2770)
+                finally:
+                    os.umask(original_umask)
+		
 
             for f in request.files.getlist('file'):
                 print("request files: ", request.files)
@@ -54,11 +60,19 @@ def upload():
                 print("request.form['partition'] == 'no'")
                 newdirectory = False
                 if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
+                    try:
+                        original_umask = os.umask(0)
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/', 0777)
+                    finally:
+                        os.umask(original_umask)
                     newdirectory = True
 
                 if(newdirectory):
-                    os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1')
+                    try:
+                        original_umask = os.umask(0)
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1', 0o2770)
+                    finally:
+                        os.umask(original_umask)
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1'
                 else:
                     # ordena as pastas e pega o número da última pra saber qual o
@@ -67,7 +81,12 @@ def upload():
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                     resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir)
-                    os.makedirs(resultfolder)
+                    try:
+                        original_umask = os.umask(0)
+                        os.makedirs(resultfolder, 0o2770)
+                    finally:
+                        os.umask(original_umask)
+    
 
                 if(request.form['basicSelected'] == 'yes'):
                     print("CLUSTERING SELECTED")
@@ -84,7 +103,11 @@ def upload():
 
                     if len(alg) > 1:
                         dest = resultfolder+'/allPart'
-                        os.makedirs(dest)
+                        try:
+                            original_umask = os.umask(0)
+                            os.makedirs(dest, 0o2770)
+                        finally:
+                            os.umask(original_umask)
                         for algnumber in alg:
                             resultAlg = resultfolder + '/' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
@@ -114,11 +137,15 @@ def upload():
                     trueP = os.listdir(resultfolder+'/allPart')
                     print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
+                    permissao(resultfolder)
                     path = loadCluster(resultfolder + '/allPart-mocle/solutionPopulation', 2)
                 else:
+                    permissao(resultfolder)
                     path = loadCluster(resultfolder + '/allPart', 1)
 
                 # conferir no loadClusters como o caminho tá sendo pegado
+                (head, tail) = os.path.split(path)
+                path = './static/resultados/'+tail
                 print("path loadCluster = ", path)
                 return jsonify(path)
 
@@ -132,14 +159,22 @@ def upload():
             novoDir = dirAtual + dir
 
             if not os.path.exists(dirAtual + dir):
-                os.makedirs(novoDir)
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(novoDir, 0777)
+                finally:
+                    os.umask(original_umask)
             else:
                 root, dirs, files = next(os.walk(dirAtual + '/uploaded-part/'))
                 print("natsorted(dirs) ", natsorted(dirs))
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                 novoDir = dirAtual +'/uploaded-part/' + 'upload-' + str(newdir)
                 print("diretório criado: ", novoDir)
-                os.makedirs(novoDir)
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(novoDir, 0777)
+                finally:
+                    os.umask(original_umask)
 
             for n in request.files.getlist('datasetfile'):
                 datasetlocation = novoDir
@@ -147,7 +182,11 @@ def upload():
                 datasetlocation += '/' + n.filename
 
             if not os.path.exists(novoDir + '/partition'):
-                os.makedirs(novoDir + '/partition')
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(novoDir+'/partition', 0o2770)
+                finally:
+                    os.umask(original_umask)
 
             keys = [k for k in request.files if k.startswith('file')]
             #print(keys)
@@ -164,18 +203,30 @@ def upload():
 
             newdirectory = False
             if not os.path.exists(app.config['UPLOADED_PATH'] + '/algResult/'):
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/')
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/', 0777)
+                finally:
+                    os.umask(original_umask)
                 newdirectory = True
 
             if(newdirectory):
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-1')
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/result_mocle-1', 0o2770)
+                finally:
+                    os.umask(original_umask)
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
                 resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-1'
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-' + str(newdir))
+                try:
+                    original_umask = os.umask(0)
+                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/result_mocle-' + str(newdir), 0o2770)
+                finally:
+                    os.umask(original_umask)
 
                 resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-' + str(newdir)
 
@@ -199,20 +250,34 @@ def upload():
                     # nearest neighbours
                     nearNeigh = request.form['nearNeigh']
                     mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGen)
+                    permissao(resultfolder)
                     path = loadCluster(resultfolder+'/solutionPopulation', 2)
                 else:
+                    permissao(partitionlocation)
                     path = loadCluster(partitionlocation, 1)
 
+                (head, tail) = os.path.split(path)
+                path = './static/resultados/'+tail
                 print("path loadCluster: ", path)
+                
                 return jsonify(path)
     return "Erro"
 
+def permissao(algResult):
+    for root, dirs, files in os.walk(algResult, topdown=False):
+        print("mudando permissão de {}".format(root))
+        os.chmod(root, 0777)
+        for name in files:
+            print("mudando permissão de {}".format(os.path.join(root, name)))
+            os.chmod(os.path.join(root,name), 0o2770)
+
+        
+        
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização
 #
-import subprocess
 
 def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
     """
@@ -244,7 +309,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-    args = ['/home/lasid/programs/clustering/./clustering', tipoDist, numObj, minK, maxK, dataset, expDir, alg]
+    args = ['', '/home/lasid/programs/clustering/./clustering', str(tipoDist), str(numObj), str(minK), str(maxK), str(dataset), str(expDir), str(alg)]
     processo = ""
 
     for item in args:
@@ -252,7 +317,9 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += " "
 
     print("processo clustering: ", processo)
-    return subprocess.call(processo, shell=True)
+    #return subprocess.check_call(processo, shell=True)
+    retorno = subprocess.Popen(processo)
+    return retorno
 
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
@@ -275,7 +342,7 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
     """
     Usage: ./mocle <Crossover Type: 1- mcla or 2 - bipartite> <minK> <maxK> <Dataset> <Initial Population Directory> <Results Directory> <True Partition (can be a fake one if not known)> [L - Percentage of the number of neighbors for calculating the connectivity - default = 5%] [G - Number of generations - defauld = 100]
     """
-    args = ['/home/lasid/programs/MOCLE-v3/./mocle', crossover, minK, maxK, dataset, popIniDir+'/', resultDir+'/', truePartition, nearNeigh, numGem]
+    args = ["/home/lasid/programs/MOCLE-v3/./mocle", crossover, minK, maxK, dataset, popIniDir+'/', resultDir+'/', truePartition, nearNeigh, numGem]
     processo = ""
 
     for item in args:
@@ -283,7 +350,8 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
         processo += " "
 
     print("processo mocle: ", processo)
-    return subprocess.call(processo, shell=True)
+    #return subprocess.call(processo, shell=True)
+    return subprocess.call(processo)
 
 
 if __name__ == '__main__':

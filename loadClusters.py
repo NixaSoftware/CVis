@@ -53,11 +53,11 @@ def loadCluster(dirPart, alg):
     elif(alg == 2):
         (lixo2, mocleExpDirName) = os.path.split(lixo)
         print("expDirName {}".format(expDirName))
-        resDir = "/var/www/cvis/static/resultados/" + mocleExpDirName
+        resDir = "/var/www/cvis/static/resultados/" + mocleExpDirName	
     # caso partitions
     else:
         print("expUpload {}".format(expUpload))
-        resDir = "/var/www/cvis/static/resultados/" + expUpload
+        resDir = "/var/www/cvis/static/resultados/" + expUpload		
     print("resDir {}".format(resDir))
 
     if not os.path.exists(resDir):
