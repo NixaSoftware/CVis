@@ -1,9 +1,0 @@
-Partition	Objectives values
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk4s1.clu	124.743	34.4266	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk2s2.clu	40.8233	49.6833	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk2s3.clu	42.4932	49.5355	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk3s4.clu	28.6562	87.2719	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk2s5.clu	6.38471	87.3176	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk4s6.clu	126.671	34.3812	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk3s7.clu	85.561	39.8975	
-/var/www/cvis/algResult/cluster_mocle-1/allPart-mocle/solutionPopulation/partitionk2s8.clu	32.2504	51.3088	

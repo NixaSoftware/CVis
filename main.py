@@ -18,7 +18,7 @@ dropzone = Dropzone(app)
 
 #app.config['UPLOADED_PATH'] = os.getcwd()
 
-app.config['UPLOADED_PATH'] = '/home/cvis'
+app.config['UPLOADED_PATH'] = 'home/cvis'
 
 @app.route('/')
 def index():
@@ -251,8 +251,9 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += str(item)
         processo += " "
 
-    subprocess.call(processo, shell=True)
-    return
+    print("processo clustering: ", processo)
+    return subprocess.call(processo, shell=True)
+
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
     """
@@ -281,8 +282,8 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
         processo += str(item)
         processo += " "
 
-    retorno = subprocess.call(processo, shell=True)
-    return 1
+    print("processo mocle: ", processo)
+    return subprocess.call(processo, shell=True)
 
 
 if __name__ == '__main__':
