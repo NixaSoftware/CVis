@@ -1,10 +1,8 @@
-#!/usr/bin/env python
 #-*- coding: utf-8 -*-
-
 from operator import itemgetter, attrgetter, methodcaller
 import numpy as np
 import distutils
-#import sys
+import sys
 import os
 import csv
 import pandas as pd
@@ -33,12 +31,15 @@ def loadCluster(dirPart, alg):
             - result.tsv
             - objOrderEAC.tsv
     """
+
     print("LOAD CLUSTER {}".format(dirPart))
     merged = pd.DataFrame()
     clustersData = pd.DataFrame(columns=["ID", "cLabel", "pLabel"]) #pd.DataFrame(columns=["cID", "cLabel", "pLabel", "cSize"])
 
     clusterDir = dirPart
     (head, tail) = os.path.split(clusterDir);
+    #(head, tail) = os.path.split(dirPart);
+
 
     print("head {}\ntail {}".format(head, tail))
     expUpload = tail;
@@ -70,8 +71,6 @@ def loadCluster(dirPart, alg):
     allClustersLabels = []
     print("clusterdir {}".format(clusterDir))
     for filename in os.listdir(clusterDir):
-	print(os.listdir(clusterDir))
-	print("file1 {}".format(filename))
         file = clusterDir + '/' + filename
         p = pd.read_csv(file, sep="\t", header=None, encoding='utf-8', engine="python")
         p.columns = ["ID", "clusterLabel"]
