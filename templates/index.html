@@ -543,7 +543,7 @@
           acceptedFiles: '.txt',
           thumbnailWidth: 500,
           maxFiles: 1,
-          timeout: 3000000,
+          timeout: 99999999999,
           autoProcessQueue: false,
 
           init: function() {
@@ -628,7 +628,8 @@
               console.log(error);
               if(error != "You can't upload files of this type."){
                 if(error == "Server responded with 0 code."){
-                  alert('Timeout!');
+                  alert('Timeout! Try again.');
+		  location.reload();
                 }
                 else{
                   $('.mocleerror').html("Server internal error");
@@ -652,7 +653,7 @@
           acceptedFiles: '.clu',
           uploadMultiple: true,
           parallelUploads: 100,
-          timeout: 3000000,
+          timeout: 99999999999,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -690,7 +691,8 @@
               console.log(error);
               if(error != "You can't upload files of this type."){
                 if(error == "Server responded with 0 code."){
-                  alert('Timeout!');
+                  alert('Timeout! Try again.');
+                  location.reload();
                 }
                 else{
                   $('.mocleerror').html("Server internal error");
@@ -714,7 +716,7 @@
           acceptedFiles: '.clu',
           uploadMultiple: true,
           parallelUploads: 100,
-          timeout: 3000000,
+          timeout: 99999999999,
           autoProcessQueue: false,
           init: function() {
             this.on("sending", function(file, xhr, formData){
@@ -757,7 +759,8 @@
               console.log(error);
               if(error != "You can't upload files of this type."){
                 if(error == "Server responded with 0 code."){
-                  alert('Timeout!');
+                  alert('Timeout! Try again.');
+                  location.reload();
                 }
                 else{
                   $('.mocleerror').html("Server internal error");

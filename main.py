@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 from flask import Flask, render_template, request, flash, redirect, url_for, jsonify
 from flask_dropzone import Dropzone
@@ -9,7 +8,7 @@ import pprint
 import os, sys, stat
 import shutil
 from loadClusters import *
-import subprocess
+import subprocess32 as subprocess
 #from script_fcs import *
 
 app = Flask(__name__, static_folder="static")
@@ -41,7 +40,7 @@ def upload():
             if not os.path.exists(app.config['UPLOADED_PATH'] + dir):
                 try:
                     original_umask = os.umask(0)
-                    os.makedirs(app.config['UPLOADED_PATH'] + dir, 0o2770)
+                    os.makedirs(app.config['UPLOADED_PATH'] + dir, 0777)
                 finally:
                     os.umask(original_umask)
 		
@@ -70,17 +69,17 @@ def upload():
                 if(newdirectory):
                     try:
                         original_umask = os.umask(0)
-                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1', 0o2770)
+                        os.makedirs(app.config['UPLOADED_PATH'] + '/algResult/' + 'clustermocle-1', 0o2770)
                     finally:
                         os.umask(original_umask)
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-1'
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'clustermocle-1'
                 else:
                     # ordena as pastas e pega o número da última pra saber qual o
                     # número da pasta nova
                     root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                     # natsorted serve para ordenar 10+
                     newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
-                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cluster_mocle-' + str(newdir)
+                    resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'clustermocle-' + str(newdir)
                     try:
                         original_umask = os.umask(0)
                         os.makedirs(resultfolder, 0o2770)
@@ -213,18 +212,18 @@ def upload():
             if(newdirectory):
                 try:
                     original_umask = os.umask(0)
-                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/result_mocle-1', 0o2770)
+                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/resultmocle-1', 0o2770)
                 finally:
                     os.umask(original_umask)
                 # pasta para adicionar resultados tanto do clustering quanto do mocle
-                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'result_mocle-1'
+                resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'resultmocle-1'
             else:
                 # pega nome das pastas e ordena, pega a ultima pasta e adiciona mais um para criar a nova
                 root, dirs, files = next(os.walk(app.config['UPLOADED_PATH'] + '/algResult/'))
                 newdir = int((natsorted(dirs)[-1]).split("-")[1]) + 1
                 try:
                     original_umask = os.umask(0)
-                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/result_mocle-' + str(newdir), 0o2770)
+                    os.makedirs(app.config['UPLOADED_PATH']+'/algResult/resultmocle-' + str(newdir), 0o2770)
                 finally:
                     os.umask(original_umask)
 
@@ -273,7 +272,7 @@ def permissao(algResult):
 
         
         
-#!/usr/bin/env python
+#!/usr/bin/ python
 #-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
 # clusterização
@@ -309,7 +308,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
     """
-    args = ['', '/home/lasid/programs/clustering/./clustering', str(tipoDist), str(numObj), str(minK), str(maxK), str(dataset), str(expDir), str(alg)]
+    args = ['/home/lasid/programs/clustering/./clustering', str(tipoDist), str(numObj), str(minK), str(maxK), dataset, expDir, str(alg)]
     processo = ""
 
     for item in args:
@@ -318,8 +317,8 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
 
     print("processo clustering: ", processo)
     #return subprocess.check_call(processo, shell=True)
-    retorno = subprocess.Popen(processo)
-    return retorno
+    return subprocess.Popen(args, stdout=subprocess.PIPE)
+   
 
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
@@ -351,7 +350,7 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
 
     print("processo mocle: ", processo)
     #return subprocess.call(processo, shell=True)
-    return subprocess.call(processo)
+    return subprocess.call(processo, shell=True)
 
 
 if __name__ == '__main__':

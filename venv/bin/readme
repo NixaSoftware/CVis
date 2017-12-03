@@ -1,0 +1,182 @@
+This file contains instructions to use the snn.cpp clustering code.
+
+--------------------------------------------
+FILE FORMATS
+--------------------------------------------
+0. Compressed Sparse Row (CSR)
+1. Matrix                (MAT)
+2. Coordinate            (COOR)
+3. Dense
+
+All the data files must have information about the size of the data in the first line of the file.  Specifically it should contain 3 integers, 
+number of rows, number of columns and number of non-zeros (the last one can be ignored in dense format as it is equal to the product of the 
+first two).  In all the file formats, the indices to the data matrix start from 1 (fortran style).
+
+CSR format
+----------
+In CSR representation of a matrix, there are 3 arrays. 'value' array stores the values, 'colindex' array stores the column indices of the 
+non-zero elements in the matrix.  Both of these arrays are of size 'nnzero' (number of non-zeros).  The third array 'rowptr' is a pointer to the 
+other two arrays and it points to the start (and end) of each row in the matrix. The size of the 'rowptr' array is 'nrows + 1', the first 
+element of the rowptr is always 1 and the last element is always 'nnzero+1'.
+
+sample matrix
+1 2 0 0 3
+0 4 0 5 0
+
+header row
+2 5 5 (2 rows, 5 columns, 5 non-zeros)
+
+csr representation
+rowptr array   : 1 4 6
+colindex array : 1 2 5 2 4
+value array    : 1 2 3 4 5
+
+MAT format
+----------
+In MAT representation, there are as many rows as the number of rows in the data matrix.  Every row contains an index followed by a value for the 
+non-zero entries in the matrix.
+
+header row
+2 5 5 (2 rows, 5 columns, 5 non-zeros)
+
+mat representation of the above matrix
+1 1.0 2 2.0 5 3.0
+2 4.0 4 5.0 
+
+Coordinate format
+-----------------
+Coordinate format is a list of (i,j,value) entries in every line.  It has 'nnzero' lines (plus the header line).
+
+header row
+2 5 5 (2 rows, 5 columns, 5 non-zeros)
+coor representation
+1 1 1
+1 2 2
+1 5 3
+2 2 4
+2 4 5
+
+Dense format
+------------
+Dense format is basically the original matrix itself.
+2 5
+1 2 0 0 3
+0 4 0 5 0
+
+--------------------------------------------
+CONVERSION BETWEEN FORMATS
+--------------------------------------------
+The code accepts input in these formats, and it can convert the input from one format to another by specifying the '-c' option.
+-c 0 will convert to .csr
+-c 1 will convert to .mat , etc...
+
+The output filename will be the input file name appended by (.csr , .mat , .coor , .dense).
+
+--------------------------------------------
+SIMILARITY FUNCTION
+--------------------------------------------
+There are 5 similarity functions available in the code.
+0 - dot product
+1 - cosine measure
+2 - jaccard coefficient (binary)
+3 - euclidean distance
+4 - correlation coefficient (dense format only)
+
+When using cosine measure as the similarity function, using the '-rn' option will make the calculations faster as it will normalize the rows of 
+the data initially and use the dot product as the similarity function.  By default, choosing cosine measure doesn't imply that the data will be 
+normalized, instead cos(a,b) = a . b / |a|*|b| will be executed.
+
+The euclidean distance function does not return the exact euclidean distance but the square of it since only the order is considered in the 
+code.
+
+--------------------------------------------
+OPTIONS
+--------------------------------------------
+-t
+the data is transposed as soon as it is loaded and all the remaining options will operate on the transposed data.
+
+-rlabel filename
+specifies the filename that contains class labels for the data. the length of this file should be 'nrows'.
+
+-rname filename
+specifies the filename that contains the "names" of the rows.  when a data is clustered, instead of looking at row_id(clusters), the user can 
+see rname(row_id(clusters)). for text data, if the user clusters the words instead of the documents, it makes more sense to look at the words in 
+the clusters instead of word id's.
+
+-out filename
+name of the output file
+
+-rn
+unit row normalization
+
+-cn {1,2}
+column normalization
+1 - tfidf
+2 - subtract the mean and normalize by standard deviation for each column.
+
+-prune_rl support
+low support threshold for rows.  any row that has fewer attributes than 'support', then that row is ignored.
+
+-prune_rh support
+high support threshold for rows.
+
+-prune_cl support
+low support for attributes (columns).  any attribute that appears in less than 'support' rows is ignored.
+
+-prune_ch support
+high support for attributes. (e.g., stop words)
+
+-prune_w f(float)
+for every row in the data, consider only the most significant features that make up 'f' percent of the row length and ignore the remaining 
+attributes.
+
+-dump filename
+write the similarity matrix (nrow x NN) to a file.  the actual similarity values will not be written, but only the nearest neighbor lists will 
+be written
+
+-simfile filename M
+read similarity matrix of size (nrow x M) where nrow is specified in the data file header and M is an integer specifying the near neighbor list 
+size
+
+--------------------------------------------
+PARAMETERS
+--------------------------------------------
+
+-NN k(int)
+near neighbor list size. this value should in general be small compared to the data size. (e.g. 50,100...)
+
+After constructing the shared nearest neighbor graph, the clustering proceeds very much like a single link clustering with some twists.
+
+-strong f
+Percentage of weak links [0,1].
+In order to determine representative points from the data, for every data point, the number of non-weak links are counted.  Higher the count, 
+higher the chances are that the point represents its neighborhood.
+
+-topic f
+Percentage of representative points [0,1].
+The points that have the highest strong link count will be selected as representatives.
+
+-noise f
+Percentage of noise in the data.
+
+-merge f
+The percentage of links to be used in merging clusters.  This is very similar to the cut-off threshold in the single-link approach (the 
+strength of the weakest link to be used in merging). 
+
+-label f
+Specifies a weaker merge threshold that will not merge two clusters but will label points that are not clustered to the closest clusters if 
+their similarity is greater than 'merge_threshold*label'
+
+Reasonable ranges for the parameters
+-strong 0 - 0.4
+-topic  0.01 - 0.4
+-noise  depends on the expected noise in the data
+-merge  0.05 - 0.3
+-label  0 - 1 (labeling is off by default. specifying 0 will label every point that has a link to a clustered point)
+
+
+Last modified                : april 3rd, 2002
+For bug reports, suggestions : ertoz@cs.umn.edu
+
+Levent Ertoz, University of Minnesota
+

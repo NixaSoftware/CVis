@@ -72,6 +72,7 @@ def loadCluster(dirPart, alg):
         allClusters = set(p["clusterLabel"])
 
         for cluster in allClusters:
+	    print(cluster)
             cLabel = "c"+str(cluster)
             newCluster = cLabel+filename
             allClustersLabels.insert(len(allClustersLabels), newCluster)
@@ -85,6 +86,7 @@ def loadCluster(dirPart, alg):
             merged = merged.merge(p, how="outer", on="ID")
 
     # identify groups of objects identically grouped and remove them from the dataset
+    print(allClustersLabels)
     distinct = {}
     dist2 = merged.groupby(allClustersLabels, sort=False)
     file = resDir + '/listsIdenticalObjs.tsv'
