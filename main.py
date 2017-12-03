@@ -108,7 +108,7 @@ def upload():
                         finally:
                             os.umask(original_umask)
                         for algnumber in alg:
-                            resultAlg = resultfolder + '/' + algnumber
+                            resultAlg = resultfolder + '//' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
 
                             print("resulAlg: ", resultAlg)
@@ -137,10 +137,12 @@ def upload():
                     print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
                     permissao(resultfolder)
-                    path = loadCluster(resultfolder + '/allPart-mocle/solutionPopulation', 2)
+                    path = loadCluster(resultfolder + '//allPart-mocle/solutionPopulation', 2)
                 else:
                     permissao(resultfolder)
-                    path = loadCluster(resultfolder + '/allPart', 1)
+		    pathcompleto = resultfolder + '//allPart'
+                   # path = loadCluster(str(resultfolder) + '/allPart', 1)
+		    path = loadCluster(str(pathcompleto), 1)
 
                 # conferir no loadClusters como o caminho tá sendo pegado
                 (head, tail) = os.path.split(path)
@@ -268,7 +270,7 @@ def permissao(algResult):
         os.chmod(root, 0777)
         for name in files:
             print("mudando permissão de {}".format(os.path.join(root, name)))
-            os.chmod(os.path.join(root,name), 0o2770)
+            os.chmod(os.path.join(root,name), 0o777)
 
         
         
