@@ -142,8 +142,6 @@ input[type=button] {
 div.tooltip {
   position: absolute;
   text-align: center;
-  //width: 60px;
-  //height: 28px;
   padding: 9px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -152,6 +150,7 @@ div.tooltip {
   pointer-events: none;
   margin:0;
   opacity: 0;
+  max-width: 300px;
 }
 
 

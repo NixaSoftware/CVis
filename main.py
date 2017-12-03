@@ -110,8 +110,6 @@ def upload():
                         for algnumber in alg:
                             resultAlg = resultfolder + '/' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
-
-                            print("resulAlg: ", resultAlg)
                             for files in os.listdir(resultAlg+'/allPart'):
                                 source = os.path.join(resultAlg+'/allPart',files)
                                 shutil.copy(source, dest)
@@ -137,20 +135,19 @@ def upload():
                     nearNeigh = int(request.form['nearNeigh'])
                     minK = int(request.form['minKMocle'])
                     maxK = int(request.form['maxKMocle'])
-
                     trueP = os.listdir(resultfolder+'/allPart')
-                    print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
+                    print("RESULTFOLDER MOCLE: ", resultfolder)
 		    permissao(resultfolder)
                     path = loadCluster(resultfolder + '/allPart-mocle/solutionPopulation', 2)
-		    paramtext += '\nCrossover: '+crossovernames[crossover-1]
-		    paramtext += '\nMin k of the consensus partition: '+str(request.form['minKMocle'])
-		    paramtext += '\nMax k of the consensus partition: '+str(request.form['maxKMocle'])
-		    paramtext += '\nNumber of generations: '+str(numGen)
-		    paramtext += '\nNearest neighbours: '+str(nearNeigh)+'%\n'
+                    paramtext += '\nCrossover: '+crossovernames[crossover-1]
+                    paramtext += '\nMin k of the consensus partition: '+str(request.form['minKMocle'])
+                    paramtext += '\nMax k of the consensus partition: '+str(request.form['maxKMocle'])
+                    paramtext += '\nNumber of generations: '+str(numGen)
+                    paramtext += '\nNearest neighbours: '+str(nearNeigh)+'%\n'
                 else:
-		    pathcompleto = resultfolder + '/allPart'
-		    path = loadCluster(pathcompleto, 1)
+                    pathcompleto = resultfolder + '/allPart'
+                    path = loadCluster(pathcompleto, 1)
                 
                 # conferir no loadClusters como o caminho tá sendo pegado
                 (head, tail) = os.path.split(path)
@@ -250,6 +247,7 @@ def upload():
                 resultfolder = app.config['UPLOADED_PATH'] + '/algResult/' + 'cvis-' + str(newdir)
 
             # compara numero de arquivos na pasta com numero de arquivos aceitos no dropzone
+            # waits until the numbers of files in folder matches the accepted files by dropzone
             if(qtinfolder == int(request.form['qtofdata'])):
                 print("Oi! Você fez upload do partitions!");
 
@@ -268,25 +266,26 @@ def upload():
                     numGen = request.form['numGen']
                     # nearest neighbours
                     nearNeigh = request.form['nearNeigh']
-                    mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, datasetlocation, nearNeigh, numGen)
+                    trueP = os.listdir(partitionlocation)
+                    mocle(crossover, minK, maxK, datasetlocation, partitionlocation, resultfolder, partitionlocation+'/'+trueP[0], nearNeigh, numGen)
                     permissao(resultfolder)
                     path = loadCluster(resultfolder+'/solutionPopulation', 2)
-		    (head, tail) = os.path.split(path)
-		    viszipado = shutil.make_archive(tail+'-vis', 'zip', str(path))
+                    (head, tail) = os.path.split(path)
+                    viszipado = shutil.make_archive(tail+'-vis', 'zip', str(path))
                     shutil.move(viszipado, path)
-		    partzipado = shutil.make_archive(tail+'-partition', 'zip', str(resultfolder))
-	            shutil.move(partzipado, path)
+                    partzipado = shutil.make_archive(tail+'-partition', 'zip', str(resultfolder))
+                    shutil.move(partzipado, path)
                 else:
                     permissao(partitionlocation)
                     path = loadCluster(partitionlocation, 1)
-		    (head, tail) = os.path.split(path)
-	            viszipado = shutil.make_archive(tail+'-vis', 'zip', str(path))
+                    (head, tail) = os.path.split(path)
+                    viszipado = shutil.make_archive(tail+'-vis', 'zip', str(path))
                     shutil.move(viszipado, path)
                     partzipado = shutil.make_archive(tail+'-partition', 'zip', str(partitionlocation))
-	            shutil.move(partzipado, path)
+                    shutil.move(partzipado, path)
 
-        	(head, tail) = os.path.split(path)
-		nomeparam = path + '/' + tail + '-parameters.txt'
+                (head, tail) = os.path.split(path)
+                nomeparam = path + '/' + tail + '-parameters.txt'
                 param = open(nomeparam, 'w+')
                 param.write('You chose to upload partitions\n\nMocle selected: '+request.form['mocleSelected']+'\n\nUploaded dataset: '+datasetname+'\n\n')
                 param.write(paramtext)
@@ -332,16 +331,42 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         alg     :   int
             algoritmo de clusterização que será rodado
             1 - todos os algoritmos
-            2 - SL
-            3 - AL
-            4 - CeL
-            5 - CoL
-            6 - SNN
-            7 - KM
+            2 - SL - Single Link
+            3 - AL - Average Link
+            4 - CeL - Centroid Link
+            5 - CoL - Complete Link
+            6 - SNN - SNN
+            7 - KM - K-Means
     Retorno:
     --------
         todos os arquivos .clu são gerados em subdiretórios, identificados pelo
         algoritmo selecionado, na pasta expDir
+    -----------------------------------
+    Parameters:
+    ----------
+        tipoDist :  char
+            E - Euclidian distance
+            P - Pearson's correlation
+        numObj  :   int
+            number of objects
+        minK, maxK    :   int
+            minimum and maximum number of clusters
+        dataset :   string
+            path for the dataset file
+        expDir  :   string
+            path for the result folder
+        alg     :   int
+            code for the desired clustering algorithm
+            1 - all 
+            2 - SL - Single Link
+            3 - AL - Average Link
+            4 - CeL - Centroid Link
+            5 - CoL - Complete Link
+            6 - SNN - SNN
+            7 - KM - K-Means
+    Return:
+    --------
+        all .clu files are generate in subdirs, identified by the selected algorithm.
     """
     args = ['/home/lasid/programs/clustering/./clustering', str(tipoDist), str(numObj), str(minK), str(maxK), dataset, expDir, str(alg)]
     processo = ""
@@ -351,7 +376,6 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
         processo += " "
 
     print("processo clustering: ", processo)
-    #return subprocess.check_call(processo, shell=True)
     return subprocess.check_call(processo, shell=True)
 
 
@@ -372,9 +396,24 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
             caminho absoluto pro arquivo de resultados
         truePartition : fake
             é inútil
-    """
-    """
-    Usage: ./mocle <Crossover Type: 1- mcla or 2 - bipartite> <minK> <maxK> <Dataset> <Initial Population Directory> <Results Directory> <True Partition (can be a fake one if not known)> [L - Percentage of the number of neighbors for calculating the connectivity - default = 5%] [G - Number of generations - defauld = 100]
+
+    -----------------------
+    Parameters:
+        crossover   : int
+            1 - mcla
+            2 - bipartite
+        minK, maxK  : int
+            minimum and maximum number os clusters
+        dataset     :   string
+            path to the dataset file
+        popIniDir   :   string
+            path to the initial population folder
+        resultDir   :   string
+            path to desired result dir
+        truePartition   : fake
+            we don't really use this file, even though it MUST BE a cluster
+            file, or MOCLE won't work.
+
     """
     args = ["/home/lasid/programs/MOCLE-v3/./mocle", crossover, minK, maxK, dataset, popIniDir+'/', resultDir+'/', truePartition, nearNeigh, numGem]
     processo = ""
@@ -384,7 +423,6 @@ def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, n
         processo += " "
 
     print("processo mocle: ", processo)
-    #return subprocess.call(processo, shell=True)
     return subprocess.check_call(processo, shell=True)
 
 
