@@ -112,8 +112,8 @@ def upload():
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
 
                             print("resulAlg: ", resultAlg)
-                            for files in os.listdir(resultAlg+'//allPart'):
-                                source = os.path.join(resultAlg+'//allPart',files)
+                            for files in os.listdir(resultAlg+'/allPart'):
+                                source = os.path.join(resultAlg+'/allPart',files)
                                 shutil.copy(source, dest)
                             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                     else:
@@ -133,16 +133,16 @@ def upload():
                     minK = int(request.form['minKMocle'])
                     maxK = int(request.form['maxKMocle'])
 
-                    trueP = os.listdir(resultfolder+'//allPart')
+                    trueP = os.listdir(resultfolder+'/allPart')
                     print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
                     permissao(resultfolder)
-                    path = loadCluster(resultfolder + '//allPart-mocle/solutionPopulation', 2)
+                    path = loadCluster(resultfolder + '/allPart-mocle/solutionPopulation', 2)
                 else:
                     permissao(resultfolder)
-		    pathcompleto = resultfolder + '//allPart'
-                   # path = loadCluster(str(resultfolder) + '/allPart', 1)
-		    path = loadCluster(str(pathcompleto), 1)
+		            pathcompleto = resultfolder + '//allPart'
+                    # path = loadCluster(str(resultfolder) + '/allPart', 1)
+		            path = loadCluster(str(pathcompleto), 1)
 
                 # conferir no loadClusters como o caminho tá sendo pegado
                 (head, tail) = os.path.split(path)
