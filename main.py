@@ -43,7 +43,7 @@ def upload():
                     os.makedirs(app.config['UPLOADED_PATH'] + dir, 0777)
                 finally:
                     os.umask(original_umask)
-		
+
 
             for f in request.files.getlist('file'):
                 print("request files: ", request.files)
@@ -85,7 +85,7 @@ def upload():
                         os.makedirs(resultfolder, 0o2770)
                     finally:
                         os.umask(original_umask)
-    
+
 
                 if(request.form['basicSelected'] == 'yes'):
                     print("CLUSTERING SELECTED")
@@ -101,19 +101,19 @@ def upload():
                     # criação de txt com parametros
 
                     if len(alg) > 1:
-                        dest = resultfolder+'/allPart'
+                        dest = resultfolder+'//allPart'
                         try:
                             original_umask = os.umask(0)
                             os.makedirs(dest, 0o2770)
                         finally:
                             os.umask(original_umask)
                         for algnumber in alg:
-                            resultAlg = resultfolder + '//' + algnumber
+                            resultAlg = resultfolder + '/' + algnumber
                             clustering(tipoDistBasic, numObj, minK, maxK, datasetlocation, resultAlg, int(algnumber))
 
                             print("resulAlg: ", resultAlg)
-                            for files in os.listdir(resultAlg+'/allPart'):
-                                source = os.path.join(resultAlg+'/allPart',files)
+                            for files in os.listdir(resultAlg+'//allPart'):
+                                source = os.path.join(resultAlg+'//allPart',files)
                                 shutil.copy(source, dest)
                             print("RESULT FOLDER GENERATE BASIC PARTITIONS: {}".format(resultfolder))
                     else:
@@ -133,7 +133,7 @@ def upload():
                     minK = int(request.form['minKMocle'])
                     maxK = int(request.form['maxKMocle'])
 
-                    trueP = os.listdir(resultfolder+'/allPart')
+                    trueP = os.listdir(resultfolder+'//allPart')
                     print("antes de tudo dar errado:")
                     mocle(crossover, minK, maxK, datasetlocation, resultfolder + '/allPart', resultfolder + '/allPart-mocle', resultfolder + '/allPart/'+trueP[0], nearNeigh, numGen)
                     permissao(resultfolder)
@@ -260,7 +260,7 @@ def upload():
                 (head, tail) = os.path.split(path)
                 path = './static/resultados/'+tail
                 print("path loadCluster: ", path)
-                
+
                 return jsonify(path)
     return "Erro"
 
@@ -272,8 +272,8 @@ def permissao(algResult):
             print("mudando permissão de {}".format(os.path.join(root, name)))
             os.chmod(os.path.join(root,name), 0o777)
 
-        
-        
+
+
 #!/usr/bin/ python
 #-*- coding: utf-8 -*-
 # Script para criar as pastas necessárias e rodar os algoritmos de
@@ -320,7 +320,7 @@ def clustering(tipoDist, numObj, minK, maxK, dataset, expDir, alg):
     print("processo clustering: ", processo)
     #return subprocess.check_call(processo, shell=True)
     return subprocess.Popen(args, stdout=subprocess.PIPE)
-   
+
 
 
 def mocle(crossover, minK, maxK, dataset, popIniDir, resultDir, truePartition, nearNeigh, numGem):
