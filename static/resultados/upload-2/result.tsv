@@ -1,0 +1,11 @@
+ID	a1	a6	a9	a11	a13	a16	a17	cLabel	pLabel	cSize
+c1p3.clu	1	0	0	0	1	1	0	c1	p3.clu	11.0
+c1p4.clu	1	0	0	0	1	1	0	c1	p4.clu	11.0
+c3p2.clu	0	0	0	1	1	1	1	c3	p2.clu	10.0
+c2p3.clu	0	1	1	1	0	0	1	c2	p3.clu	9.0
+c2p4.clu	0	1	1	1	0	0	1	c2	p4.clu	9.0
+c1p1.clu	1	1	0	0	0	0	0	c1	p1.clu	8.0
+c2p1.clu	0	0	1	1	1	0	0	c2	p1.clu	7.0
+c1p2.clu	1	0	0	0	0	0	0	c1	p2.clu	5.0
+c2p2.clu	0	1	1	0	0	0	0	c2	p2.clu	5.0
+c3p1.clu	0	0	0	0	0	1	1	c3	p1.clu	5.0
